@@ -1,10 +1,10 @@
-import { BookCarousel } from '@/components/book-carousel'
+import { BookPageTurner } from '@/components/book-page-turner'
 
 export function HeroSection() {
   return (
     <>
-      {/* Book Carousel Section - Auto-rotating Books */}
-      <BookCarousel />
+      {/* Book Page Turner Section - Pictoric Style */}
+      <BookPageTurner />
 
       {/* Featured This Month Section */}
       <section className="py-20 md:py-32 bg-background border-t border-border">
