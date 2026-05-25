@@ -25,7 +25,7 @@ export function Header() {
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 group">
             <Image
-              src="/logo.png"
+              src="/logo-transparent.png"
               alt="Reformed Books Logo"
               width={40}
               height={40}
