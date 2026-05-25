@@ -1,36 +1,27 @@
+import { BookCarousel } from '@/components/book-carousel'
+
 export function HeroSection() {
   return (
-    <section className="relative overflow-hidden bg-background pt-20 pb-32 md:py-40 lg:py-48">
-      {/* Decorative gradient line */}
-      <div className="absolute top-32 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-accent to-transparent opacity-60" />
-      
-      <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <div className="text-center">
-          <div className="mb-8">
-            <span className="inline-block text-xs uppercase tracking-widest font-medium text-accent mb-4">Since 2020</span>
-            <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-foreground mb-4">
-              Where Faith Meets <span className="text-accent">Wisdom</span>
-            </h1>
-          </div>
-          
-          <p className="mx-auto max-w-2xl text-lg text-muted-foreground mb-12 leading-relaxed font-light">
-            Discover transformative works on reformed theology, faith, and worldview. We publish books that challenge, inspire, and deepen your understanding of Christianity in the modern world.
-          </p>
+    <>
+      {/* Book Carousel Section - Auto-rotating Books */}
+      <BookCarousel />
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="inline-flex items-center justify-center px-8 py-3 bg-primary text-primary-foreground font-medium hover:bg-opacity-90 transition-all duration-300 rounded-sm hover:shadow-lg group">
-              <span className="uppercase tracking-wide text-sm font-medium">Explore Collection</span>
-              <span className="ml-2 group-hover:translate-x-1 transition-transform">→</span>
-            </button>
-            <button className="inline-flex items-center justify-center px-8 py-3 border border-border text-foreground font-medium hover:bg-secondary hover:text-secondary-foreground transition-all duration-300 rounded-sm">
-              <span className="uppercase tracking-wide text-sm font-medium">Learn Our Story</span>
-            </button>
+      {/* Featured This Month Section */}
+      <section className="py-20 md:py-32 bg-background border-t border-border">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <div className="mb-16">
+            <div className="flex items-baseline gap-4 mb-4">
+              <span className="text-xs uppercase tracking-widest font-medium text-accent">Curated Selection</span>
+              <div className="flex-1 h-px bg-gradient-to-r from-accent/50 to-transparent" />
+            </div>
+            <h2 className="font-serif text-4xl md:text-5xl font-bold text-foreground mb-4">
+              Featured This Month
+            </h2>
+            <p className="text-muted-foreground max-w-2xl text-base leading-relaxed">
+              Handpicked works that showcase the breadth and depth of reformed theological thought
+            </p>
           </div>
-        </div>
 
-        {/* Featured Section Hint */}
-        <div className="mt-20 pt-12 border-t border-border">
-          <p className="text-xs uppercase tracking-widest text-muted-foreground text-center mb-8">Featured This Month</p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[1, 2, 3].map((i) => (
               <div key={i} className="group cursor-pointer">
@@ -43,7 +34,7 @@ export function HeroSection() {
             ))}
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   )
 }
