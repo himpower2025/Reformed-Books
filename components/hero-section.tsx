@@ -1,10 +1,36 @@
-import { BookPageTurner } from '@/components/book-page-turner'
-
 export function HeroSection() {
   return (
     <>
-      {/* Book Page Turner Section - Pictoric Style */}
-      <BookPageTurner />
+      {/* Where Faith Meets Wisdom Section */}
+      <section className="relative overflow-hidden bg-background pt-20 pb-32 md:py-40 lg:py-48">
+        {/* Decorative gradient line */}
+        <div className="absolute top-32 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-accent to-transparent opacity-60" />
+        
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <div className="text-center">
+            <div className="mb-8">
+              <span className="inline-block text-xs uppercase tracking-widest font-medium text-accent mb-4">Since 2020</span>
+              <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-foreground mb-4">
+                Where Faith Meets <span className="text-accent">Wisdom</span>
+              </h1>
+            </div>
+            
+            <p className="mx-auto max-w-2xl text-lg text-muted-foreground mb-12 leading-relaxed font-light">
+              Discover transformative works on reformed theology, faith, and worldview. We publish books that challenge, inspire, and deepen your understanding of Christianity in the modern world.
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <button className="inline-flex items-center justify-center px-8 py-3 bg-primary text-primary-foreground font-medium hover:bg-opacity-90 transition-all duration-300 rounded-sm hover:shadow-lg group">
+                <span className="uppercase tracking-wide text-sm font-medium">Explore Collection</span>
+                <span className="ml-2 group-hover:translate-x-1 transition-transform">→</span>
+              </button>
+              <button className="inline-flex items-center justify-center px-8 py-3 border border-border text-foreground font-medium hover:bg-secondary hover:text-secondary-foreground transition-all duration-300 rounded-sm">
+                <span className="uppercase tracking-wide text-sm font-medium">Learn Our Story</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Featured This Month Section */}
       <section className="py-20 md:py-32 bg-background border-t border-border">
