@@ -64,64 +64,79 @@ const books: Book[] = [
 
 export function BooksGrid() {
   return (
-    <section className="py-16 md:py-24 bg-white">
+    <section className="py-20 md:py-32 bg-background">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         {/* Section Header */}
-        <div className="mb-12 text-center">
-          <h2 className="font-serif text-3xl md:text-4xl font-bold text-neutral-900 mb-4">
-            Featured Books
+        <div className="mb-16">
+          <div className="flex items-baseline gap-4 mb-4">
+            <span className="text-xs uppercase tracking-widest font-medium text-accent">New Releases</span>
+            <div className="flex-1 h-px bg-gradient-to-r from-accent/50 to-transparent" />
+          </div>
+          <h2 className="font-serif text-4xl md:text-5xl font-bold text-foreground mb-4">
+            Our Collection
           </h2>
-          <p className="text-neutral-600 max-w-2xl mx-auto">
-            Carefully curated publications exploring faith, theology, and intellectual tradition
+          <p className="text-muted-foreground max-w-2xl text-base leading-relaxed">
+            Discover carefully curated publications exploring reformed theology, faith, and contemporary worldview
           </p>
         </div>
 
-        {/* Books Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {books.map((book) => (
-            <div
-              key={book.id}
-              className="group cursor-pointer rounded-lg overflow-hidden border border-neutral-200 hover:border-neutral-400 transition-all duration-300 hover:shadow-lg"
-            >
-              {/* Book Image */}
-              <div className="relative h-80 overflow-hidden bg-neutral-100">
-                <Image
-                  src={book.image}
-                  alt={book.title}
-                  fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-              </div>
+        {/* Books Grid - Asymmetric Layout */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 md:gap-4 mb-12">
+          {books.map((book, index) => {
+            // Create asymmetric layout - alternating spans
+            const isLarge = [0, 3].includes(index % 6)
+            const colSpan = isLarge ? 'md:col-span-2' : 'md:col-span-2'
+            const rowSpan = isLarge ? 'md:row-span-2' : ''
 
-              {/* Book Info */}
-              <div className="p-6">
-                <div className="flex items-start justify-between gap-2 mb-3">
-                  <span className="text-xs font-medium text-neutral-500 uppercase tracking-wide">
-                    {book.category}
-                  </span>
-                  <span className="text-xs font-medium text-blue-600">
-                    ${book.price}
-                  </span>
+            return (
+              <div
+                key={book.id}
+                className={`group cursor-pointer relative overflow-hidden rounded-sm transition-all duration-500 hover:shadow-2xl ${colSpan} ${rowSpan}`}
+              >
+                {/* Book Image */}
+                <div className={`relative bg-gradient-to-br from-primary/20 to-accent/20 ${isLarge ? 'h-96' : 'h-64'} overflow-hidden`}>
+                  <Image
+                    src={book.image}
+                    alt={book.title}
+                    fill
+                    className="object-cover group-hover:scale-110 transition-transform duration-700"
+                  />
+                  {/* Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 </div>
 
-                <h3 className="font-serif text-lg font-bold text-neutral-900 mb-2 group-hover:text-blue-600 transition-colors">
-                  {book.title}
-                </h3>
+                {/* Book Info - Positioned over image */}
+                <div className="absolute inset-0 p-6 flex flex-col justify-end opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                  <div className="mb-3">
+                    <span className="inline-block text-xs font-medium text-accent/80 uppercase tracking-widest mb-2">
+                      {book.category}
+                    </span>
+                    <h3 className="font-serif text-xl font-bold text-white leading-tight">
+                      {book.title}
+                    </h3>
+                  </div>
+                  <p className="text-sm text-white/80 mb-4">{book.author}</p>
+                  <div className="flex items-center justify-between">
+                    <span className="text-accent font-medium">${book.price}</span>
+                    <button className="inline-flex items-center gap-2 text-white text-xs uppercase tracking-wide font-medium hover:text-accent transition-colors">
+                      View Details
+                      <span className="group-hover:translate-x-1 transition-transform">→</span>
+                    </button>
+                  </div>
+                </div>
 
-                <p className="text-sm text-neutral-600 mb-4">{book.author}</p>
-
-                <button className="w-full inline-flex items-center justify-center px-4 py-2 bg-neutral-900 text-white text-sm font-medium hover:bg-neutral-800 transition-colors rounded">
-                  View Details
-                </button>
+                {/* Hover Border Effect */}
+                <div className="absolute inset-0 border border-accent opacity-0 group-hover:opacity-50 transition-opacity duration-500 rounded-sm" />
               </div>
-            </div>
-          ))}
+            )
+          })}
         </div>
 
         {/* View All Button */}
-        <div className="mt-12 text-center">
-          <button className="inline-flex items-center gap-2 text-neutral-900 font-medium hover:text-blue-600 transition-colors">
-            View All Books
+        <div className="flex justify-center pt-8 border-t border-border">
+          <button className="inline-flex items-center gap-3 text-foreground font-serif text-lg hover:text-accent transition-colors group">
+            Explore Full Collection
+            <span className="inline-block w-6 h-px bg-foreground group-hover:bg-accent transition-colors" />
             <span>→</span>
           </button>
         </div>
