@@ -1,10 +1,10 @@
-import { BookFlip } from '@/components/book-flip'
+import { BookCarouselLight } from '@/components/book-carousel-light'
 
 export function HeroSection() {
   return (
     <>
-      {/* Interactive Book Flip Section */}
-      <BookFlip />
+      {/* Light Carousel Book Showcase */}
+      <BookCarouselLight />
 
       {/* Featured This Month Section */}
       <section className="py-20 md:py-32 bg-background border-t border-border">
