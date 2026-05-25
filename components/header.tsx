@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { Menu, X, User } from 'lucide-react'
 import {
   NavigationMenu,
@@ -22,9 +23,19 @@ export function Header() {
       <nav className="mx-auto max-w-7xl px-6 py-5 lg:px-8">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex flex-col items-start gap-0.5 group">
-            <div className="text-sm tracking-wider font-serif font-bold text-primary">REFORMED</div>
-            <div className="text-xs tracking-widest font-sans text-muted-foreground group-hover:text-accent transition-colors">BOOKS</div>
+          <Link href="/" className="flex items-center gap-3 group">
+            <Image
+              src="/logo.png"
+              alt="Reformed Books Logo"
+              width={40}
+              height={40}
+              className="h-10 w-auto group-hover:opacity-80 transition-opacity"
+              priority
+            />
+            <div className="flex flex-col items-start gap-0">
+              <div className="text-sm tracking-wider font-serif font-bold text-primary leading-tight">REFORMED</div>
+              <div className="text-xs tracking-widest font-sans text-muted-foreground group-hover:text-accent transition-colors">BOOKS</div>
+            </div>
           </Link>
 
           {/* Decorative Line */}
