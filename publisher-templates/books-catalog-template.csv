@@ -1,0 +1,4 @@
+﻿row_id,title,title_english,author,category,tags,price,currency,discount_percent,status,format,language,isbn,published_year,cover_filename,pdf_filename,short_description,full_description,sort_order,notes
+001,मेरो मास्क खोइ ?,My Mask Is Gone?,Binod Rai,Theology,Nepali Christianity;Reformed Theology,375,NPR,,published,pdf,ne,,2024,001-mero-mask-khoi.jpg,001-mero-mask-khoi.pdf,짧은 소개를 여기에 (1~3문장). 웹 목록에 표시됩니다.,상세 설명·목차·저자 소개 등 긴 내용 (선택). HTML 없이 일반 텍스트로 작성해 주세요.,1,예시 행 — 삭제 후 실제 데이터로 채우세요
+002,,,,,,,NPR,,draft,print,ne,,,,,,,2,종이책만 판매 시 format=print / pdf_filename 비움
+003,,,,,,,NPR,,published,both,ne,,,,,,,3,PDF+종이책 모두: format=both

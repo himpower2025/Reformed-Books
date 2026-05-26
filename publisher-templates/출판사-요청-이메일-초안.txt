@@ -1,0 +1,38 @@
+제목: [Reformed Books] 신규 웹사이트 도서 등록용 자료 요청
+
+안녕하세요,
+
+새 웹사이트에 전체 도서를 올리기 위해 아래 자료를 요청드립니다.
+기술적인 DB 백업(SQL)은 필요하지 않으며, 첨부한 양식과 파일만 주시면 됩니다.
+
+■ 1. 도서 목록 (필수)
+- 첨부: books-catalog-template.csv
+- 엑셀로 열어 한 줄에 책 1권씩 작성 후 CSV 또는 엑셀 파일로 회신
+- 필수 항목: row_id, title, author, price, currency, status, cover_filename, short_description
+- 전자책(PDF) 판매 권: format, pdf_filename 포함 + PDF 파일
+
+■ 2. 표지 이미지 (필수)
+- JPG 또는 PNG, 권당 1개
+- 파일명은 시트의 cover_filename 과 동일하게 (예: 001-mero-mask-khoi.jpg)
+- covers 폴더에 넣어 주세요
+
+■ 3. 전자책 PDF (해당 권만)
+- 파일명은 시트의 pdf_filename 과 동일하게
+- pdfs 폴더에 넣어 주세요
+
+■ 4. 전달 방법 (권장)
+- 위 파일들을 ZIP 하나로 압축 (도서목록.csv + covers/ + pdfs/)
+- Google Drive 등 링크로 공유 가능
+
+■ 5. 예전 사이트 자료 (있으면)
+- 예전 홈페이지 uploads 폴더 전체 zip
+- WordPress 백업 여부
+
+■ 6. 아티클(블로그) 이전 (선택)
+- 첨부: articles-catalog-template.csv
+
+자세한 설명은 첨부 README-출판사-자료-요청-안내.md 를 참고해 주세요.
+
+감사합니다.
+[이름]
+[연락처]

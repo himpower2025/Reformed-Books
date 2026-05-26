@@ -1,0 +1,3 @@
+﻿row_id,title,author,category,tags,status,language,published_date,thumbnail_filename,content_filename,short_description,full_content_or_file,view_count_notes,sort_order,notes
+001,My Past Experience with Holy Spirit,Binod Rai,Article,Nepali Christianity,published,en,2024-11-28,001-holy-spirit-thumb.jpg,001-holy-spirit-body.html,목록용 한 줄 요약,본문: HTML 파일로 주시거나 이 열에 긴 텍스트,,1,예시 행 — 삭제 후 작성
+002,,,,,,draft,ne,,,,,,,2,thumbnail=목록·카드용 / content=상세 페이지용 (선택)

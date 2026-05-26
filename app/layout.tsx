@@ -11,7 +11,7 @@ const _merriweather = Merriweather({
 });
 
 export const metadata: Metadata = {
-  title: 'Wisdom Press | Professional Book Publisher',
+  title: 'Reformed Books | Professional Book Publisher',
   description: 'Discover thought-provoking books on faith, theology, and reformed worldview. Explore our collection of intellectual works.',
   generator: 'v0.app',
   icons: {
