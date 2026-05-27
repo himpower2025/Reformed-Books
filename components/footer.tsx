@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Instagram, Facebook, Twitter, Linkedin, Mail } from 'lucide-react'
+import { Youtube, Facebook, Instagram, Mail } from 'lucide-react'
 
 export function Footer() {
   const currentYear = 2020
@@ -78,13 +78,13 @@ export function Footer() {
             <h4 className="font-serif font-bold text-foreground mb-4 uppercase tracking-wide text-xs">Connect</h4>
             <div className="flex gap-3">
               <a
-                href="https://instagram.com"
+                href="https://youtube.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="Instagram"
+                aria-label="YouTube"
                 className="inline-flex items-center justify-center h-9 w-9 rounded-sm border border-border text-foreground hover:border-accent hover:text-accent transition-all duration-300"
               >
-                <Instagram className="h-4 w-4" />
+                <Youtube className="h-4 w-4" />
               </a>
               <a
                 href="https://facebook.com"
@@ -96,22 +96,13 @@ export function Footer() {
                 <Facebook className="h-4 w-4" />
               </a>
               <a
-                href="https://twitter.com"
+                href="https://instagram.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="Twitter"
+                aria-label="Instagram"
                 className="inline-flex items-center justify-center h-9 w-9 rounded-sm border border-border text-foreground hover:border-accent hover:text-accent transition-all duration-300"
               >
-                <Twitter className="h-4 w-4" />
-              </a>
-              <a
-                href="https://linkedin.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="LinkedIn"
-                className="inline-flex items-center justify-center h-9 w-9 rounded-sm border border-border text-foreground hover:border-accent hover:text-accent transition-all duration-300"
-              >
-                <Linkedin className="h-4 w-4" />
+                <Instagram className="h-4 w-4" />
               </a>
               <a
                 href="mailto:info@reformedbooks.com"
