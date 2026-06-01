@@ -394,10 +394,10 @@ function OpenBook({
   const PAGE_W = BOOK_W / 2
 
   return (
-    <div className="book-scene w-full flex justify-center h-[260px] min-[400px]:h-[300px] sm:h-[380px] md:h-[450px] lg:h-[520px] xl:h-[590px] 2xl:h-[660px]">
-      {/* Fully fluid scaling for multiple screens including extra-large 16"+ devices */}
+    <div className="book-scene w-full flex justify-center h-[245px] min-[400px]:h-[295px] sm:h-[385px] md:h-[455px] lg:h-[525px] xl:h-[605px] 2xl:h-[685px]">
+      {/* Fully fluid scaling anchored at top-center for multiple screens including extra-large 16"+ devices */}
       <div 
-        className="relative origin-center transition-transform duration-500 scale-[0.45] min-[400px]:scale-[0.55] sm:scale-[0.72] md:scale-[0.86] lg:scale-100 xl:scale-[1.15] 2xl:scale-[1.30]" 
+        className="relative origin-top transition-transform duration-500 scale-[0.45] min-[400px]:scale-[0.55] sm:scale-[0.72] md:scale-[0.86] lg:scale-100 xl:scale-[1.15] 2xl:scale-[1.30]" 
         style={{ width: BOOK_W, height: BOOK_H }}
       >
         {/* Soft realistic Drop Shadow */}

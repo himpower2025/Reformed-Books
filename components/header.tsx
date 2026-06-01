@@ -24,11 +24,40 @@ export function Header() {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3.5 group">
-            {/* Handcrafted Editorial Logo Monogram */}
-            <div className="h-10 w-10 flex-shrink-0 relative flex items-center justify-center bg-primary text-background rounded-sm shadow-sm select-none transform hover:scale-105 transition-transform duration-300 ease-out">
-              <span className="font-serif font-bold text-xl tracking-tight text-white select-none">R</span>
-              {/* Refined Crimson accent of the loop or bookmark */}
-              <div className="absolute bottom-1 right-1 w-1.5 h-1.5 bg-accent rounded-full animate-pulse" />
+            {/* Handcrafted Editorial Logo Monogram / Custom Uploaded Image Logo */}
+            <div className="h-10 w-10 flex-shrink-0 relative overflow-hidden rounded-sm bg-primary text-background shadow-sm select-none transform hover:scale-105 transition-transform duration-300 ease-out flex items-center justify-center">
+              {/* Fallback Monogram (R) that shows up instantly when custom image is loading or missing */}
+              <div id="fallback-logo" className="absolute inset-0 flex items-center justify-center bg-primary text-background z-0">
+                <span className="font-serif font-bold text-xl tracking-tight text-white select-none">R</span>
+                {/* Refined Crimson accent of the loop or bookmark */}
+                <div className="absolute bottom-1 right-1 w-1.5 h-1.5 bg-accent rounded-full animate-pulse" />
+              </div>
+
+              {/* Try loading multiple extensions under /public/logo-original and auto-crop bottom text */}
+              <img
+                src="/logo-original.png"
+                alt="Logo"
+                className="absolute top-0 left-0 w-full h-[145%] object-cover object-top z-10 transition-opacity duration-300 opacity-0"
+                onLoad={(e) => {
+                  e.currentTarget.classList.remove('opacity-0');
+                  e.currentTarget.classList.add('opacity-100');
+                  const fb = document.getElementById('fallback-logo');
+                  if (fb) fb.style.display = 'none';
+                }}
+                onError={(e) => {
+                  // If PNG failed, try loading alternate formats
+                  const currentSrc = e.currentTarget.src;
+                  if (currentSrc.endsWith('.png')) {
+                    e.currentTarget.src = '/logo-original.jpg';
+                  } else if (currentSrc.endsWith('.jpg')) {
+                    e.currentTarget.src = '/logo-original.jpeg';
+                  } else if (currentSrc.endsWith('.jpeg')) {
+                    e.currentTarget.src = '/logo-original.svg';
+                  } else {
+                    e.currentTarget.style.display = 'none';
+                  }
+                }}
+              />
             </div>
             <div className="flex flex-col items-start gap-0">
               <div className="text-sm tracking-wider font-serif font-bold text-primary leading-tight">REFORMED</div>
