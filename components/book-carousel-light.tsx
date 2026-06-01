@@ -394,7 +394,7 @@ function OpenBook({
   const PAGE_W = BOOK_W / 2
 
   return (
-    <div className="book-scene w-full flex justify-center h-[245px] min-[400px]:h-[295px] sm:h-[385px] md:h-[455px] lg:h-[525px] xl:h-[605px] 2xl:h-[685px]">
+    <div className="book-scene w-full flex justify-center pt-8 md:pt-16 h-[277px] min-[400px]:h-[327px] sm:h-[449px] md:h-[519px] lg:h-[589px] xl:h-[669px] 2xl:h-[749px]">
       {/* Fully fluid scaling anchored at top-center for multiple screens including extra-large 16"+ devices */}
       <div 
         className="relative origin-top transition-transform duration-500 scale-[0.45] min-[400px]:scale-[0.55] sm:scale-[0.72] md:scale-[0.86] lg:scale-100 xl:scale-[1.15] 2xl:scale-[1.30]" 
