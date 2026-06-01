@@ -38,6 +38,11 @@ function AdaptiveLogo() {
     '/logo-original.jpeg',
     '/logo-original.webp',
     '/logo-original.svg',
+    '/logo.png',
+    '/logo.jpg',
+    '/logo.jpeg',
+    '/logo.webp',
+    '/logo.svg',
   ]
   const [candidateIdx, setCandidateIdx] = useState(0)
   const [errorCount, setErrorCount] = useState(0)
