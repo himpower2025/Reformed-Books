@@ -20,18 +20,16 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 w-full bg-gradient-to-b from-background to-background/95 border-b border-border">
-      <nav className="mx-auto max-w-7xl px-6 py-5 lg:px-8">
+      <nav className="mx-auto max-w-[1600px] px-6 py-5 md:px-12 lg:px-16">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-3 group">
-            <Image
-              src="/logo-transparent.png"
-              alt="Reformed Books Logo"
-              width={40}
-              height={40}
-              className="h-10 w-auto group-hover:opacity-80 transition-opacity"
-              priority
-            />
+          <Link href="/" className="flex items-center gap-3.5 group">
+            {/* Handcrafted Editorial Logo Monogram */}
+            <div className="h-10 w-10 flex-shrink-0 relative flex items-center justify-center bg-primary text-background rounded-sm shadow-sm select-none transform hover:scale-105 transition-transform duration-300 ease-out">
+              <span className="font-serif font-bold text-xl tracking-tight text-white select-none">R</span>
+              {/* Refined Crimson accent of the loop or bookmark */}
+              <div className="absolute bottom-1 right-1 w-1.5 h-1.5 bg-accent rounded-full animate-pulse" />
+            </div>
             <div className="flex flex-col items-start gap-0">
               <div className="text-sm tracking-wider font-serif font-bold text-primary leading-tight">REFORMED</div>
               <div className="text-xs tracking-widest font-sans text-muted-foreground group-hover:text-accent transition-colors">BOOKS</div>

@@ -64,8 +64,8 @@ const books: Book[] = [
 
 export function BooksGrid() {
   return (
-    <section className="py-20 md:py-32 bg-background">
-      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+    <section className="py-20 md:py-32 bg-background border-t border-border/40">
+      <div className="mx-auto max-w-[1600px] px-6 md:px-12 lg:px-16">
         {/* Section Header */}
         <div className="mb-16">
           <div className="flex items-baseline gap-4 mb-4">
@@ -80,53 +80,51 @@ export function BooksGrid() {
           </p>
         </div>
 
-        {/* Books Grid - Asymmetric Layout */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 md:gap-4 mb-12">
-          {books.map((book, index) => {
-            // Create asymmetric layout - alternating spans
-            const isLarge = [0, 3].includes(index % 6)
-            const colSpan = isLarge ? 'md:col-span-2' : 'md:col-span-2'
-            const rowSpan = isLarge ? 'md:row-span-2' : ''
-
+        {/* Books Grid - Refined Responsive Columns for Computer, Tablet, and Mobile */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12 mb-12">
+          {books.map((book) => {
             return (
               <div
                 key={book.id}
-                className={`group cursor-pointer relative overflow-hidden rounded-sm transition-all duration-500 hover:shadow-2xl ${colSpan} ${rowSpan}`}
+                className="group cursor-pointer flex flex-col bg-slate-50/40 hover:bg-white rounded-md p-5 border border-border/5 hover:border-border/30 hover:shadow-2xl transition-all duration-500 hover:-translate-y-1"
               >
-                {/* Book Image */}
-                <div className={`relative bg-gradient-to-br from-primary/20 to-accent/20 ${isLarge ? 'h-96' : 'h-64'} overflow-hidden`}>
+                {/* Book Image Cover Wrapper */}
+                <div className="aspect-[3/4.2] w-full bg-gradient-to-br from-primary/10 to-accent/10 rounded-sm mb-5 overflow-hidden relative shadow-md border border-border/10">
                   <Image
                     src={book.image}
                     alt={book.title}
                     fill
-                    className="object-cover group-hover:scale-110 transition-transform duration-700"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                    referrerPolicy="no-referrer"
                   />
-                  {/* Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  
+                  {/* Subtle Book Spine Depth Effect */}
+                  <div className="absolute top-0 bottom-0 left-2 w-1.5 bg-black/15 shadow-inner pointer-events-none" />
+                  <div className="absolute top-0 bottom-0 left-3 w-[1px] bg-white/5 pointer-events-none" />
                 </div>
 
-                {/* Book Info - Positioned over image */}
-                <div className="absolute inset-0 p-6 flex flex-col justify-end opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                  <div className="mb-3">
-                    <span className="inline-block text-xs font-medium text-accent/80 uppercase tracking-widest mb-2">
+                {/* Book Info Container: Completely accessible and beautiful on all viewports */}
+                <div className="flex-1 flex flex-col justify-between">
+                  <div>
+                    <span className="block text-[10px] uppercase tracking-widest font-semibold text-accent/80 mb-2 font-mono">
                       {book.category}
                     </span>
-                    <h3 className="font-serif text-xl font-bold text-white leading-tight">
+                    <h3 className="font-serif text-lg lg:text-xl font-bold text-foreground leading-snug group-hover:text-accent transition-colors duration-300 line-clamp-2">
                       {book.title}
                     </h3>
+                    <p className="text-xs text-muted-foreground mt-1.5 font-sans">
+                      by {book.author}
+                    </p>
                   </div>
-                  <p className="text-sm text-white/80 mb-4">{book.author}</p>
-                  <div className="flex items-center justify-between">
-                    <span className="text-accent font-medium">${book.price}</span>
-                    <button className="inline-flex items-center gap-2 text-white text-xs uppercase tracking-wide font-medium hover:text-accent transition-colors">
-                      View Details
-                      <span className="group-hover:translate-x-1 transition-transform">→</span>
-                    </button>
+                  
+                  <div className="flex items-center justify-between pt-5 mt-5 border-t border-border/50">
+                    <span className="text-sm font-sans font-semibold text-primary">${book.price}</span>
+                    <span className="text-xs font-sans font-medium text-accent uppercase tracking-wider group-hover:translate-x-1.5 transition-transform duration-300 flex items-center gap-1.5">
+                      Explore <span>→</span>
+                    </span>
                   </div>
                 </div>
-
-                {/* Hover Border Effect */}
-                <div className="absolute inset-0 border border-accent opacity-0 group-hover:opacity-50 transition-opacity duration-500 rounded-sm" />
               </div>
             )
           })}

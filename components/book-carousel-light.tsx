@@ -13,50 +13,70 @@ const BOOKS_DATA = [
   {
     id: 1,
     title: "Reformed Theology",
-    description: "A comprehensive exploration of reformed theological thought and its relevance to contemporary faith.",
+    subtitle: "A Comprehensive Exploration of Sovereign Grace",
+    description: "Reformed theology is not merely a set of historical theories, but a living, breathing perspective that captures the absolute majesty of God and His redemptive plan for humanity. In this foundational work, Dr. James Mitchell unpacks the majestic doctrines of grace, the covenants of Scripture, and the profound implications of God's sovereignty in a broken world. This volume serves as an essential companion for those who seek to anchor their faith in the immovable truths of historic reformed confessions.",
     author: "Dr. James Mitchell",
-    genre: "Theology",
-    color: "from-primary/20 to-accent/20"
+    genre: "Sovereign Grace",
+    coverColor: "bg-slate-900 border-amber-500/20",
+    accentColor: "text-amber-500/90",
+    emblemType: "shield",
+    textColor: "text-slate-100",
+    paperPageNum: 14
   },
   {
     id: 2,
     title: "Faith & Culture",
-    description: "Examining the intersection of Christian faith with modern cultural movements and worldview.",
+    subtitle: "Engaging the Modern World with Truth",
+    description: "How does the Christian faith engage with a shifting, liquid modern culture without compromising its core convictions? Rev. Sarah Williams presents a compelling, nuanced roadmap for believers. Moving beyond passive withdrawal or aggressive culture wars, this work advocates for a redemptive presence—faithfully cultivating grace, truth, and beauty in the public square, arts, and daily vocations while remaining deeply rooted in the eternal Word.",
     author: "Rev. Sarah Williams",
-    genre: "Culture",
-    color: "from-accent/20 to-primary/10"
+    genre: "Christian Culture",
+    coverColor: "bg-[#142d25] border-teal-500/20",
+    accentColor: "text-teal-400",
+    emblemType: "leaves",
+    textColor: "text-teal-50",
+    paperPageNum: 48
   },
   {
     id: 3,
     title: "Biblical Worldview",
-    description: "Developing a comprehensive biblical perspective on life, society, and Christian living.",
+    subtitle: "Developing a Unified Foundation for Life",
+    description: "No area of human thought or endeavor is neutral. Every decision, relationship, and value flows from a fundamental set of assumptions about reality. Dr. Michael Chen provides a systematic framework for developing a robust, cohesive biblical worldview. By exploring the narrative arch of creation, fall, redemption, and restoration, readers are equipped to think biblically about economics, science, arts, and the modern ethical dilemmas of our age.",
     author: "Dr. Michael Chen",
-    genre: "Biblical Studies",
-    color: "from-secondary/20 to-accent/10"
+    genre: "Applied Apologetics",
+    coverColor: "bg-rose-950 border-rose-500/20",
+    accentColor: "text-amber-400",
+    emblemType: "sunburst",
+    textColor: "text-rose-50",
+    paperPageNum: 104
   },
   {
     id: 4,
     title: "Doctrine & Practice",
-    description: "Bridging theological doctrine with practical application in everyday Christian life.",
+    subtitle: "Bridging Theological Truth with Daily Life",
+    description: "Theology was never meant to be confined to the dusty shelves of academic library alcoves. It of right belongs in the prayer closet, the marketplace, and the family table. Rev. Elizabeth Turner offers a beautifully practical and encouraging guide that translates orthodox Christian doctrines into active orthopraxy. Learn how the profound reality of justification, sanctification, and union with Christ transforms daily anxiety into perfect peace and fills life with purpose.",
     author: "Rev. Elizabeth Turner",
-    genre: "Doctrine",
-    color: "from-primary/10 to-secondary/20"
+    genre: "Practical Theology",
+    coverColor: "bg-indigo-950 border-indigo-500/20",
+    accentColor: "text-cyan-400",
+    emblemType: "lamp",
+    textColor: "text-indigo-50",
+    paperPageNum: 182
   }
 ]
 
 // ─── 3D Page Flip 핵심 스타일 (Tailwind로 표현 불가한 부분만 인라인) ───
 const flipStyles = `
   .book-scene {
-    perspective: 2000px;
+    perspective: 2200px;
     perspective-origin: center center;
   }
   .book-spread {
     transform-style: preserve-3d;
-    transform: rotateX(4deg);
-    transition: transform 0.4s ease;
+    transform: rotateX(6deg) rotateY(0deg);
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .book-spread:hover {
-    transform: rotateX(2deg) rotateY(1deg);
+    transform: rotateX(4deg) rotateY(1.5deg);
   }
   .page-flip {
     transform-origin: left center;
@@ -75,159 +95,287 @@ const flipStyles = `
   }
   .spine-glow {
     background: linear-gradient(to right,
-      rgba(180,150,90,0.0) 0%,
-      rgba(180,150,90,0.6) 40%,
-      rgba(220,190,130,0.9) 50%,
-      rgba(180,150,90,0.6) 60%,
-      rgba(180,150,90,0.0) 100%
+      rgba(0,0,0,0.0) 0%,
+      rgba(0,0,0,0.3) 30%,
+      rgba(0,0,0,0.55) 48%,
+      rgba(0,0,0,0.65) 50%,
+      rgba(0,0,0,0.55) 52%,
+      rgba(0,0,0,0.3) 70%,
+      rgba(0,0,0,0.0) 100%
     );
-  }
-  .page-shadow-left {
-    box-shadow: inset -12px 0 24px rgba(0,0,0,0.12), -4px 0 12px rgba(0,0,0,0.08);
-  }
-  .page-shadow-right {
-    box-shadow: inset 12px 0 24px rgba(0,0,0,0.12), 4px 0 12px rgba(0,0,0,0.08);
   }
   .book-ground-shadow {
-    background: radial-gradient(ellipse 70% 30% at 50% 100%, rgba(0,0,0,0.22) 0%, transparent 70%);
+    background: radial-gradient(ellipse 65% 25% at 50% 100%, rgba(0,0,0,0.35) 0%, transparent 80%);
   }
   @keyframes flipForward {
-    0%   { transform: rotateY(0deg); z-index: 20; }
-    40%  { z-index: 30; }
-    100% { transform: rotateY(-180deg); z-index: 10; }
+    0%   { transform: rotateY(0deg); z-index: 25; }
+    50%  { z-index: 35; }
+    100% { transform: rotateY(-180deg); z-index: 15; }
   }
   @keyframes flipBackward {
-    0%   { transform: rotateY(-180deg); z-index: 10; }
-    40%  { z-index: 30; }
-    100% { transform: rotateY(0deg); z-index: 20; }
+    0%   { transform: rotateY(-180deg); z-index: 15; }
+    50%  { z-index: 35; }
+    100% { transform: rotateY(0deg); z-index: 25; }
   }
-  .flip-forward  { animation: flipForward  0.9s cubic-bezier(0.645, 0.045, 0.355, 1.000) forwards; }
-  .flip-backward { animation: flipBackward 0.9s cubic-bezier(0.645, 0.045, 0.355, 1.000) forwards; }
-
-  .page-curl::after {
-    content: '';
-    position: absolute;
-    bottom: 0; right: 0;
-    width: 0; height: 0;
-    transition: all 0.25s ease;
-  }
-  .page-hover:hover .page-curl::after {
-    width: 28px; height: 28px;
-    background: linear-gradient(225deg,
-      #ede8df 45%,
-      rgba(180,150,90,0.15) 50%,
-      transparent 55%
-    );
-    box-shadow: -3px -3px 6px rgba(0,0,0,0.1);
-  }
+  .flip-forward  { animation: flipForward  1.1s cubic-bezier(0.65, 0, 0.35, 1) forwards; }
+  .flip-backward { animation: flipBackward 1.1s cubic-bezier(0.65, 0, 0.35, 1) forwards; }
 `
 
-// ─── 개별 페이지 컴포넌트 ───
-function BookPage({
+function renderEmblem(type: string, colorClass: string) {
+  if (type === 'shield') {
+    return (
+      <svg className={`w-14 h-14 ${colorClass}`} viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1.2">
+        <path d="M24 6 L38 12 V24 C38 32.5 32 38.5 24 42 C16 38.5 10 32.5 10 24 V12 Z" />
+        <path d="M24 9 L35 14 V23 C35 30 30.5 35 24 38 C17.5 35 13 30 13 23 V14 Z" strokeDasharray="1 1" />
+        <path d="M19 22H24V28H19Z" fill="currentColor" fillOpacity="0.1" />
+        <path d="M24 22H29V28H24Z" fill="currentColor" fillOpacity="0.1" />
+        <path d="M24 21 V29" />
+        <path d="M18 22 C21 22 24 21 24 21 C24 21 27 22 30 22 M18 28 C21 28 24 27 24 27 C24 27 27 28 30 28" />
+      </svg>
+    )
+  }
+  if (type === 'leaves') {
+    return (
+      <svg className={`w-14 h-14 ${colorClass}`} viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1.2">
+        <circle cx="24" cy="24" r="18" strokeDasharray="3 3" />
+        <path d="M24 38 C24 38 23 30 24 24 C25 20 28 14 28 10" />
+        <path d="M24 32 C21 32 18 30 18 30 C18 30 21 28 24 29" fill="currentColor" fillOpacity="0.1" />
+        <path d="M24 26 C27 26 30 28 30 28 C30 28 27 30 24 29" fill="currentColor" fillOpacity="0.1" />
+        <path d="M24 20 C20 20 17 18 17 18 C17 18 20 16 24 17" fill="currentColor" fillOpacity="0.1" />
+        <path d="M24 14 C27 14 31 16 31 16 C31 16 27 18 24 17" fill="currentColor" fillOpacity="0.1" />
+        <polygon points="28,8 29.5,11 32.5,11.5 30,13.5 31,16.5 28,15 25,16.5 26,13.5 23.5,11.5 26.5,11" fill="currentColor" />
+      </svg>
+    )
+  }
+  if (type === 'sunburst') {
+    return (
+      <svg className={`w-14 h-14 ${colorClass}`} viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1.2">
+        <circle cx="24" cy="24" r="16" />
+        <path d="M24 4 V44 M4 24 H44" />
+        <path d="M10 10 L38 38 M10 38 L38 10" strokeWidth="0.8" />
+        <circle cx="24" cy="24" r="5" fill="currentColor" fillOpacity="0.2" />
+        <polygon points="24,14 27,21 34,24 27,27 24,34 21,27 14,24 21,21" fill="currentColor" />
+      </svg>
+    )
+  }
+  return (
+    <svg className={`w-14 h-14 ${colorClass}`} viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1.2">
+      <circle cx="24" cy="24" r="16" />
+      <path d="M24 12 L24 28 M16 20 H32" />
+      <path d="M18 26 C20 32 28 32 30 26" fill="currentColor" fillOpacity="0.1" />
+      <path d="M24 10 C26 10 27 12 24 15 C21 12 22 10 24 10 Z" fill="currentColor" />
+      <circle cx="24" cy="28" r="3" fill="currentColor" fillOpacity="0.2" stroke="currentColor" />
+    </svg>
+  )
+}
+
+function BookCoverPage({
   book,
-  pageNum,
-  totalPages,
-  side,
+  side
 }: {
   book: (typeof BOOKS_DATA)[0]
-  pageNum: number
-  totalPages: number
   side: 'left' | 'right'
 }) {
-  const isLeft = side === 'left'
+  const isLeft = side === 'left';
   return (
     <div
       className={`
-        w-full h-full flex flex-col justify-between p-8 relative overflow-hidden
-        ${isLeft ? 'page-shadow-left' : 'page-shadow-right'}
-        bg-[oklch(0.99_0.005_70)]
+        w-full h-full flex flex-col justify-between p-10 relative overflow-hidden select-none
+        ${book.coverColor} border-2 rounded-[4px] shadow-inner
       `}
+      style={{
+        boxShadow: isLeft 
+          ? 'inset -15px 0 30px rgba(0,0,0,0.6), inset 3px 3px 10px rgba(255,255,255,0.08)' 
+          : 'inset 15px 0 30px rgba(0,0,0,0.6), inset -3px 3px 10px rgba(255,255,255,0.08)'
+      }}
     >
-      {/* 장식 코너 프레임 */}
-      <svg
-        className="absolute top-3 left-3 opacity-30"
-        width="36" height="36" viewBox="0 0 36 36"
-      >
-        <path d="M2 18 L2 2 L18 2" fill="none" stroke="var(--accent)" strokeWidth="0.8"/>
-        <circle cx="2" cy="2" r="1.5" fill="var(--accent)"/>
-      </svg>
-      <svg
-        className="absolute bottom-3 right-3 opacity-30"
-        width="36" height="36" viewBox="0 0 36 36"
-      >
-        <path d="M34 18 L34 34 L18 34" fill="none" stroke="var(--accent)" strokeWidth="0.8"/>
-        <circle cx="34" cy="34" r="1.5" fill="var(--accent)"/>
-      </svg>
+      {/* Texture pattern overlay */}
+      <div 
+        className="absolute inset-0 opacity-15 pointer-events-none mix-blend-overlay"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`
+        }}
+      />
+      
+      {/* Decorative Borders */}
+      <div className="absolute inset-4 border border-amber-500/15 rounded-[2px] pointer-events-none" />
+      <div className="absolute inset-5 border-2 border-amber-500/25 rounded-[1px] pointer-events-none" />
 
-      {/* 상단: 장르 태그 */}
-      <div className="flex items-center gap-2">
-        <div className="w-4 h-px bg-accent/60" />
-        <span className="text-[10px] uppercase tracking-[0.25em] text-accent font-medium">
-          {book.genre}
+      {/* Decorative Corner Ornaments */}
+      <span className="absolute top-7 left-7 text-amber-500/30 font-mono text-[10px] select-none pointer-events-none">✦</span>
+      <span className="absolute top-7 right-7 text-amber-500/30 font-mono text-[10px] select-none pointer-events-none">✦</span>
+      <span className="absolute bottom-7 left-7 text-amber-500/30 font-mono text-[10px] select-none pointer-events-none">✦</span>
+      <span className="absolute bottom-7 right-7 text-amber-500/30 font-mono text-[10px] select-none pointer-events-none">✦</span>
+
+      {/* Top Header */}
+      <div className="text-center mt-2 z-10">
+        <span className="text-[10px] uppercase tracking-[0.3em] font-serif font-bold text-amber-500/40">
+          Reformed Classics Library
         </span>
       </div>
 
-      {/* 중앙: 책 표지 이미지 플레이스홀더 */}
-      {/* TODO: <img src={book.coverImage} /> 로 교체 */}
-      <div
-        className={`
-          w-full flex-1 my-4 rounded-[2px] overflow-hidden relative
-          bg-gradient-to-br ${book.color}
-          flex items-center justify-center
-        `}
-      >
-        <div className="text-center opacity-50">
-          <div className="w-8 h-8 mx-auto mb-2 border border-accent/40 rounded-[1px] flex items-center justify-center">
-            <div className="w-4 h-4 border border-accent/60 rounded-[1px]" />
-          </div>
-          {/* TODO: 실제 책 표지 이미지로 교체 */}
-          <span className="text-[9px] uppercase tracking-widest text-foreground/40">
-            Book Cover
-          </span>
+      {/* Center content */}
+      <div className="flex-1 flex flex-col items-center justify-center text-center px-4 my-4 z-10">
+        <div className="mb-6 transform hover:scale-105 transition-transform duration-500">
+          {renderEmblem(book.emblemType, book.accentColor)}
         </div>
-      </div>
 
-      {/* 하단: 도서 정보 */}
-      <div>
-        <h3 className="font-serif text-sm font-bold text-foreground leading-tight mb-1">
+        <div className="w-16 h-px bg-gradient-to-r from-transparent via-amber-500/35 to-transparent mb-4" />
+
+        <h3 className="font-serif text-3xl font-extrabold text-white tracking-wide uppercase leading-tight mb-2 drop-shadow-md">
           {book.title}
         </h3>
-        <p className="text-[10px] text-muted-foreground font-medium tracking-wide">
+        
+        <p className="text-[11px] font-serif italic text-amber-100/60 leading-relaxed max-w-[210px] mx-auto">
+          {book.subtitle}
+        </p>
+      </div>
+
+      {/* Bottom info */}
+      <div className="text-center mb-2 z-10">
+        <div className="w-8 h-px bg-amber-500/25 mx-auto mb-2" />
+        <p className="text-[11px] uppercase tracking-[0.25em] font-medium text-amber-500/60 font-sans">
           {book.author}
         </p>
       </div>
 
-      {/* 페이지 번호 */}
-      <span
-        className="absolute font-serif font-bold text-foreground/10 select-none pointer-events-none"
-        style={{
-          fontSize: '3.5rem',
-          lineHeight: 1,
-          bottom: '1rem',
-          [isLeft ? 'left' : 'right']: '1.2rem',
-        }}
-      >
-        {String(pageNum).padStart(2, '0')}
-      </span>
+      {/* Spine hinge line shadowing */}
+      {isLeft ? (
+        <div className="absolute top-0 right-0 w-4 h-full bg-gradient-to-l from-black/55 to-transparent pointer-events-none" />
+      ) : (
+        <div className="absolute top-0 left-0 w-4 h-full bg-gradient-to-r from-black/55 to-transparent pointer-events-none" />
+      )}
     </div>
   )
 }
 
-// ─── 책 펼침 효과 (열린 책 표현) ───
+function BookTextPage({
+  book,
+  side,
+  pageNum
+}: {
+  book: (typeof BOOKS_DATA)[0]
+  side: 'left' | 'right'
+  pageNum: number
+}) {
+  const isLeft = side === 'left';
+  const firstLetter = book.description.trim().charAt(0);
+  const remainingDescription = book.description.trim().slice(1);
+
+  return (
+    <div
+      className={`
+        w-full h-full flex flex-col justify-between p-8 pt-10 pb-6 relative overflow-hidden select-none
+        bg-[#faf8f4] text-[#1c1a16] border border-[#ebe0cc]/80 rounded-[3px] shadow-sm
+      `}
+    >
+      {/* Paper Fibers background */}
+      <div 
+        className="absolute inset-0 opacity-[0.03] pointer-events-none mix-blend-multiply"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='paperFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23paperFilter)'/%3E%3C/svg%3E")`
+        }}
+      />
+
+      <div className="absolute top-4 left-4 right-4 h-[1px] bg-gradient-to-r from-transparent via-[#dcd0ba] to-transparent pointer-events-none" />
+      <div className="absolute bottom-6 left-4 right-4 h-[1px] bg-gradient-to-r from-transparent via-[#dcd0ba] to-transparent pointer-events-none" />
+
+      {/* Top Genre Header */}
+      <div className="text-center z-10 flex items-center justify-center gap-2">
+        <span className="text-[9px] uppercase tracking-[0.25em] font-sans font-semibold text-[#8a7f6c]">
+          {book.genre}
+        </span>
+      </div>
+
+      {/* Text block */}
+      <div className="flex-1 flex flex-col justify-center px-4 mt-2 z-10">
+        <h4 className="font-serif text-[21px] font-bold text-[#201c13] leading-tight text-center tracking-wide mb-1">
+          {book.title}
+        </h4>
+        
+        <p className="text-[10px] uppercase font-sans font-medium text-center text-[#9c8e78] tracking-[0.2em] mb-4">
+          By {book.author}
+        </p>
+
+        <div className="flex items-center justify-center gap-2 mb-4">
+          <div className="w-10 h-px bg-[#e3dbc9]" />
+          <div className="w-1.5 h-1.5 rotate-45 border border-[#c1b59c] bg-[#faf8f4]" />
+          <div className="w-10 h-px bg-[#e3dbc9]" />
+        </div>
+
+        {/* Drop Cap */}
+        <div className="text-xs text-[#2b271f] font-serif leading-relaxed text-justify tracking-wide">
+          <span 
+            className="float-left mr-2.5 text-4xl font-semibold font-serif text-[#9b8352] mt-1 text-[2.7rem] leading-[0.8] select-none"
+            style={{ textShadow: '1px 1px 0 rgba(0,0,0,0.05)' }}
+          >
+            {firstLetter}
+          </span>
+          {remainingDescription}
+        </div>
+      </div>
+
+      {/* Running Footer */}
+      <div className="flex items-center justify-between text-[10px] font-sans text-[#a49883] px-2 z-10 pt-2">
+        <span className="text-[8px] uppercase tracking-widest font-semibold font-mono text-[#b3a691]">
+          LUMINA PRESS CO.
+        </span>
+        <span className="font-serif italic font-bold">
+          p. {pageNum}
+        </span>
+      </div>
+
+      {/* Crease Shadows */}
+      {isLeft ? (
+        <>
+          <div className="absolute top-0 right-0 w-8 h-full bg-gradient-to-l from-black/[0.08] via-black/[0.02] to-transparent pointer-events-none" />
+          <div className="absolute top-0 right-0 w-[1px] h-full bg-[#e3dbc8]" />
+        </>
+      ) : (
+        <>
+          <div className="absolute top-0 left-0 w-8 h-full bg-gradient-to-r from-black/[0.08] via-black/[0.02] to-transparent pointer-events-none" />
+          <div className="absolute top-0 left-0 w-[1px] h-full bg-[#e3dbc8]" />
+        </>
+      )}
+
+      {/* Outside Cover Lip Shadowing */}
+      {isLeft ? (
+        <div className="absolute top-0 left-0 w-2 h-full bg-gradient-to-r from-white/30 to-transparent pointer-events-none" />
+      ) : (
+        <div className="absolute top-0 right-0 w-2 h-full bg-gradient-to-l from-white/30 to-transparent pointer-events-none" />
+      )}
+    </div>
+  )
+}
+
 function OpenBook({
-  currentBook,
-  nextBook,
+  currentIndex,
   flippingDir,
   isFlipping,
   onFlipEnd,
 }: {
-  currentBook: (typeof BOOKS_DATA)[0]
-  nextBook: (typeof BOOKS_DATA)[0]
+  currentIndex: number
   flippingDir: 'forward' | 'backward' | null
   isFlipping: boolean
   onFlipEnd: () => void
 }) {
   const flipRef = useRef<HTMLDivElement>(null)
+
+  const currentBook = BOOKS_DATA[currentIndex]
+  const totalBooks = BOOKS_DATA.length
+
+  const nextIndex = (currentIndex + 1) % totalBooks
+  const prevIndex = (currentIndex - 1 + totalBooks) % totalBooks
+
+  const nextBook = BOOKS_DATA[nextIndex]
+  const prevBook = BOOKS_DATA[prevIndex]
+
+  const currentPageNumLeft = currentIndex * 2 + 12
+  const currentPageNumRight = currentIndex * 2 + 13
+  const nextPageNumLeft = nextIndex * 2 + 12
+  const nextPageNumRight = nextIndex * 2 + 13
+  const prevPageNumLeft = prevIndex * 2 + 12
+  const prevPageNumRight = prevIndex * 2 + 13
 
   useEffect(() => {
     if (!isFlipping || !flipRef.current) return
@@ -241,72 +389,105 @@ function OpenBook({
     return () => el.removeEventListener('animationend', handleEnd)
   }, [isFlipping, flippingDir, onFlipEnd])
 
-  const BOOK_W = 560
-  const BOOK_H = 380
+  const BOOK_W = 740
+  const BOOK_H = 480
   const PAGE_W = BOOK_W / 2
 
   return (
-    <div className="book-scene w-full flex justify-center" style={{ height: BOOK_H + 40 }}>
-      <div style={{ position: 'relative', width: BOOK_W, height: BOOK_H }}>
-
-        {/* 바닥 그림자 */}
+    <div className="book-scene w-full flex justify-center h-[260px] min-[400px]:h-[300px] sm:h-[380px] md:h-[450px] lg:h-[520px] xl:h-[590px] 2xl:h-[660px]">
+      {/* Fully fluid scaling for multiple screens including extra-large 16"+ devices */}
+      <div 
+        className="relative origin-center transition-transform duration-500 scale-[0.45] min-[400px]:scale-[0.55] sm:scale-[0.72] md:scale-[0.86] lg:scale-100 xl:scale-[1.15] 2xl:scale-[1.30]" 
+        style={{ width: BOOK_W, height: BOOK_H }}
+      >
+        {/* Soft realistic Drop Shadow */}
         <div
           className="book-ground-shadow absolute pointer-events-none"
-          style={{ bottom: -28, left: '5%', right: '5%', height: 32 }}
+          style={{ bottom: -35, left: '-3%', right: '-3%', height: 45, opacity: 0.9 }}
         />
 
-        {/* 열린 책 전체 (3D 기울기) */}
-        <div className="book-spread" style={{ width: BOOK_W, height: BOOK_H, position: 'relative' }}>
+        {/* Paper Layers at Bottom edge */}
+        <div 
+          className="absolute -bottom-2 inset-x-3 bg-[#e8dec9] border-t border-[#d5cbb4] shadow-md rounded-b-[4px]" 
+          style={{ 
+            height: '10px', 
+            zIndex: 0,
+            backgroundImage: 'repeating-linear-gradient(90deg, #f0e6d2, #f0e6d2 1px, #d8ccb0 1px, #d8ccb0 2px)'
+          }} 
+        />
+        <div 
+          className="absolute -bottom-4 inset-x-6 bg-[#ded3bd] border-t border-[#cca485]/30 shadow-md rounded-b-[6px]" 
+          style={{ 
+            height: '10px', 
+            zIndex: -1,
+            backgroundImage: 'repeating-linear-gradient(90deg, #e5d9bf, #e5d9bf 1px, #d2c5a9 1px, #d2c5a9 2px)'
+          }} 
+        />
 
-          {/* ── 왼쪽 고정 페이지 (현재 책 - 왼쪽 면) ── */}
+        {/* Left Book edge page stacks */}
+        <div 
+          className="absolute left-[-6px] top-1 bottom-1 bg-[#ede4d0] border-r border-[#eddab7]/40 shadow-sm rounded-l-[4px]" 
+          style={{ 
+            width: '8px', 
+            zIndex: 0,
+            backgroundImage: 'repeating-linear-gradient(0deg, #eedfb4, #eedfb4 1px, #cebc93 1px, #cebc93 2px)'
+          }} 
+        />
+        {/* Right Book edge page stacks */}
+        <div 
+          className="absolute right-[-6px] top-1 bottom-1 bg-[#ede4d0] border-l border-[#eddab7]/40 shadow-sm rounded-r-[4px]" 
+          style={{ 
+            width: '8px', 
+            zIndex: 0,
+            backgroundImage: 'repeating-linear-gradient(0deg, #eedfb4, #eedfb4 1px, #cebc93 1px, #cebc93 2px)'
+          }} 
+        />
+
+        <div className="book-spread" style={{ width: BOOK_W, height: BOOK_H, position: 'relative' }}>
+          {/* Left fixed page */}
           <div
-            className="page-shadow-left absolute overflow-hidden rounded-l-[2px]"
+            className="absolute overflow-hidden rounded-l-[4px]"
             style={{
               left: 0, top: 0,
               width: PAGE_W, height: BOOK_H,
-              background: 'oklch(0.99 0.005 70)',
               zIndex: 5,
             }}
           >
-            <BookPage
-              book={currentBook}
-              pageNum={1}
-              totalPages={BOOKS_DATA.length}
+            <BookCoverPage
+              book={isFlipping && flippingDir === 'backward' ? prevBook : currentBook}
               side="left"
             />
           </div>
 
-          {/* ── 오른쪽 고정 페이지 (다음 책 - 오른쪽 면) ── */}
+          {/* Right fixed page */}
           <div
-            className="page-shadow-right absolute overflow-hidden rounded-r-[2px]"
+            className="absolute overflow-hidden rounded-r-[4px]"
             style={{
               right: 0, top: 0,
               width: PAGE_W, height: BOOK_H,
-              background: 'oklch(0.99 0.005 70)',
               zIndex: 5,
             }}
           >
-            <BookPage
-              book={nextBook}
-              pageNum={2}
-              totalPages={BOOKS_DATA.length}
+            <BookTextPage
+              book={isFlipping && flippingDir === 'forward' ? nextBook : currentBook}
+              pageNum={isFlipping && flippingDir === 'forward' ? nextPageNumRight : currentPageNumRight}
               side="right"
             />
           </div>
 
-          {/* ── 책 척추(Spine) ── */}
+          {/* Center Spine */}
           <div
             className="spine-glow absolute pointer-events-none"
             style={{
-              left: PAGE_W - 3,
+              left: PAGE_W - 8,
               top: 0,
-              width: 6,
+              width: 16,
               height: BOOK_H,
               zIndex: 25,
             }}
           />
 
-          {/* ── 넘어가는 페이지 (flip 애니메이션) ── */}
+          {/* Turning Page layer */}
           {isFlipping && (
             <div
               ref={flipRef}
@@ -320,46 +501,44 @@ function OpenBook({
                 transformOrigin: 'left center',
               }}
             >
-              {/* 앞면 (넘어가기 전 보이는 면) */}
+              {/* Front side */}
               <div
-                className="page-face absolute inset-0 overflow-hidden page-curl"
-                style={{ background: 'oklch(0.99 0.005 70)' }}
+                className="page-face absolute inset-0 overflow-hidden"
+                style={{ backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden' }}
               >
-                <BookPage
-                  book={flippingDir === 'forward' ? currentBook : nextBook}
-                  pageNum={3}
-                  totalPages={BOOKS_DATA.length}
+                <BookTextPage
+                  book={flippingDir === 'forward' ? currentBook : prevBook}
+                  pageNum={flippingDir === 'forward' ? currentPageNumRight : prevPageNumRight}
                   side="right"
                 />
-                {/* 페이지 넘길 때 빛 반사 효과 */}
+                
                 <div
-                  className="absolute inset-0 pointer-events-none"
+                  className="absolute inset-0 pointer-events-none bg-gradient-to-r from-transparent via-white/20 to-transparent"
                   style={{
-                    background: 'linear-gradient(105deg, transparent 35%, rgba(255,255,255,0.5) 50%, transparent 65%)',
                     mixBlendMode: 'screen',
+                    zIndex: 30,
                   }}
                 />
               </div>
-              {/* 뒷면 (넘어간 후 보이는 면) */}
+
+              {/* Back side */}
               <div
                 className="page-back-face absolute inset-0 overflow-hidden"
-                style={{ background: 'oklch(0.98 0.008 70)' }}
+                style={{ backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden' }}
               >
-                <BookPage
+                <BookCoverPage
                   book={flippingDir === 'forward' ? nextBook : currentBook}
-                  pageNum={4}
-                  totalPages={BOOKS_DATA.length}
                   side="left"
                 />
               </div>
             </div>
           )}
 
-          {/* ── 책 외곽 그림자 ── */}
+          {/* Overall border shadows */}
           <div
-            className="absolute inset-0 pointer-events-none rounded-[2px]"
+            className="absolute inset-0 pointer-events-none rounded-[4px]"
             style={{
-              boxShadow: '0 20px 60px rgba(0,0,0,0.18), 0 8px 20px rgba(0,0,0,0.12)',
+              boxShadow: '0 12px 40px rgba(0,0,0,0.18), 0 4px 12px rgba(0,0,0,0.12)',
               zIndex: 1,
             }}
           />
@@ -442,7 +621,7 @@ export function BookCarouselLight() {
         </div>
 
         <div className="relative z-10 w-full">
-          <div className="mx-auto max-w-5xl px-6 lg:px-8">
+          <div className="mx-auto max-w-[1600px] px-6 md:px-12 xl:px-16 2xl:px-24">
 
             {/* 헤더 */}
             <div className="text-center mb-12">
@@ -460,8 +639,7 @@ export function BookCarouselLight() {
 
             {/* ── 3D 책 펼침 영역 ── */}
             <OpenBook
-              currentBook={currentBook}
-              nextBook={nextBook}
+              currentIndex={currentIndex}
               flippingDir={flippingDir}
               isFlipping={isFlipping}
               onFlipEnd={handleFlipEnd}
