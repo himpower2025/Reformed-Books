@@ -624,7 +624,7 @@ export function BookCarouselLight() {
           <div className="mx-auto max-w-[1600px] px-6 md:px-12 xl:px-16 2xl:px-24">
 
             {/* 헤더 */}
-            <div className="text-center mb-12">
+            <div className="text-center pt-10 md:pt-16 mb-6">
               <div className="flex items-center justify-center gap-3 mb-3">
                 <div className="w-8 h-px bg-accent/40" />
                 <span className="text-xs uppercase tracking-widest font-medium text-accent">
