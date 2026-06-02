@@ -83,7 +83,7 @@ function AdaptiveLogo() {
   // Fallback monogram if none of the logo files exist in public directory
   if (failedAll) {
     return (
-      <div className="absolute inset-0 flex items-center justify-center bg-primary text-background z-0">
+      <div className="h-10 w-10 flex-shrink-0 relative overflow-hidden rounded-sm bg-primary text-background shadow-sm select-none flex items-center justify-center">
         <span className="font-serif font-bold text-xl tracking-tight text-white select-none">R</span>
         <div className="absolute bottom-1 right-1 w-1.5 h-1.5 bg-accent rounded-full animate-pulse" />
       </div>
@@ -93,14 +93,16 @@ function AdaptiveLogo() {
   // Safe skeletal monogram state during Server-Side Rendering to prevent premature image error cascades
   if (!mounted) {
     return (
-      <div className="absolute inset-0 flex items-center justify-center bg-primary text-background z-0">
+      <div className="h-10 w-10 flex-shrink-0 relative overflow-hidden rounded-sm bg-primary text-background shadow-sm select-none flex items-center justify-center">
         <span className="font-serif font-bold text-xl tracking-tight text-white select-none">R</span>
       </div>
     )
   }
 
   return (
-    <div className="relative w-full h-full overflow-hidden bg-white/5 rounded-sm flex items-center justify-center">
+    <div className={`h-10 w-10 flex-shrink-0 relative overflow-hidden rounded-sm select-none transform hover:scale-105 transition-all duration-300 ease-out flex items-center justify-center ${
+      loaded ? 'bg-transparent shadow-none' : 'bg-primary text-background shadow-sm'
+    }`}>
       {/* 
         This is a brilliant technique to isolate only the logo icon:
         The text "reformed books" resides below the icon. So we scale the image to 130%
@@ -111,7 +113,7 @@ function AdaptiveLogo() {
         key={candidates[candidateIdx]}
         src={candidates[candidateIdx]}
         alt="Reformed Logo"
-        className={`absolute top-0.5 left-[10%] w-[80%] h-[130%] object-cover object-top z-10 transition-opacity duration-300 ease-out ${
+        className={`absolute top-0.5 left-0 w-full h-[130%] object-cover object-top z-10 transition-opacity duration-300 ease-out ${
           loaded ? 'opacity-100' : 'opacity-0'
         }`}
         onLoad={handleLoad}
@@ -236,9 +238,7 @@ export function Header() {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3.5 group">
-            <div className="h-10 w-10 flex-shrink-0 relative overflow-hidden rounded-sm bg-primary text-background shadow-sm select-none transform hover:scale-105 transition-transform duration-300 ease-out">
-              <AdaptiveLogo />
-            </div>
+            <AdaptiveLogo />
             <div className="flex flex-col items-start gap-0">
               <div className="text-sm tracking-wider font-serif font-bold text-primary leading-tight">REFORMED</div>
               <div className="text-xs tracking-widest font-sans text-muted-foreground group-hover:text-accent transition-colors">BOOKS</div>
