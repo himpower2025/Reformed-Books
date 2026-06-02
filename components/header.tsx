@@ -25,7 +25,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
 // A highly robust loader that automatically tries both logo-orignal and logo-original under multiple extensions.
-// It also applies a 155% vertical scale height with object-top and hidden overflow, and hides the lower text block!
+// It also applies a 135% vertical scale height with object-top and hidden overflow, and hides the lower text block!
 function AdaptiveLogo() {
   const candidates = [
     '/logo-orignal.png',
@@ -47,6 +47,11 @@ function AdaptiveLogo() {
   const [candidateIdx, setCandidateIdx] = useState(0)
   const [errorCount, setErrorCount] = useState(0)
   const [loaded, setLoaded] = useState(false)
+
+  // Reset loaded state whenever the candidate source changes
+  useEffect(() => {
+    setLoaded(false)
+  }, [candidateIdx])
 
   const handleLoad = () => {
     setLoaded(true)
@@ -74,14 +79,15 @@ function AdaptiveLogo() {
     <div className="relative w-full h-full overflow-hidden bg-white/5 rounded-sm flex items-center justify-center">
       {/* 
         This is a brilliant technique to isolate only the logo icon:
-        The text "reformed books" resides below the icon. So we scale the image to 155%
-        height (which stretches it and pushes the lower part away), align it at the absolute top,
+        The text "reformed books" resides below the icon. So we scale the image to 135%
+        height (giving it breathing room as requested), align it at the absolute top,
         and because the outer card container has overflow-hidden, the bottom text gets cropped perfectly!
       */}
       <img
+        key={candidates[candidateIdx]}
         src={candidates[candidateIdx]}
         alt="Reformed Logo"
-        className={`absolute top-0 left-0 w-full h-[155%] object-cover object-top z-10 transition-opacity duration-500 ease-out ${
+        className={`absolute top-0 left-0 w-full h-[135%] object-cover object-top z-10 transition-opacity duration-500 ease-out ${
           loaded ? 'opacity-100' : 'opacity-0'
         }`}
         onLoad={handleLoad}
