@@ -25,7 +25,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
 // A highly robust loader that automatically tries both logo-orignal and logo-original under multiple extensions.
-// It also applies a 135% vertical scale height with object-top and hidden overflow, and hides the lower text block!
+// It also applies a 130% vertical scale height with object-top and hidden overflow, and hides the lower text block!
 function AdaptiveLogo() {
   const candidates = [
     '/logo-orignal.png',
@@ -44,29 +44,44 @@ function AdaptiveLogo() {
     '/logo.webp',
     '/logo.svg',
   ]
+  const [mounted, setMounted] = useState(false)
   const [candidateIdx, setCandidateIdx] = useState(0)
-  const [errorCount, setErrorCount] = useState(0)
+  const [failedAll, setFailedAll] = useState(false)
   const [loaded, setLoaded] = useState(false)
 
-  // Reset loaded state whenever the candidate source changes
+  // Immediately recover the last known working image path on client mount
+  useEffect(() => {
+    const savedIdx = localStorage.getItem('reformed_logo_idx')
+    if (savedIdx !== null) {
+      const idx = parseInt(savedIdx, 10)
+      if (idx >= 0 && idx < candidates.length) {
+        setCandidateIdx(idx)
+      }
+    }
+    setMounted(true)
+  }, [])
+
+  // Reset loaded status whenever the candidate source changes
   useEffect(() => {
     setLoaded(false)
   }, [candidateIdx])
-
-  const handleLoad = () => {
-    setLoaded(true)
-  }
 
   const handleError = () => {
     if (candidateIdx < candidates.length - 1) {
       setCandidateIdx((prev) => prev + 1)
     } else {
-      setErrorCount((prev) => prev + 1)
+      setFailedAll(true)
     }
   }
 
+  const handleLoad = () => {
+    setLoaded(true)
+    // Persist this working index so subsequent sessions load it in 0ms!
+    localStorage.setItem('reformed_logo_idx', String(candidateIdx))
+  }
+
   // Fallback monogram if none of the logo files exist in public directory
-  if (errorCount >= 1) {
+  if (failedAll) {
     return (
       <div className="absolute inset-0 flex items-center justify-center bg-primary text-background z-0">
         <span className="font-serif font-bold text-xl tracking-tight text-white select-none">R</span>
@@ -75,19 +90,28 @@ function AdaptiveLogo() {
     )
   }
 
+  // Safe skeletal monogram state during Server-Side Rendering to prevent premature image error cascades
+  if (!mounted) {
+    return (
+      <div className="absolute inset-0 flex items-center justify-center bg-primary text-background z-0">
+        <span className="font-serif font-bold text-xl tracking-tight text-white select-none">R</span>
+      </div>
+    )
+  }
+
   return (
     <div className="relative w-full h-full overflow-hidden bg-white/5 rounded-sm flex items-center justify-center">
       {/* 
         This is a brilliant technique to isolate only the logo icon:
-        The text "reformed books" resides below the icon. So we scale the image to 135%
-        height (giving it breathing room as requested), align it at the absolute top,
+        The text "reformed books" resides below the icon. So we scale the image to 130%
+        height (giving it beautiful breathing room inside the square), align it horizontally,
         and because the outer card container has overflow-hidden, the bottom text gets cropped perfectly!
       */}
       <img
         key={candidates[candidateIdx]}
         src={candidates[candidateIdx]}
         alt="Reformed Logo"
-        className={`absolute top-0 left-0 w-full h-[135%] object-cover object-top z-10 transition-opacity duration-500 ease-out ${
+        className={`absolute top-0.5 left-[10%] w-[80%] h-[130%] object-cover object-top z-10 transition-opacity duration-300 ease-out ${
           loaded ? 'opacity-100' : 'opacity-0'
         }`}
         onLoad={handleLoad}
@@ -118,6 +142,26 @@ export function Header() {
   const [signupPassword, setSignupPassword] = useState('')
   const [authTab, setAuthTab] = useState<'signin' | 'signup'>('signin')
   const [authError, setAuthError] = useState('')
+  const [isGoogleLoading, setIsGoogleLoading] = useState(false)
+
+  const handleGoogleSignIn = () => {
+    setIsGoogleLoading(true)
+    setAuthError('')
+    setTimeout(() => {
+      const googleUser = {
+        email: 'pilgrim@gmail.com',
+        name: 'Reformed Pilgrim',
+        isGoogle: true
+      }
+      localStorage.setItem('reformed_user', JSON.stringify(googleUser))
+      setIsLoggedIn(true)
+      setUserEmail(googleUser.email)
+      setUserName(googleUser.name)
+      setIsAuthOpen(false)
+      setIsGoogleLoading(false)
+      setAuthError('')
+    }, 1200) // Sleek authentic 1.2s loading simulation
+  }
 
   // Load user details if present in localStorage
   useEffect(() => {
@@ -441,6 +485,42 @@ export function Header() {
               >
                 Create Account
               </button>
+            </div>
+
+            {/* Google Sign In Button */}
+            <Button
+              type="button"
+              variant="outline"
+              onClick={handleGoogleSignIn}
+              disabled={isGoogleLoading}
+              className="w-full h-10 border border-border/80 hover:bg-muted/50 text-foreground font-medium text-xs uppercase tracking-wide flex items-center justify-center transition-all bg-background mb-4"
+            >
+              {isGoogleLoading ? (
+                <span className="flex items-center justify-center gap-2">
+                  <svg className="animate-spin h-3.5 w-3.5 text-muted-foreground" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                  </svg>
+                  Connecting Google...
+                </span>
+              ) : (
+                <span className="flex items-center justify-center">
+                  <svg className="h-4 w-4 mr-2.5" viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                    <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                    <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05"/>
+                    <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335"/>
+                  </svg>
+                  Continue with Google
+                </span>
+              )}
+            </Button>
+
+            {/* Divider */}
+            <div className="relative flex py-2 mb-4 items-center">
+              <div className="flex-grow border-t border-border/50"></div>
+              <span className="flex-shrink mx-4 text-[10px] text-muted-foreground uppercase tracking-widest font-medium">Or continue with</span>
+              <div className="flex-grow border-t border-border/50"></div>
             </div>
 
             {authTab === 'signin' ? (
