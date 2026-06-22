@@ -4,30 +4,30 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: oklch(0.98 0.001 70);
-  --foreground: oklch(0.25 0.01 210);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.25 0.01 210);
+  --background: oklch(0.988 0.009 85); /* Rich, warm premium ivory/cream book paper */
+  --foreground: oklch(0.18 0.015 200); /* Luxury rich charcoal organic ink */
+  --card: oklch(1 0 0); /* Pure crisp white for cards to pop beautifully * /
+  --card-foreground: oklch(0.18 0.015 200);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.25 0.01 210);
-  --primary: oklch(0.38 0.08 185);
-  --primary-foreground: oklch(0.98 0.001 70);
-  --secondary: oklch(0.48 0.12 35);
-  --secondary-foreground: oklch(0.98 0.001 70);
-  --muted: oklch(0.93 0.01 70);
-  --muted-foreground: oklch(0.55 0.02 210);
-  --accent: oklch(0.48 0.12 35);
-  --accent-foreground: oklch(0.98 0.001 70);
-  --destructive: oklch(0.6 0.15 25);
-  --destructive-foreground: oklch(0.98 0.001 70);
-  --border: oklch(0.93 0.01 70);
-  --input: oklch(0.93 0.01 70);
-  --ring: oklch(0.38 0.08 185);
-  --chart-1: oklch(0.48 0.12 35);
-  --chart-2: oklch(0.38 0.08 185);
-  --chart-3: oklch(0.5 0.1 25);
-  --chart-4: oklch(0.55 0.08 120);
-  --chart-5: oklch(0.45 0.09 70);
+  --popover-foreground: oklch(0.18 0.015 200);
+  --primary: oklch(0.27 0.045 155); /* Deep elegant Pine/Forest Green - highly premium, scholastic, yet organic */
+  --primary-foreground: oklch(0.99 0.005 85);
+  --secondary: oklch(0.94 0.02 85); /* Warm oatmeal/biscuit background hue */
+  --secondary-foreground: oklch(0.25 0.03 155);
+  --muted: oklch(0.94 0.012 85);
+  --muted-foreground: oklch(0.48 0.015 200);
+  --accent: oklch(0.60 0.135 52); /* Sparkling warm terracotta/golden peach - invites joy, suitable for children and theology alike */
+  --accent-foreground: oklch(0.99 0.005 85);
+  --destructive: oklch(0.55 0.18 28);
+  --destructive-foreground: oklch(0.99 0.005 85);
+  --border: oklch(0.91 0.015 85); /* Soft linen-edge border */
+  --input: oklch(0.91 0.015 85);
+  --ring: oklch(0.27 0.045 155);
+  --chart-1: oklch(0.60 0.135 52);
+  --chart-2: oklch(0.27 0.045 155);
+  --chart-3: oklch(0.45 0.08 120);
+  --chart-4: oklch(0.75 0.12 75);
+  --chart-5: oklch(0.52 0.11 35);
   --radius: 0.625rem;
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.145 0 0);

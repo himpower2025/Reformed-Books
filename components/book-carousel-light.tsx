@@ -17,7 +17,7 @@ const BOOKS_DATA = [
     description: "Reformed theology is not merely a set of historical theories, but a living, breathing perspective that captures the absolute majesty of God and His redemptive plan for humanity. In this foundational work, Dr. James Mitchell unpacks the majestic doctrines of grace, the covenants of Scripture, and the profound implications of God's sovereignty in a broken world. This volume serves as an essential companion for those who seek to anchor their faith in the immovable truths of historic reformed confessions.",
     author: "Dr. James Mitchell",
     genre: "Sovereign Grace",
-    coverColor: "bg-slate-900 border-amber-500/20",
+    coverColor: "bg-emerald-950 border-emerald-500/20",
     accentColor: "text-amber-500/90",
     emblemType: "shield",
     textColor: "text-slate-100",
@@ -51,15 +51,28 @@ const BOOKS_DATA = [
   },
   {
     id: 4,
+    title: "Little Hearts, Big Grace",
+    subtitle: "A Lyrical Storybook of Covenants & Creation",
+    description: "Designed specifically to introduce toddlers and young children to the beautiful covenants of Scripture. Through lyrical storytelling and beautiful interactive visuals, little hearts will discover how much God loves them, from the starry skies of creation to the comforting promises of redemption. This modern classic serves as a treasured keepsake for family devotionals and cozy bedtime reading, making ultimate questions accessible and heartwarming to little ones.",
+    author: "Sarah Mitchell & David Chen",
+    genre: "Children & Family",
+    coverColor: "bg-indigo-900 border-indigo-400/20",
+    accentColor: "text-amber-300",
+    emblemType: "star",
+    textColor: "text-indigo-50",
+    paperPageNum: 20
+  },
+  {
+    id: 5,
     title: "Doctrine & Practice",
     subtitle: "Bridging Theological Truth with Daily Life",
     description: "Theology was never meant to be confined to the dusty shelves of academic library alcoves. It of right belongs in the prayer closet, the marketplace, and the family table. Rev. Elizabeth Turner offers a beautifully practical and encouraging guide that translates orthodox Christian doctrines into active orthopraxy. Learn how the profound reality of justification, sanctification, and union with Christ transforms daily anxiety into perfect peace and fills life with purpose.",
     author: "Rev. Elizabeth Turner",
     genre: "Practical Theology",
-    coverColor: "bg-indigo-950 border-indigo-500/20",
+    coverColor: "bg-violet-950 border-violet-500/20",
     accentColor: "text-cyan-400",
     emblemType: "lamp",
-    textColor: "text-indigo-50",
+    textColor: "text-violet-50",
     paperPageNum: 182
   }
 ]
@@ -155,6 +168,16 @@ function renderEmblem(type: string, colorClass: string) {
         <path d="M10 10 L38 38 M10 38 L38 10" strokeWidth="0.8" />
         <circle cx="24" cy="24" r="5" fill="currentColor" fillOpacity="0.2" />
         <polygon points="24,14 27,21 34,24 27,27 24,34 21,27 14,24 21,21" fill="currentColor" />
+      </svg>
+    )
+  }
+  if (type === 'star') {
+    return (
+      <svg className={`w-14 h-14 ${colorClass}`} viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1.2">
+        <circle cx="24" cy="24" r="16" strokeDasharray="2 2" />
+        <path d="M24 8 L24 40 M8 24 L40 24" strokeWidth="0.8" />
+        <path d="M24 12 L27 21 L36 24 L27 27 L24 36 L21 27 L12 24 L21 21 Z" fill="currentColor" fillOpacity="0.25" />
+        <circle cx="24" cy="24" r="3" fill="currentColor" />
       </svg>
     )
   }
