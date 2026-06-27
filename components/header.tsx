@@ -29,10 +29,19 @@ import { Label } from '@/components/ui/label'
 function AdaptiveLogo() {
   const candidates = [
     '/logo-original.png',
+    '/logo-original.PNG',
     '/logo-original.jpg',
+    '/logo-original.JPG',
     '/logo-original.jpeg',
+    '/logo-original.JPEG',
     '/logo-original.webp',
+    '/logo-original.WEBP',
     '/logo-original.svg',
+    '/logo-original.SVG',
+    '/logo.png',
+    '/logo.PNG',
+    '/logo.jpg',
+    '/logo.JPG',
   ]
   const [mounted, setMounted] = useState(false)
   const [candidateIdx, setCandidateIdx] = useState(0)
@@ -78,11 +87,23 @@ function AdaptiveLogo() {
     localStorage.setItem('reformed_logo_idx', String(candidateIdx))
   }
 
+  const handleResetAndRetry = () => {
+    // Clear cache state and try scanning from the beginning
+    localStorage.removeItem('reformed_logo_idx')
+    setCandidateIdx(0)
+    setFailedAll(false)
+    setLoaded(false)
+  }
+
   // Fallback monogram if none of the logo files exist in public directory
   if (failedAll) {
     return (
-      <div className="h-10 w-10 flex-shrink-0 relative overflow-hidden rounded-sm bg-primary text-background shadow-sm select-none flex items-center justify-center">
-        <span className="font-serif font-bold text-xl tracking-tight text-white select-none">R</span>
+      <div 
+        onClick={handleResetAndRetry}
+        title="Click to retry loading logo"
+        className="h-10 w-10 flex-shrink-0 relative overflow-hidden rounded-sm bg-primary text-background shadow-sm select-none flex items-center justify-center cursor-pointer group hover:opacity-90"
+      >
+        <span className="font-serif font-bold text-xl tracking-tight text-white select-none transition-transform group-hover:scale-110">R</span>
         <div className="absolute bottom-1 right-1 w-1.5 h-1.5 bg-accent rounded-full animate-pulse" />
       </div>
     )
@@ -98,9 +119,13 @@ function AdaptiveLogo() {
   }
 
   return (
-    <div className={`h-10 w-10 flex-shrink-0 relative overflow-hidden rounded-sm select-none transform hover:scale-105 transition-all duration-300 ease-out flex items-center justify-center ${
-      loaded ? 'bg-transparent shadow-none' : 'bg-primary text-background shadow-sm'
-    }`}>
+    <div 
+      onClick={handleResetAndRetry}
+      title="Double click or click to reload logo"
+      className={`h-10 w-10 flex-shrink-0 relative overflow-hidden rounded-sm select-none transform hover:scale-105 transition-all duration-300 ease-out flex items-center justify-center cursor-pointer ${
+        loaded ? 'bg-transparent shadow-none' : 'bg-primary text-background shadow-sm'
+      }`}
+    >
       {/* 
         This is a brilliant technique to isolate only the logo icon:
         The text "reformed books" resides below the icon. So we scale the image to 130%
