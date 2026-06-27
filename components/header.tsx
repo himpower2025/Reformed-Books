@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Menu, X, User, LogOut, Mail, Lock, ShieldCheck } from 'lucide-react'
@@ -48,6 +48,7 @@ function AdaptiveLogo() {
   const [candidateIdx, setCandidateIdx] = useState(0)
   const [failedAll, setFailedAll] = useState(false)
   const [loaded, setLoaded] = useState(false)
+  const imgRef = useRef<HTMLImageElement>(null)
 
   // Immediately recover the last known working image path on client mount
   useEffect(() => {
@@ -65,6 +66,13 @@ function AdaptiveLogo() {
   useEffect(() => {
     setLoaded(false)
   }, [candidateIdx])
+
+  // Handle cached image onload race condition
+  useEffect(() => {
+    if (mounted && imgRef.current && imgRef.current.complete) {
+      handleLoad()
+    }
+  }, [candidateIdx, mounted])
 
   const handleError = () => {
     if (candidateIdx < candidates.length - 1) {
@@ -110,6 +118,7 @@ function AdaptiveLogo() {
         and because the outer card container has overflow-hidden, the bottom text gets cropped perfectly!
       */}
       <img
+        ref={imgRef}
         key={candidates[candidateIdx]}
         src={candidates[candidateIdx]}
         alt="Reformed Logo"
