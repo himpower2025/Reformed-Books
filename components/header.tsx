@@ -24,25 +24,15 @@ import {
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
-// A highly robust loader that automatically tries both logo-orignal and logo-original under multiple extensions.
+// A highly robust loader that automatically tries logo-original under multiple extensions.
 // It also applies a 130% vertical scale height with object-top and hidden overflow, and hides the lower text block!
 function AdaptiveLogo() {
   const candidates = [
-    '/logo-orignal.png',
-    '/logo-orignal.jpg',
-    '/logo-orignal.jpeg',
-    '/logo-orignal.webp',
-    '/logo-orignal.svg',
     '/logo-original.png',
     '/logo-original.jpg',
     '/logo-original.jpeg',
     '/logo-original.webp',
     '/logo-original.svg',
-    '/logo.png',
-    '/logo.jpg',
-    '/logo.jpeg',
-    '/logo.webp',
-    '/logo.svg',
   ]
   const [mounted, setMounted] = useState(false)
   const [candidateIdx, setCandidateIdx] = useState(0)
