@@ -30,8 +30,8 @@ function AdaptiveLogo() {
       <Image
         src="/logo-icon.png"
         alt="Reformed Books Logo"
-        width={40}
-        height={40}
+        width={56}
+        height={56}
         className="object-contain"
         priority
       />
