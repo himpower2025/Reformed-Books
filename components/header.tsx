@@ -24,82 +24,52 @@ import {
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
-// A highly robust loader that automatically tries logo-original under multiple extensions.
-// It also applies a 130% vertical scale height with object-top and hidden overflow, and hides the lower text block!
+// A highly robust, clean loader that targets logo-original.png directly.
+// It also applies a 130% vertical scale height with object-top and hidden overflow to crop the lower text block!
 function AdaptiveLogo() {
-  const candidates = [
-    '/logo-original.png',
-    '/logo-original.PNG',
-    '/logo-original.jpg',
-    '/logo-original.JPG',
-    '/logo-original.jpeg',
-    '/logo-original.JPEG',
-    '/logo-original.webp',
-    '/logo-original.WEBP',
-    '/logo-original.svg',
-    '/logo-original.SVG',
-    '/logo.png',
-    '/logo.PNG',
-    '/logo.jpg',
-    '/logo.JPG',
-  ]
   const [mounted, setMounted] = useState(false)
-  const [candidateIdx, setCandidateIdx] = useState(0)
-  const [failedAll, setFailedAll] = useState(false)
+  const [src, setSrc] = useState('/logo-original.png')
+  const [hasError, setHasError] = useState(false)
   const [loaded, setLoaded] = useState(false)
   const imgRef = useRef<HTMLImageElement>(null)
 
-  // Immediately recover the last known working image path on client mount
   useEffect(() => {
-    const savedIdx = localStorage.getItem('reformed_logo_idx')
-    if (savedIdx !== null) {
-      const idx = parseInt(savedIdx, 10)
-      if (idx >= 0 && idx < candidates.length) {
-        setCandidateIdx(idx)
-      }
-    }
     setMounted(true)
   }, [])
-
-  // Reset loaded status whenever the candidate source changes
-  useEffect(() => {
-    setLoaded(false)
-  }, [candidateIdx])
 
   // Handle cached image onload race condition
   useEffect(() => {
     if (mounted && imgRef.current && imgRef.current.complete) {
-      handleLoad()
+      setLoaded(true)
     }
-  }, [candidateIdx, mounted])
+  }, [mounted, src])
 
   const handleError = () => {
-    if (candidateIdx < candidates.length - 1) {
-      setCandidateIdx((prev) => prev + 1)
+    if (src === '/logo-original.png') {
+      // Fallback to uppercase .PNG just in case of case-sensitive servers
+      setSrc('/logo-original.PNG')
     } else {
-      setFailedAll(true)
+      setHasError(true)
+      setLoaded(false)
     }
   }
 
   const handleLoad = () => {
     setLoaded(true)
-    // Persist this working index so subsequent sessions load it in 0ms!
-    localStorage.setItem('reformed_logo_idx', String(candidateIdx))
+    setHasError(false)
   }
 
-  const handleResetAndRetry = () => {
-    // Clear cache state and try scanning from the beginning
-    localStorage.removeItem('reformed_logo_idx')
-    setCandidateIdx(0)
-    setFailedAll(false)
+  const handleReset = () => {
+    setSrc('/logo-original.png')
+    setHasError(false)
     setLoaded(false)
   }
 
-  // Fallback monogram if none of the logo files exist in public directory
-  if (failedAll) {
+  // Fallback monogram if the logo file does not load
+  if (!mounted || hasError) {
     return (
       <div 
-        onClick={handleResetAndRetry}
+        onClick={handleReset}
         title="Click to retry loading logo"
         className="h-10 w-10 flex-shrink-0 relative overflow-hidden rounded-sm bg-primary text-background shadow-sm select-none flex items-center justify-center cursor-pointer group hover:opacity-90"
       >
@@ -109,33 +79,24 @@ function AdaptiveLogo() {
     )
   }
 
-  // Safe skeletal monogram state during Server-Side Rendering to prevent premature image error cascades
-  if (!mounted) {
-    return (
-      <div className="h-10 w-10 flex-shrink-0 relative overflow-hidden rounded-sm bg-primary text-background shadow-sm select-none flex items-center justify-center">
-        <span className="font-serif font-bold text-xl tracking-tight text-white select-none">R</span>
-      </div>
-    )
-  }
-
   return (
     <div 
-      onClick={handleResetAndRetry}
-      title="Double click or click to reload logo"
+      onClick={handleReset}
+      title="Click to refresh logo load"
       className={`h-10 w-10 flex-shrink-0 relative overflow-hidden rounded-sm select-none transform hover:scale-105 transition-all duration-300 ease-out flex items-center justify-center cursor-pointer ${
         loaded ? 'bg-transparent shadow-none' : 'bg-primary text-background shadow-sm'
       }`}
     >
       {/* 
-        This is a brilliant technique to isolate only the logo icon:
+        This isolates only the logo icon:
         The text "reformed books" resides below the icon. So we scale the image to 130%
-        height (giving it beautiful breathing room inside the square), align it horizontally,
+        height (giving it breathing room inside the square), align it horizontally,
         and because the outer card container has overflow-hidden, the bottom text gets cropped perfectly!
       */}
       <img
         ref={imgRef}
-        key={candidates[candidateIdx]}
-        src={candidates[candidateIdx]}
+        key={src}
+        src={src}
         alt="Reformed Logo"
         className={`absolute top-0.5 left-0 w-full h-[130%] object-cover object-top z-10 transition-opacity duration-300 ease-out ${
           loaded ? 'opacity-100' : 'opacity-0'
