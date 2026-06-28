@@ -26,11 +26,12 @@ import { Label } from '@/components/ui/label'
 
 function AdaptiveLogo() {
   return (
-    <div className="h-10 w-10 flex-shrink-0 relative select-none hover:scale-105 transition-transform duration-300 ease-out">
+    <div className="flex-shrink-0 select-none hover:scale-105 transition-transform duration-300 ease-out">
       <Image
         src="/logo-icon.png"
         alt="Reformed Books Logo"
-        fill
+        width={40}
+        height={40}
         className="object-contain"
         priority
       />
