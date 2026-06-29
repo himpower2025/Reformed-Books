@@ -38,26 +38,10 @@ function AdaptiveLogo() {
   return (
     <div className="h-10 w-10 flex-shrink-0 relative overflow-hidden rounded-lg border border-border/15 shadow-sm hover:scale-105 transition-transform duration-300 ease-out select-none flex items-center justify-center bg-[#f7f5f0]">
       <img
-        src="/logo-icon.png?v=1.2"
+        src="/logo-icon.png?v=3.0"
         alt="Reformed Books Logo"
         className="h-full w-full object-contain"
-        onError={(e) => {
-          const target = e.currentTarget;
-          if (target.src.includes('logo-icon.png')) {
-            target.src = '/logo-original.png?v=1.2';
-          } else if (target.src.includes('logo-original.png')) {
-            target.src = '/logo.png?v=1.2';
-          } else {
-            target.style.display = 'none';
-            const parent = target.parentElement;
-            if (parent) {
-              const fallback = document.createElement('div');
-              fallback.className = "absolute inset-0 flex items-center justify-center bg-primary/10 text-primary";
-              fallback.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-book-open"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>`;
-              parent.appendChild(fallback);
-            }
-          }
-        }}
+        referrerPolicy="no-referrer"
       />
     </div>
   )
