@@ -25,45 +25,39 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
 function AdaptiveLogo() {
-  const [imgSrc, setImgSrc] = useState<string>('/logo-icon.png')
-  const [hasError, setHasError] = useState(false)
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
     setMounted(true)
   }, [])
 
-  const handleError = () => {
-    if (imgSrc === '/logo-icon.png') {
-      setImgSrc('/logo-original.png')
-    } else if (imgSrc === '/logo-original.png') {
-      setImgSrc('/logo-original.PNG')
-    } else if (imgSrc === '/logo-original.PNG') {
-      setImgSrc('/logo.png')
-    } else {
-      setHasError(true)
-    }
-  }
-
-  // Before mount or if all path checks fail, output an elegant, branded vector book emblem to prevent layout breaks
-  if (!mounted || hasError) {
-    return (
-      <div className="h-10 w-10 flex-shrink-0 flex items-center justify-center rounded-lg bg-primary/10 border border-primary/20 text-primary shadow-inner hover:scale-105 transition-transform duration-300">
-        <BookOpen className="h-5 w-5 stroke-[1.8]" />
-      </div>
-    )
+  if (!mounted) {
+    return <div className="h-10 w-10 flex-shrink-0 rounded-lg bg-[#f7f5f0] border border-border/15 shadow-sm" />
   }
 
   return (
     <div className="h-10 w-10 flex-shrink-0 relative overflow-hidden rounded-lg border border-border/15 shadow-sm hover:scale-105 transition-transform duration-300 ease-out select-none flex items-center justify-center bg-[#f7f5f0]">
-      <Image
-        src={imgSrc}
+      <img
+        src="/logo-icon.png?v=1.2"
         alt="Reformed Books Logo"
-        fill
-        sizes="40px"
-        className="object-cover"
-        priority
-        onError={handleError}
+        className="h-full w-full object-contain"
+        onError={(e) => {
+          const target = e.currentTarget;
+          if (target.src.includes('logo-icon.png')) {
+            target.src = '/logo-original.png?v=1.2';
+          } else if (target.src.includes('logo-original.png')) {
+            target.src = '/logo.png?v=1.2';
+          } else {
+            target.style.display = 'none';
+            const parent = target.parentElement;
+            if (parent) {
+              const fallback = document.createElement('div');
+              fallback.className = "absolute inset-0 flex items-center justify-center bg-primary/10 text-primary";
+              fallback.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-book-open"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>`;
+              parent.appendChild(fallback);
+            }
+          }
+        }}
       />
     </div>
   )
