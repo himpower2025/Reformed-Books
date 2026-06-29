@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react' // useEffect used by Header for localStorage session restore
 import Link from 'next/link'
 import Image from 'next/image'
-import { Menu, X, User, LogOut, Mail, Lock, ShieldCheck } from 'lucide-react'
+import { Menu, X, User, LogOut, Mail, Lock, ShieldCheck, BookOpen } from 'lucide-react'
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -25,15 +25,45 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
 function AdaptiveLogo() {
+  const [imgSrc, setImgSrc] = useState<string>('/logo-icon.png')
+  const [hasError, setHasError] = useState(false)
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  const handleError = () => {
+    if (imgSrc === '/logo-icon.png') {
+      setImgSrc('/logo-original.png')
+    } else if (imgSrc === '/logo-original.png') {
+      setImgSrc('/logo-original.PNG')
+    } else if (imgSrc === '/logo-original.PNG') {
+      setImgSrc('/logo.png')
+    } else {
+      setHasError(true)
+    }
+  }
+
+  // Before mount or if all path checks fail, output an elegant, branded vector book emblem to prevent layout breaks
+  if (!mounted || hasError) {
+    return (
+      <div className="h-10 w-10 flex-shrink-0 flex items-center justify-center rounded-lg bg-primary/10 border border-primary/20 text-primary shadow-inner hover:scale-105 transition-transform duration-300">
+        <BookOpen className="h-5 w-5 stroke-[1.8]" />
+      </div>
+    )
+  }
+
   return (
-    <div className="flex-shrink-0 select-none hover:scale-105 transition-transform duration-300 ease-out">
+    <div className="h-10 w-10 flex-shrink-0 relative overflow-hidden rounded-lg border border-border/15 shadow-sm hover:scale-105 transition-transform duration-300 ease-out select-none flex items-center justify-center bg-[#f7f5f0]">
       <Image
-        src="/logo-icon.png"
+        src={imgSrc}
         alt="Reformed Books Logo"
-        width={40}
-        height={40}
-        className="object-contain"
+        fill
+        sizes="40px"
+        className="object-cover"
         priority
+        onError={handleError}
       />
     </div>
   )
