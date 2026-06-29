@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react' // useEffect used by Header for localStorage session restore
 import Link from 'next/link'
 import Image from 'next/image'
-import { Menu, X, User, LogOut, Mail, Lock, ShieldCheck, BookOpen } from 'lucide-react'
+import { Menu, X, User, LogOut, Mail, Lock, ShieldCheck } from 'lucide-react'
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -25,23 +25,15 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
 function AdaptiveLogo() {
-  const [mounted, setMounted] = useState(false)
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
-
-  if (!mounted) {
-    return <div className="h-10 w-10 flex-shrink-0 rounded-lg bg-[#f7f5f0] border border-border/15 shadow-sm" />
-  }
-
   return (
-    <div className="h-10 w-10 flex-shrink-0 relative overflow-hidden rounded-lg border border-border/15 shadow-sm hover:scale-105 transition-transform duration-300 ease-out select-none flex items-center justify-center bg-[#f7f5f0]">
-      <img
-        src="/logo-icon.png?v=3.0"
+    <div className="flex-shrink-0 select-none hover:scale-105 transition-transform duration-300 ease-out">
+      <Image
+        src="/logo-icon.png"
         alt="Reformed Books Logo"
-        className="h-full w-full object-contain"
-        referrerPolicy="no-referrer"
+        width={40}
+        height={40}
+        className="object-contain"
+        priority
       />
     </div>
   )
