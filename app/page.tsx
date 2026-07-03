@@ -2,6 +2,7 @@ import { Header } from '@/components/header'
 import { HeroSection } from '@/components/hero-section'
 import { BooksGrid } from '@/components/books-grid'
 import { Footer } from '@/components/footer'
+import { EventPopup } from '@/components/event-popup'
 
 export default function Home() {
   return (
@@ -10,6 +11,7 @@ export default function Home() {
       <HeroSection />
       <BooksGrid />
       <Footer />
+      <EventPopup />
     </main>
   )
 }
