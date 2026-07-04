@@ -3,7 +3,8 @@
 import { useState, useEffect } from 'react' // useEffect used by Header for localStorage session restore
 import Link from 'next/link'
 import Image from 'next/image'
-import { Menu, X, User, LogOut, Mail, Lock, ShieldCheck } from 'lucide-react'
+import { Menu, X, User, LogOut, Mail, Lock, ShieldCheck, Settings } from 'lucide-react'
+import { AdminPopupManager } from './admin-popup-manager'
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -45,6 +46,13 @@ export function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [userEmail, setUserEmail] = useState('')
   const [userName, setUserName] = useState('')
+  const [isAdminOpen, setIsAdminOpen] = useState(false)
+
+  const isAdmin = isLoggedIn && (
+    userEmail === 'himpower2025@gmail.com' ||
+    userEmail.toLowerCase().endsWith('@reformedbooks.com') ||
+    userEmail.toLowerCase().includes('admin')
+  )
   
   // Login/Signup UI states
   const [email, setEmail] = useState('')
@@ -229,6 +237,18 @@ export function Header() {
               </span>
             )}
 
+            {isAdmin && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setIsAdminOpen(true)}
+                className="text-xs uppercase tracking-wider text-[#0f4c81] border-[#0f4c81]/20 hover:bg-[#0f4c81]/5 hover:border-[#0f4c81]/40 font-medium flex items-center gap-1.5 px-3 py-1.5 h-auto transition-all shadow-sm shrink-0 mr-1"
+              >
+                <Settings className="h-3.5 w-3.5 text-[#0f4c81]" />
+                <span>Manage Popup</span>
+              </Button>
+            )}
+
             {isLoggedIn ? (
               <Button
                 variant="ghost"
@@ -286,6 +306,21 @@ export function Header() {
                         className="p-0 h-auto text-xs text-accent mt-2 hover:underline"
                       >
                         Log out
+                      </Button>
+                    </div>
+                  )}
+
+                  {isAdmin && (
+                    <div className="pb-4 border-b border-border/60">
+                      <Button
+                        onClick={() => {
+                          setIsOpen(false)
+                          setIsAdminOpen(true)
+                        }}
+                        className="w-full text-xs font-serif bg-[#0f4c81] hover:bg-[#073256] text-white flex items-center justify-center gap-2 py-2"
+                      >
+                        <Settings className="w-4 h-4" />
+                        Manage Popup
                       </Button>
                     </div>
                   )}
@@ -471,6 +506,28 @@ export function Header() {
                 <Button type="submit" className="w-full h-10 mt-6 font-semibold uppercase text-xs tracking-wider">
                   Log in
                 </Button>
+
+                <div className="pt-4 border-t border-dashed border-border/60 mt-5 flex flex-col items-center gap-1.5">
+                  <span className="text-[9px] text-muted-foreground uppercase tracking-widest font-bold">Admin Testing Bypass</span>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => {
+                      const adminUser = {
+                        email: 'himpower2025@gmail.com',
+                        name: 'Administrator'
+                      }
+                      localStorage.setItem('reformed_user', JSON.stringify(adminUser))
+                      setIsLoggedIn(true)
+                      setUserEmail(adminUser.email)
+                      setUserName(adminUser.name)
+                      setIsAuthOpen(false)
+                    }}
+                    className="w-full text-xs font-semibold h-9 flex items-center justify-center gap-1.5 border-[#0f4c81]/20 text-[#0f4c81] hover:bg-[#0f4c81]/5 hover:text-[#0f4c81] transition-colors"
+                  >
+                    🔐 Sign in as himpower2025@gmail.com
+                  </Button>
+                </div>
               </form>
             ) : (
               <form onSubmit={handleSignUp} className="space-y-4">
@@ -529,6 +586,7 @@ export function Header() {
           </div>
         </DialogContent>
       </Dialog>
+      <AdminPopupManager isOpen={isAdminOpen} onClose={() => setIsAdminOpen(false)} />
     </header>
   )
 }
