@@ -94,17 +94,18 @@ const flipStyles = `
   .page-flip {
     transform-origin: left center;
     transform-style: preserve-3d;
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
+    will-change: transform;
   }
   .page-face {
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
+    will-change: transform;
   }
   .page-back-face {
     transform: rotateY(180deg);
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
+    will-change: transform;
   }
   .spine-glow {
     background: linear-gradient(to right,
@@ -514,7 +515,7 @@ function OpenBook({
           {isFlipping && (
             <div
               ref={flipRef}
-              className="page-flip page-hover absolute overflow-hidden"
+              className="page-flip page-hover absolute"
               style={{
                 left: PAGE_W,
                 top: 0,
