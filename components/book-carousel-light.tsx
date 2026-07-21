@@ -622,18 +622,62 @@ export function BookCarouselLight() {
       <style>{flipStyles}</style>
 
       <section className="relative min-h-screen bg-background flex items-center justify-center overflow-hidden">
-        {/* 배경 장식 */}
-        <div className="absolute top-0 left-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
-        <div className="absolute bottom-0 right-0 w-96 h-96 bg-accent/5 rounded-full blur-3xl translate-x-1/2 translate-y-1/2" />
+        {/* Dynamic High-Energy Floating Background Blobs (통통 튀고 화사한 배경 연출) */}
+        <motion.div 
+          animate={{
+            x: [0, 40, -20, 0],
+            y: [0, -50, 30, 0],
+            scale: [1, 1.15, 0.9, 1]
+          }}
+          transition={{
+            duration: 15,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+          className="absolute top-1/4 left-10 w-96 h-96 bg-gradient-to-br from-primary/15 via-secondary/15 to-transparent rounded-full blur-3xl pointer-events-none" 
+        />
+        <motion.div 
+          animate={{
+            x: [0, -50, 30, 0],
+            y: [0, 40, -60, 0],
+            scale: [1, 0.9, 1.15, 1]
+          }}
+          transition={{
+            duration: 18,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+          className="absolute bottom-1/4 right-10 w-[450px] h-[450px] bg-gradient-to-tr from-accent/15 via-amber-200/15 to-transparent rounded-full blur-3xl pointer-events-none" 
+        />
+        <motion.div 
+          animate={{
+            y: [0, -30, 20, 0],
+            scale: [0.8, 1.1, 0.8]
+          }}
+          transition={{
+            duration: 12,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+          className="absolute top-10 right-1/4 w-80 h-80 bg-gradient-to-tr from-[#9c8eff]/10 to-transparent rounded-full blur-3xl pointer-events-none" 
+        />
 
         {/* 배경 대형 장식 텍스트 */}
-        <div
+        <motion.div
+          animate={{
+            y: [-8, 8, -8],
+          }}
+          transition={{
+            duration: 6,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
           className="absolute select-none pointer-events-none font-serif font-bold"
           style={{
             fontSize: 'clamp(8rem, 18vw, 18rem)',
             color: 'transparent',
-            WebkitTextStroke: '1px rgba(var(--accent), 0.06)',
-            opacity: 0.5,
+            WebkitTextStroke: '1px rgba(var(--accent), 0.08)',
+            opacity: 0.6,
             top: '50%',
             left: '50%',
             transform: 'translate(-50%, -50%)',
@@ -642,7 +686,7 @@ export function BookCarouselLight() {
           }}
         >
           BOOKS
-        </div>
+        </motion.div>
 
         <div className="relative z-10 w-full">
           <div className="mx-auto max-w-[1600px] px-6 md:px-12 xl:px-16 2xl:px-24">
@@ -650,14 +694,33 @@ export function BookCarouselLight() {
             {/* 헤더 */}
             <div className="text-center pt-10 md:pt-16 mb-6">
               <div className="flex items-center justify-center gap-3 mb-3">
-                <div className="w-8 h-px bg-accent/40" />
-                <span className="text-xs uppercase tracking-widest font-medium text-accent">
+                <motion.div 
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+                  className="text-accent text-lg"
+                >
+                  ✦
+                </motion.div>
+                <span className="text-xs uppercase tracking-widest font-extrabold text-accent">
                   Discover Our Works
                 </span>
-                <div className="w-8 h-px bg-accent/40" />
+                <motion.div 
+                  animate={{ rotate: -360 }}
+                  transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+                  className="text-accent text-lg"
+                >
+                  ✦
+                </motion.div>
               </div>
-              <h2 className="font-serif text-4xl md:text-5xl font-bold text-foreground">
+              <h2 className="font-serif text-4xl md:text-5xl font-black text-foreground tracking-tight drop-shadow-sm flex items-center justify-center gap-2">
                 Featured Books
+                <motion.span 
+                  animate={{ y: [0, -6, 0] }}
+                  transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                  className="inline-block text-accent text-3xl md:text-4xl"
+                >
+                  ✨
+                </motion.span>
               </h2>
             </div>
 
