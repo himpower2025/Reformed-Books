@@ -2,8 +2,8 @@ import type { Metadata } from 'next'
 import { LegalPage, LegalSection } from '@/components/legal-page'
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy | Reformed Books',
-  description: 'How Reformed Books collects, uses, and protects your personal information.',
+  title: 'Privacy Policy | Reformed Books House',
+  description: 'How Reformed Books House collects, uses, and protects your personal information.',
 }
 
 const LAST_UPDATED = 'May 27, 2026'
@@ -14,7 +14,7 @@ export default function PrivacyPolicyPage() {
     <LegalPage title="Privacy Policy" lastUpdated={LAST_UPDATED}>
       <LegalSection title="Introduction">
         <p>
-          Reformed Books (&quot;we,&quot; &quot;us,&quot; or &quot;our&quot;) operates the website at reformedbooks.com
+          Reformed Books House (&quot;we,&quot; &quot;us,&quot; or &quot;our&quot;) operates the website at reformedbooks.com
           and related services (collectively, the &quot;Site&quot;). This Privacy Policy explains how we collect, use,
           disclose, and safeguard information when you visit the Site, browse our catalog, subscribe to updates, or
           otherwise interact with us.

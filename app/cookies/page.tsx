@@ -2,8 +2,8 @@ import type { Metadata } from 'next'
 import { LegalPage, LegalSection } from '@/components/legal-page'
 
 export const metadata: Metadata = {
-  title: 'Cookie Policy | Reformed Books',
-  description: 'How Reformed Books uses cookies and similar technologies on this website.',
+  title: 'Cookie Policy | Reformed Books House',
+  description: 'How Reformed Books House uses cookies and similar technologies on this website.',
 }
 
 const LAST_UPDATED = 'May 27, 2026'
@@ -22,7 +22,7 @@ export default function CookiePolicyPage() {
       </LegalSection>
 
       <LegalSection title="How We Use Cookies">
-        <p>Reformed Books uses cookies for the following purposes:</p>
+        <p>Reformed Books House uses cookies for the following purposes:</p>
         <ul className="list-disc space-y-2 pl-5">
           <li>
             <strong className="text-foreground">Strictly necessary.</strong> Required for core Site functions such as

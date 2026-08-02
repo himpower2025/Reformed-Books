@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
+import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ChevronLeft, ChevronRight, Pause, Play } from 'lucide-react'
 
@@ -751,20 +752,32 @@ export function BookCarouselLight() {
                 </div>
 
                 {/* Information Card */}
-                <div className="flex-1 bg-white rounded-sm p-6 shadow-md border border-border/20">
-                  <h3 className="font-serif text-2xl font-bold text-foreground mb-2">
-                    {currentBook.title}
-                  </h3>
-                  <p className="text-sm text-foreground/75 leading-relaxed mb-4">
-                    {currentBook.description}
-                  </p>
-                  <div className="pt-3 border-t border-border flex items-center justify-between">
-                    <p className="text-xs uppercase tracking-widest text-muted-foreground font-medium">
-                      {currentBook.author}
-                    </p>
-                    <span className="text-[10px] uppercase tracking-widest text-accent border border-accent/30 px-2 py-0.5 rounded-[2px]">
+                <div className="flex-1 bg-gradient-to-r from-white via-white to-secondary/20 rounded-2xl p-6 shadow-xl border border-border/50 hover:shadow-2xl transition-all">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-[10px] uppercase tracking-widest text-accent bg-accent/10 border border-accent/20 font-extrabold px-3 py-1 rounded-full">
                       {currentBook.genre}
                     </span>
+                    <span className="text-xs font-bold text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
+                      ★ 4.9 Verified Reader Choice
+                    </span>
+                  </div>
+                  <h3 className="font-serif text-2xl md:text-3xl font-black text-foreground mb-2 tracking-tight">
+                    {currentBook.title}
+                  </h3>
+                  <p className="text-sm text-foreground/80 leading-relaxed mb-4 font-serif">
+                    {currentBook.description}
+                  </p>
+                  <div className="pt-4 border-t border-border/40 flex flex-wrap items-center justify-between gap-3">
+                    <p className="text-xs uppercase tracking-widest text-muted-foreground font-bold">
+                      Author: <span className="text-foreground">{currentBook.author}</span>
+                    </p>
+                    <Link
+                      href="/books/all"
+                      className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-primary hover:text-accent transition-colors bg-white px-4 py-2 rounded-full border border-primary/20 shadow-sm hover:shadow"
+                    >
+                      <span>Order Paperback or E-Book</span>
+                      <span>→</span>
+                    </Link>
                   </div>
                 </div>
               </motion.div>

@@ -4,39 +4,39 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: oklch(0.994 0.004 95); /* Bright, clean premium ivory-white, feels incredibly luminous */
-  --foreground: oklch(0.15 0.025 250); /* Deep royal navy ink instead of dark charcoal */
-  --card: oklch(1 0 0); /* Pure crisp white for cards to pop beautifully */
-  --card-foreground: oklch(0.15 0.025 250);
+  --background: oklch(0.992 0.003 240); /* Crisp, luminous porcelain white canvas - bright, clear, modern */
+  --foreground: oklch(0.24 0.025 250); /* Deep slate charcoal ink for refined readability without harsh black contrast */
+  --card: oklch(1 0 0); /* Pure crisp white cards */
+  --card-foreground: oklch(0.24 0.025 250);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.15 0.025 250);
-  --primary: oklch(0.52 0.21 254); /* Vibrant royal cobalt blue - intelligent, brilliant, high-energy */
-  --primary-foreground: oklch(0.99 0.005 95);
-  --secondary: oklch(0.95 0.035 220); /* Breezy light pastel ice blue for cheerful backgrounds */
-  --secondary-foreground: oklch(0.35 0.15 250);
-  --muted: oklch(0.965 0.015 240);
-  --muted-foreground: oklch(0.45 0.06 250);
-  --accent: oklch(0.66 0.20 38); /* Sparkling warm sunset coral/tangerine - incredibly popping and joyful */
-  --accent-foreground: oklch(0.99 0.005 95);
-  --destructive: oklch(0.55 0.18 28);
-  --destructive-foreground: oklch(0.99 0.005 95);
-  --border: oklch(0.92 0.025 240); /* Fresh, soft slate-blue border */
-  --input: oklch(0.92 0.025 240);
-  --ring: oklch(0.52 0.21 254);
-  --chart-1: oklch(0.66 0.20 38);
-  --chart-2: oklch(0.52 0.21 254);
-  --chart-3: oklch(0.48 0.16 145);
-  --chart-4: oklch(0.82 0.16 85); /* Cheerful bright sunburst yellow */
-  --chart-5: oklch(0.55 0.15 45);
-  --radius: 0.75rem; /* Slightly more rounded corners for a friendlier, modern feel */
+  --popover-foreground: oklch(0.24 0.025 250);
+  --primary: oklch(0.52 0.13 250); /* Refined Royal Slate Azure - luminous, intelligent, elegant */
+  --primary-foreground: oklch(0.99 0.003 240);
+  --secondary: oklch(0.97 0.012 240); /* Soft pearl ice blue tint for fresh, gentle backgrounds */
+  --secondary-foreground: oklch(0.35 0.08 250);
+  --muted: oklch(0.965 0.008 240);
+  --muted-foreground: oklch(0.48 0.03 250); /* Gentle warm slate text */
+  --accent: oklch(0.68 0.13 48); /* Soft Champagne Gold / Warm Rose Gold - sophisticated, warm, non-harsh */
+  --accent-foreground: oklch(0.99 0.003 240);
+  --destructive: oklch(0.58 0.14 28);
+  --destructive-foreground: oklch(0.99 0.003 240);
+  --border: oklch(0.925 0.012 240); /* Delicate, clean soft slate border */
+  --input: oklch(0.925 0.012 240);
+  --ring: oklch(0.52 0.13 250);
+  --chart-1: oklch(0.68 0.13 48);
+  --chart-2: oklch(0.52 0.13 250);
+  --chart-3: oklch(0.58 0.12 150);
+  --chart-4: oklch(0.82 0.12 85);
+  --chart-5: oklch(0.60 0.11 45);
+  --radius: 0.875rem; /* Sleek, friendly rounded corners */
   --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.20 0 0);
+  --sidebar-primary: oklch(0.52 0.13 250);
   --sidebar-primary-foreground: oklch(0.985 0 0);
   --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-accent-foreground: oklch(0.20 0 0);
   --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --sidebar-ring: oklch(0.52 0.13 250);
 }
 
 .dark {

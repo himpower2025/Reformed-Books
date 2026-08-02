@@ -2,8 +2,8 @@ import type { Metadata } from 'next'
 import { LegalPage, LegalSection } from '@/components/legal-page'
 
 export const metadata: Metadata = {
-  title: 'Terms of Service | Reformed Books',
-  description: 'Terms and conditions for using the Reformed Books website and services.',
+  title: 'Terms of Service | Reformed Books House',
+  description: 'Terms and conditions for using the Reformed Books House website and services.',
 }
 
 const LAST_UPDATED = 'May 27, 2026'
@@ -14,8 +14,8 @@ export default function TermsOfServicePage() {
     <LegalPage title="Terms of Service" lastUpdated={LAST_UPDATED}>
       <LegalSection title="Agreement to Terms">
         <p>
-          These Terms of Service (&quot;Terms&quot;) govern your access to and use of the Reformed Books website and
-          related services (the &quot;Site&quot;), operated by Reformed Books (&quot;we,&quot; &quot;us,&quot; or
+          These Terms of Service (&quot;Terms&quot;) govern your access to and use of the Reformed Books House website and
+          related services (the &quot;Site&quot;), operated by Reformed Books House (&quot;we,&quot; &quot;us,&quot; or
           &quot;our&quot;). By accessing or using the Site, you agree to these Terms and our{' '}
           <a href="/privacy" className="text-accent underline-offset-2 hover:underline">
             Privacy Policy

@@ -1,6 +1,5 @@
-// Reformed Books Central Database Simulation File
+// Reformed Books House Central Database Simulation File
 // This file acts as our local lightweight relational database.
-// When you upload your SQL file or paste the SQL INSERT scripts here, we can easily parse and populate this data structure!
 
 export interface Book {
   id: string;
@@ -27,6 +26,24 @@ export interface Article {
   readTime: string;
   category: string;
   image: string;
+}
+
+export interface EventItem {
+  id: string;
+  title: string;
+  subtitle: string;
+  category: 'special-sale' | 'book-release' | 'symposium';
+  categoryLabel: string;
+  status: 'UPCOMING' | 'ONGOING' | 'ENDED';
+  date: string;
+  time: string;
+  location: string;
+  badge: string;
+  discountRate?: string;
+  description: string;
+  highlights: string[];
+  image: string;
+  registrationUrl?: string;
 }
 
 export interface Thought {
@@ -162,6 +179,72 @@ export const articlesData: Article[] = [
   }
 ];
 
+export const eventsData: EventItem[] = [
+  {
+    id: "e1",
+    title: "2026 Grand Autumn Theological Book Fair & Special Sale",
+    subtitle: "Up to 35% Off Hardcovers & Free Global Shipping on Bundles",
+    category: "special-sale",
+    categoryLabel: "Special Promotion",
+    status: "ONGOING",
+    date: "August 15 – September 15, 2026",
+    time: "All Day Online & In-Store",
+    location: "Reformed Books House Main Gallery & Online Store",
+    badge: "🔥 Hot Publisher Sale",
+    discountRate: "35% OFF",
+    description: "Reformed Books House is excited to announce our flagship Autumn Special Sale Event! Celebrate the release of our landmark 6-Volume Theology Collection with exclusive limited edition clothbound hardcovers, companion study guides, and instant EPUB bundle packs.",
+    highlights: [
+      "Special 35% discount on complete 6-volume hardcover box sets",
+      "Free custom embossed leather bookmarks with every order over $50",
+      "Instant digital PDF/EPUB download link emailed immediately upon purchase",
+      "Live author Q&A session broadcasted on August 20th"
+    ],
+    image: "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=800&h=500&fit=crop",
+    registrationUrl: "/books/all"
+  },
+  {
+    id: "e2",
+    title: "Book Launch & Symposium: 'The Doctrine of God' Special Edition",
+    subtitle: "Meet Dr. James Mitchell & The Editorial Board",
+    category: "book-release",
+    categoryLabel: "Release Ceremony",
+    status: "UPCOMING",
+    date: "September 05, 2026",
+    time: "14:00 - 17:00 EST",
+    location: "Grand Auditorium & Live High-Definition Stream",
+    badge: "✨ Author Launch Event",
+    description: "Join us for an inspiring afternoon as Reformed Books House unveils the newly revised, expanded hardback edition of 'The Doctrine of God'. Includes keynote lectures, live chamber classical music performance, author signings, and a reception.",
+    highlights: [
+      "Keynote address by chief editor Dr. James Mitchell",
+      "Signed hardback copies reserved for the first 100 registered attendees",
+      "Commemorative linen notebook included for all in-person guests",
+      "Interactive Q&A session with the editorial scholars panel"
+    ],
+    image: "https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=800&h=500&fit=crop",
+    registrationUrl: "#register"
+  },
+  {
+    id: "e3",
+    title: "Reformed Worldview Conference & Historical Confessions Exhibition",
+    subtitle: "Exploring 16th Century Catechisms in Modern Typography",
+    category: "symposium",
+    categoryLabel: "Academic Exhibition",
+    status: "UPCOMING",
+    date: "October 10 – October 12, 2026",
+    time: "09:00 - 18:00 EST Daily",
+    location: "Reformed Books House Exhibition Hall, New York",
+    badge: "🏛️ Academic Exhibition",
+    description: "A three-day symposium bringing together seminary professors, graphic designers, historians, and readers. Discover rare archival manuscripts alongside Reformed Books House's modern high-craft press editions.",
+    highlights: [
+      "View 17th-century original leatherbound printings alongside modern press editions",
+      "Masterclass on typography and historic bookbinding craft",
+      "Special 20% discount voucher for all conference attendees"
+    ],
+    image: "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=800&h=500&fit=crop",
+    registrationUrl: "#register"
+  }
+];
+
 export const thoughtsData: Thought[] = [
   {
     id: "t1",
@@ -200,5 +283,6 @@ export const aboutData = {
     { title: "Aesthetic Excellence", desc: "Every cover, font, and layout is crafted with meticulous care to honor the content." },
     { title: "All of Life", desc: "From high-level academic dogmatics to lyrical storybooks for children, Christ is Lord over all." }
   ],
-  story: "Founded by a group of pastors, designers, and educators, Reformed Books began with a simple observation: beautiful books inspire beautiful thoughts. We set out to create a publishing house where historic truths meet contemporary aesthetic design. Today, we serve thousands of readers around the globe with books that feed the mind and delight the eyes."
+  story: "Founded by a group of pastors, designers, and educators, Reformed Books House began with a simple observation: beautiful books inspire beautiful thoughts. We set out to create a publishing house where historic truths meet contemporary aesthetic design. Today, we serve thousands of readers around the globe with books that feed the mind and delight the eyes."
 };
+

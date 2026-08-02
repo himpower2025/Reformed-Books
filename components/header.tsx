@@ -151,82 +151,105 @@ export function Header() {
   }
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-gradient-to-b from-background to-background/95 border-b border-border">
-      <nav className="mx-auto max-w-[1600px] px-6 py-5 md:px-12 lg:px-16">
-        <div className="flex items-center justify-between">
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-3.5 group">
-            <AdaptiveLogo />
-            <div className="flex flex-col items-start gap-0">
-              <div className="text-sm tracking-wider font-serif font-bold text-primary leading-tight">REFORMED</div>
-              <div className="text-xs tracking-widest font-sans text-muted-foreground group-hover:text-accent transition-colors">BOOKS</div>
+    <>
+      {/* Radiant Top Announcement Bar */}
+      <div className="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-amber-100/90 py-2 px-4 text-xs text-center font-serif font-medium flex items-center justify-center gap-2 shadow-sm relative z-50 border-b border-amber-500/20">
+        <span className="inline-block px-2.5 py-0.5 rounded-full bg-amber-400/20 text-amber-200 text-[10px] font-extrabold uppercase tracking-widest">
+          ✨ Special Announcement
+        </span>
+        <span className="hidden sm:inline">Preserving Classic Truths for Modern Readers —</span>
+        <span>Worldwide Shipping & Instant Digital E-Books</span>
+        <Link href="/books/all" className="underline font-bold text-amber-200 hover:text-white transition-colors ml-2">
+          Explore Catalog →
+        </Link>
+      </div>
+
+      <header className="sticky top-0 z-40 w-full backdrop-blur-md bg-background/90 border-b border-border/60 shadow-sm transition-all">
+        <nav className="mx-auto max-w-[1600px] px-6 py-4 md:px-12 lg:px-16">
+          <div className="flex items-center justify-between">
+            {/* Logo */}
+            <Link href="/" className="flex items-center gap-3.5 group">
+              <AdaptiveLogo />
+              <div className="flex flex-col items-start gap-0">
+                <div className="text-base tracking-wider font-serif font-black text-primary leading-tight group-hover:text-accent transition-colors">
+                  REFORMED
+                </div>
+                <div className="text-[10px] tracking-[0.2em] font-sans font-extrabold text-muted-foreground group-hover:text-primary transition-colors uppercase">
+                  Books House
+                </div>
+              </div>
+            </Link>
+
+            {/* Decorative Line */}
+            <div className="hidden lg:block absolute left-0 right-0 top-16 h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent" />
+
+            {/* Desktop Navigation */}
+            <div className="hidden gap-1 md:flex items-center bg-secondary/30 px-3 py-1.5 rounded-full border border-border/40 shadow-inner">
+              <NavigationMenu>
+                <NavigationMenuList className="gap-1">
+                  {/* Books Dropdown */}
+                  <NavigationMenuItem>
+                    <NavigationMenuTrigger className="text-xs uppercase tracking-wider font-bold text-foreground hover:text-primary data-[state=open]:text-primary transition-colors bg-transparent hover:bg-white/60">
+                      Books
+                    </NavigationMenuTrigger>
+                    <NavigationMenuContent>
+                      <div className="w-52 p-4 space-y-3 bg-background border border-border rounded-xl shadow-xl mt-2">
+                        <Link href="/books/all" className="flex items-center justify-between p-2 rounded-lg hover:bg-secondary/40 text-sm font-semibold text-foreground hover:text-primary transition-colors font-serif">
+                          <span>All Catalog</span>
+                          <span className="text-[10px] bg-accent/10 text-accent font-extrabold px-2 py-0.5 rounded">6 Volumes</span>
+                        </Link>
+                        <Link href="/books/categories" className="flex items-center justify-between p-2 rounded-lg hover:bg-secondary/40 text-sm font-semibold text-foreground hover:text-primary transition-colors font-serif">
+                          <span>Categories</span>
+                          <span className="text-[10px] bg-primary/10 text-primary font-extrabold px-2 py-0.5 rounded">Browse</span>
+                        </Link>
+                      </div>
+                    </NavigationMenuContent>
+                  </NavigationMenuItem>
+
+                  {/* EVENTS Dropdown */}
+                  <NavigationMenuItem>
+                    <NavigationMenuTrigger className="text-xs uppercase tracking-wider font-bold text-foreground hover:text-primary data-[state=open]:text-primary transition-colors bg-transparent hover:bg-white/60 flex items-center gap-1">
+                      <span className="text-amber-500 font-extrabold">🎉</span> EVENT
+                    </NavigationMenuTrigger>
+                    <NavigationMenuContent>
+                      <div className="w-64 p-4 space-y-2 bg-background border border-border rounded-xl shadow-xl mt-2">
+                        <Link href="/events" className="block p-2 rounded-lg hover:bg-secondary/40 text-sm text-foreground hover:text-primary transition-colors font-semibold font-serif">
+                          <div className="flex items-center justify-between">
+                            <span>All Events (전체 행사)</span>
+                            <span className="text-[9px] bg-emerald-600 text-white font-extrabold px-1.5 py-0.5 rounded">HOT</span>
+                          </div>
+                          <span className="text-[10px] text-muted-foreground block font-normal mt-0.5">Special Publisher Sales & Launch Events</span>
+                        </Link>
+                        <Link href="/events" className="block p-2 rounded-lg hover:bg-secondary/40 text-sm text-foreground hover:text-primary transition-colors font-semibold font-serif">
+                          <span>Special Sales & Bundles (특판)</span>
+                        </Link>
+                        <Link href="/events" className="block p-2 rounded-lg hover:bg-secondary/40 text-sm text-foreground hover:text-primary transition-colors font-semibold font-serif">
+                          <span>Book Launch & Exhibitions</span>
+                        </Link>
+                      </div>
+                    </NavigationMenuContent>
+                  </NavigationMenuItem>
+
+                  {/* Articles */}
+                  <NavigationMenuItem>
+                    <Link href="/articles" legacyBehavior passHref>
+                      <NavigationMenuLink className="text-xs uppercase tracking-wider font-bold text-foreground hover:text-primary transition-colors px-3 py-1.5 rounded-full hover:bg-white/60">
+                        Articles
+                      </NavigationMenuLink>
+                    </Link>
+                  </NavigationMenuItem>
+
+                  {/* About Us */}
+                  <NavigationMenuItem>
+                    <Link href="/about" legacyBehavior passHref>
+                      <NavigationMenuLink className="text-xs uppercase tracking-wider font-bold text-foreground hover:text-primary transition-colors px-3 py-1.5 rounded-full hover:bg-white/60">
+                        About Us
+                      </NavigationMenuLink>
+                    </Link>
+                  </NavigationMenuItem>
+                </NavigationMenuList>
+              </NavigationMenu>
             </div>
-          </Link>
-
-          {/* Decorative Line */}
-          <div className="hidden lg:block absolute left-0 right-0 top-20 h-px bg-gradient-to-r from-transparent via-accent to-transparent opacity-40" />
-
-          {/* Desktop Navigation */}
-          <div className="hidden gap-0.5 md:flex">
-            <NavigationMenu>
-              <NavigationMenuList className="gap-0">
-                {/* Books Dropdown */}
-                <NavigationMenuItem>
-                  <NavigationMenuTrigger className="text-xs uppercase tracking-wide font-medium text-foreground hover:text-accent data-[state=open]:text-accent transition-colors">
-                    Books
-                  </NavigationMenuTrigger>
-                  <NavigationMenuContent>
-                    <div className="w-48 p-4 space-y-3 bg-background border border-border rounded-lg mt-2">
-                      <Link href="/books/all" className="block text-sm text-foreground hover:text-accent transition-colors font-medium font-serif">
-                        All Books
-                      </Link>
-                      <Link href="/books/categories" className="block text-sm text-foreground hover:text-accent transition-colors font-medium font-serif">
-                        Categories
-                      </Link>
-                    </div>
-                  </NavigationMenuContent>
-                </NavigationMenuItem>
-
-                {/* Our Thought Dropdown */}
-                <NavigationMenuItem>
-                  <NavigationMenuTrigger className="text-xs uppercase tracking-wide font-medium text-foreground hover:text-accent data-[state=open]:text-accent transition-colors">
-                    Our Thought
-                  </NavigationMenuTrigger>
-                  <NavigationMenuContent>
-                    <div className="w-48 p-4 space-y-3 bg-background border border-border rounded-lg mt-2">
-                      <Link href="/thought/christ-culture" className="block text-sm text-foreground hover:text-accent transition-colors font-medium font-serif">
-                        Christ & Culture
-                      </Link>
-                      <Link href="/thought/reformed-worldview" className="block text-sm text-foreground hover:text-accent transition-colors font-medium font-serif">
-                        Reformed Worldview
-                      </Link>
-                      <Link href="/thought/doctrine" className="block text-sm text-foreground hover:text-accent transition-colors font-medium font-serif">
-                        Doctrine
-                      </Link>
-                    </div>
-                  </NavigationMenuContent>
-                </NavigationMenuItem>
-
-                {/* Articles */}
-                <NavigationMenuItem>
-                  <Link href="/articles" legacyBehavior passHref>
-                    <NavigationMenuLink className="text-xs uppercase tracking-wide font-medium text-foreground hover:text-accent transition-colors px-3 py-2">
-                      Articles
-                    </NavigationMenuLink>
-                  </Link>
-                </NavigationMenuItem>
-
-                {/* About Us */}
-                <NavigationMenuItem>
-                  <Link href="/about" legacyBehavior passHref>
-                    <NavigationMenuLink className="text-xs uppercase tracking-wide font-medium text-foreground hover:text-accent transition-colors px-3 py-2">
-                      About Us
-                    </NavigationMenuLink>
-                  </Link>
-                </NavigationMenuItem>
-              </NavigationMenuList>
-            </NavigationMenu>
-          </div>
 
           {/* Right Side - Account & Mobile Menu */}
           <div className="flex items-center gap-3">
@@ -337,16 +360,18 @@ export function Header() {
                     </div>
                   </div>
                   <div>
-                    <h3 className="font-serif font-bold mb-3 text-foreground uppercase tracking-wide text-sm">Our Thought</h3>
+                    <h3 className="font-serif font-bold mb-3 text-foreground uppercase tracking-wide text-sm flex items-center gap-1.5">
+                      <span>🎉</span> EVENT & Special Sales
+                    </h3>
                     <div className="space-y-2 pl-4">
-                      <Link href="/thought/christ-culture" onClick={() => setIsOpen(false)} className="block text-sm text-foreground hover:text-accent transition-colors">
-                        Christ & Culture
+                      <Link href="/events" onClick={() => setIsOpen(false)} className="block text-sm text-foreground hover:text-accent font-bold transition-colors">
+                        All Special Events (전체 행사)
                       </Link>
-                      <Link href="/thought/reformed-worldview" onClick={() => setIsOpen(false)} className="block text-sm text-foreground hover:text-accent transition-colors">
-                        Reformed Worldview
+                      <Link href="/events" onClick={() => setIsOpen(false)} className="block text-sm text-foreground hover:text-accent transition-colors">
+                        Special Sales & Bundles (특판)
                       </Link>
-                      <Link href="/thought/doctrine" onClick={() => setIsOpen(false)} className="block text-sm text-foreground hover:text-accent transition-colors">
-                        Doctrine
+                      <Link href="/events" onClick={() => setIsOpen(false)} className="block text-sm text-foreground hover:text-accent transition-colors">
+                        Book Launch & Exhibitions
                       </Link>
                     </div>
                   </div>
@@ -388,7 +413,7 @@ export function Header() {
               {authTab === 'signin' ? 'Welcome Back' : 'Join Our Fellowship'}
             </DialogTitle>
             <DialogDescription className="text-xs text-muted-foreground mt-1.5">
-              Access your personal space in Reformed Books
+              Access your personal space in Reformed Books House
             </DialogDescription>
           </DialogHeader>
 
@@ -588,6 +613,7 @@ export function Header() {
       </Dialog>
       <AdminPopupManager isOpen={isAdminOpen} onClose={() => setIsAdminOpen(false)} />
     </header>
+    </>
   )
 }
 

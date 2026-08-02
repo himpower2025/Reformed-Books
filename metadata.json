@@ -1,6 +1,6 @@
 {
-  "name": "Reformed Books",
-  "description": "An interactive web platform for Reformed Books",
+  "name": "Reformed Books House",
+  "description": "Official interactive web platform for Reformed Books House",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

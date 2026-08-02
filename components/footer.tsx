@@ -2,19 +2,21 @@ import Link from 'next/link'
 import { Youtube, Facebook, Instagram, Mail } from 'lucide-react'
 
 export function Footer() {
-  const currentYear = 2020
+  const currentYear = new Date().getFullYear()
 
   return (
-    <footer className="border-t border-border bg-background">
-      <div className="mx-auto max-w-[1600px] px-6 py-20 md:px-12 lg:px-16">
+    <footer className="border-t border-border bg-white text-foreground">
+      <div className="mx-auto max-w-[1600px] px-6 py-16 md:px-12 lg:px-16">
         {/* Footer Content */}
         <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-4 mb-16">
           {/* Brand */}
           <div>
             <div className="mb-6">
-              <h3 className="text-sm font-serif font-bold text-foreground uppercase tracking-wide">Reformed Books</h3>
-              <p className="text-sm text-muted-foreground mt-3 leading-relaxed">
-                Publishing transformative works on reformed theology, faith, and contemporary worldview since {currentYear}.
+              <h3 className="text-base font-serif font-black text-primary uppercase tracking-wider flex items-center gap-2">
+                <span>📖</span> Reformed Books House
+              </h3>
+              <p className="text-xs text-muted-foreground mt-3 leading-relaxed font-serif">
+                Publishing transformative works on reformed theology, faith, and contemporary worldview with high aesthetic craftsmanship since 2026.
               </p>
             </div>
           </div>
@@ -24,22 +26,22 @@ export function Footer() {
             <h4 className="font-serif font-bold text-foreground mb-4 uppercase tracking-wide text-xs">Resources</h4>
             <ul className="space-y-2.5">
               <li>
-                <Link href="/books" className="text-sm text-muted-foreground hover:text-accent transition-colors">
-                  All Books
+                <Link href="/events" className="text-xs text-emerald-700 hover:text-primary font-extrabold transition-colors flex items-center gap-1">
+                  <span>🎉</span> Special Events & Sales
                 </Link>
               </li>
               <li>
-                <Link href="/articles" className="text-sm text-muted-foreground hover:text-accent transition-colors">
-                  Articles
+                <Link href="/books/all" className="text-xs text-muted-foreground hover:text-primary font-medium transition-colors">
+                  All Catalog
                 </Link>
               </li>
               <li>
-                <Link href="/authors" className="text-sm text-muted-foreground hover:text-accent transition-colors">
-                  Authors
+                <Link href="/articles" className="text-xs text-muted-foreground hover:text-primary font-medium transition-colors">
+                  Articles & Essays
                 </Link>
               </li>
               <li>
-                <Link href="/categories" className="text-sm text-muted-foreground hover:text-accent transition-colors">
+                <Link href="/books/categories" className="text-xs text-muted-foreground hover:text-primary font-medium transition-colors">
                   Categories
                 </Link>
               </li>
@@ -134,7 +136,7 @@ export function Footer() {
 
             {/* Copyright */}
             <p className="text-xs text-muted-foreground uppercase tracking-wider">
-              © {currentYear} Reformed Books. All rights reserved.
+              © {currentYear} Reformed Books House. All rights reserved.
             </p>
           </div>
         </div>

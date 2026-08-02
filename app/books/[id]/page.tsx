@@ -446,7 +446,7 @@ export default function BookDetailPage({ params }: { params: Promise<{ id: strin
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs font-serif">
                     <div>
                       <span className="text-muted-foreground block text-[10px] uppercase font-sans">Publisher</span>
-                      <span className="font-semibold text-foreground">Reformed Books Press</span>
+                      <span className="font-semibold text-foreground">Reformed Books House</span>
                     </div>
                     <div>
                       <span className="text-muted-foreground block text-[10px] uppercase font-sans">Pages</span>

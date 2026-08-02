@@ -42,7 +42,7 @@ const DEFAULT_CONFIG: PopupConfig = {
   mode: 'standard',
   standard: {
     title: "Writer's Workshop",
-    subtitle: "Presented by Reformed Books",
+    subtitle: "Presented by Reformed Books House",
     description: "\"Unleash your voice, refine your craft, and explore theological depth in writing under the guidance of seasoned editors.\"",
     date: "Aug 2 (Sun) – Aug 4 (Tue), 2026",
     scheduleNote: "3-Day Intensive Program",
@@ -273,7 +273,7 @@ export function AdminPopupManager({ isOpen, onClose }: AdminPopupManagerProps) {
               <div className="space-y-6">
                 <div>
                   <h4 className="text-sm font-semibold text-foreground uppercase tracking-wider mb-1">Global Visibility Switch</h4>
-                  <p className="text-xs text-muted-foreground">Toggle the popup visibility for all guests visiting the Reformed Books website.</p>
+                  <p className="text-xs text-muted-foreground">Toggle the popup visibility for all guests visiting the Reformed Books House website.</p>
                 </div>
 
                 <div className="p-4 rounded-xl border border-border bg-secondary/15 flex items-center justify-between">

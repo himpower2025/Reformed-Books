@@ -36,7 +36,7 @@ const DEFAULT_CONFIG: PopupConfig = {
   mode: 'standard',
   standard: {
     title: "Writer's Workshop",
-    subtitle: "Presented by Reformed Books",
+    subtitle: "Presented by Reformed Books House",
     description: "\"Unleash your voice, refine your craft, and explore theological depth in writing under the guidance of seasoned editors.\"",
     date: "Aug 2 (Sun) – Aug 4 (Tue), 2026",
     scheduleNote: "3-Day Intensive Program",
