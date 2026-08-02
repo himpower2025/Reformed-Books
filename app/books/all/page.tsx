@@ -212,9 +212,11 @@ export default function AllBooksPage() {
                   </div>
                   
                   <div className="flex gap-2">
-                    <Button className="flex-1 text-xs uppercase font-bold tracking-wider py-5 bg-primary hover:bg-primary/90 text-primary-foreground">
-                      Purchase Book
-                    </Button>
+                    <Link href={`/books/${selectedBook.id}`} className="flex-1">
+                      <Button className="w-full text-xs uppercase font-bold tracking-wider py-5 bg-primary hover:bg-primary/90 text-primary-foreground">
+                        View Details & Order (Paperback / E-book)
+                      </Button>
+                    </Link>
                     <Button variant="outline" className="text-xs uppercase font-bold tracking-wider py-5" onClick={() => setSelectedBook(null)}>
                       Close
                     </Button>

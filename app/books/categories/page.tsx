@@ -116,7 +116,7 @@ export default function BookCategoriesPage() {
                   <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
                     {associatedBooks.map((book) => (
                       <div key={book.id} className="group relative">
-                        <Link href="/books/all" className="block">
+                        <Link href={`/books/${book.id}`} className="block">
                           <div className="aspect-[2/3] w-full relative overflow-hidden rounded bg-secondary/10 border border-border/40 p-2 shadow-sm group-hover:shadow-md transition-all duration-300">
                             <img
                               src={book.image}

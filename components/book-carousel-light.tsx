@@ -5,9 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { ChevronLeft, ChevronRight, Pause, Play } from 'lucide-react'
 
 // ─────────────────────────────────────────────────────────────
-// TODO: 실제 출판사 도서 데이터로 교체하세요
-// 각 book의 color는 Tailwind gradient 클래스 (from-*/to-*)
-// coverImage: '/images/book-cover-1.jpg' 형태로 추가 가능
+// Book catalog dataset for featured carousel
 // ─────────────────────────────────────────────────────────────
 const BOOKS_DATA = [
   {
@@ -77,7 +75,7 @@ const BOOKS_DATA = [
   }
 ]
 
-// ─── 3D Page Flip 핵심 스타일 (Tailwind로 표현 불가한 부분만 인라인) ───
+// ─── 3D Page Flip core styling ───
 const flipStyles = `
   .book-scene {
     perspective: 2200px;
@@ -572,7 +570,7 @@ function OpenBook({
   )
 }
 
-// ─── 메인 컴포넌트 ───
+// ─── Main Carousel Component ───
 export function BookCarouselLight() {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [flippingDir, setFlippingDir] = useState<'forward' | 'backward' | null>(null)
@@ -580,7 +578,7 @@ export function BookCarouselLight() {
   const [isAutoPlay, setIsAutoPlay] = useState(true)
   const pendingIndex = useRef<number | null>(null)
 
-  // 표시 중인 책 (애니메이션 중에는 이전 책 유지)
+  // Currently active book index
   const displayIndex = currentIndex
   const nextDisplayIndex = (currentIndex + 1) % BOOKS_DATA.length
   const currentBook = BOOKS_DATA[displayIndex]
@@ -622,7 +620,7 @@ export function BookCarouselLight() {
       <style>{flipStyles}</style>
 
       <section className="relative min-h-screen bg-background flex items-center justify-center overflow-hidden">
-        {/* Dynamic High-Energy Floating Background Blobs (통통 튀고 화사한 배경 연출) */}
+        {/* Floating background ambient graphics */}
         <motion.div 
           animate={{
             x: [0, 40, -20, 0],
@@ -662,7 +660,7 @@ export function BookCarouselLight() {
           className="absolute top-10 right-1/4 w-80 h-80 bg-gradient-to-tr from-[#9c8eff]/10 to-transparent rounded-full blur-3xl pointer-events-none" 
         />
 
-        {/* 배경 대형 장식 텍스트 */}
+        {/* Large background typography */}
         <motion.div
           animate={{
             y: [-8, 8, -8],
@@ -691,7 +689,7 @@ export function BookCarouselLight() {
         <div className="relative z-10 w-full">
           <div className="mx-auto max-w-[1600px] px-6 md:px-12 xl:px-16 2xl:px-24">
 
-            {/* 헤더 */}
+            {/* Section Header */}
             <div className="text-center pt-10 md:pt-16 mb-6">
               <div className="flex items-center justify-center gap-3 mb-3">
                 <motion.div 
@@ -724,7 +722,7 @@ export function BookCarouselLight() {
               </h2>
             </div>
 
-            {/* ── 3D 책 펼침 영역 ── */}
+            {/* ── 3D Book Display Area ── */}
             <OpenBook
               currentIndex={currentIndex}
               flippingDir={flippingDir}
@@ -732,7 +730,7 @@ export function BookCarouselLight() {
               onFlipEnd={handleFlipEnd}
             />
 
-            {/* 책 정보 패널 */}
+            {/* Book Info Panel */}
             <AnimatePresence mode="wait">
               <motion.div
                 key={currentIndex}
@@ -742,7 +740,7 @@ export function BookCarouselLight() {
                 transition={{ duration: 0.45, ease: 'easeOut' }}
                 className="mt-10 flex flex-col md:flex-row items-start md:items-center gap-6 md:gap-12"
               >
-                {/* 페이지 번호 표시 */}
+                {/* Page number counter */}
                 <div className="flex items-baseline gap-3 shrink-0">
                   <span className="font-serif text-6xl font-bold text-accent/25 leading-none">
                     {String(currentIndex + 1).padStart(2, '0')}
@@ -752,7 +750,7 @@ export function BookCarouselLight() {
                   </span>
                 </div>
 
-                {/* 흰 카드 (책 정보) */}
+                {/* Information Card */}
                 <div className="flex-1 bg-white rounded-sm p-6 shadow-md border border-border/20">
                   <h3 className="font-serif text-2xl font-bold text-foreground mb-2">
                     {currentBook.title}
@@ -772,11 +770,11 @@ export function BookCarouselLight() {
               </motion.div>
             </AnimatePresence>
 
-            {/* 컨트롤 */}
+            {/* Navigation Controls */}
             <div className="flex flex-col gap-5 mt-8">
               <div className="flex items-center justify-center gap-4">
 
-                {/* 이전 버튼 */}
+                {/* Previous Button */}
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -788,7 +786,7 @@ export function BookCarouselLight() {
                   <ChevronLeft className="w-5 h-5" />
                 </motion.button>
 
-                {/* 도트 인디케이터 */}
+                {/* Dot Indicators */}
                 <div className="flex gap-3">
                   {BOOKS_DATA.map((_, index) => (
                     <motion.button
@@ -806,7 +804,7 @@ export function BookCarouselLight() {
                   ))}
                 </div>
 
-                {/* 다음 버튼 */}
+                {/* Next Button */}
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -819,7 +817,7 @@ export function BookCarouselLight() {
                 </motion.button>
               </div>
 
-              {/* 자동 재생 토글 */}
+              {/* Auto play toggle */}
               <div className="flex items-center justify-center">
                 <motion.button
                   whileHover={{ scale: 1.05 }}

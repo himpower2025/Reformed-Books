@@ -37,7 +37,7 @@ export function BookPageTurner() {
   const [isInitialLoad, setIsInitialLoad] = useState(true)
   const [autoPlay, setAutoPlay] = useState(false)
 
-  // 페이지 로드 후 1초 후에 첫 OPEN 버튼 자동 작동
+  // Auto-trigger open animation after 1 second on initial load
   useEffect(() => {
     const initialTimer = setTimeout(() => {
       setAutoPlay(true)
@@ -47,7 +47,7 @@ export function BookPageTurner() {
     return () => clearTimeout(initialTimer)
   }, [])
 
-  // 컨텐츠 표시 후 2초 후 다음 페이지로 자동 넘어감
+  // Auto-advance to next page 2 seconds after displaying content
   useEffect(() => {
     if (showContent && !isInitialLoad) {
       const contentTimer = setTimeout(() => {
