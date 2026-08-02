@@ -16,7 +16,7 @@ export function Footer() {
                 <span>📖</span> Reformed Books House
               </h3>
               <p className="text-xs text-muted-foreground mt-3 leading-relaxed font-serif">
-                Publishing transformative works on reformed theology, faith, and contemporary worldview with high aesthetic craftsmanship since 2026.
+                Publishing transformative works on reformed theology, faith, and contemporary worldview with high aesthetic craftsmanship since 2020.
               </p>
             </div>
           </div>
@@ -136,7 +136,7 @@ export function Footer() {
 
             {/* Copyright */}
             <p className="text-xs text-muted-foreground uppercase tracking-wider">
-              © {currentYear} Reformed Books House. All rights reserved.
+              © 2020 Reformed Books House. All rights reserved.
             </p>
           </div>
         </div>

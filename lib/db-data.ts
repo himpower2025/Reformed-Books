@@ -283,6 +283,6 @@ export const aboutData = {
     { title: "Aesthetic Excellence", desc: "Every cover, font, and layout is crafted with meticulous care to honor the content." },
     { title: "All of Life", desc: "From high-level academic dogmatics to lyrical storybooks for children, Christ is Lord over all." }
   ],
-  story: "Founded by a group of pastors, designers, and educators, Reformed Books House began with a simple observation: beautiful books inspire beautiful thoughts. We set out to create a publishing house where historic truths meet contemporary aesthetic design. Today, we serve thousands of readers around the globe with books that feed the mind and delight the eyes."
+  story: "Founded in 2020 by a group of pastors, designers, and educators, Reformed Books House began with a simple observation: beautiful books inspire beautiful thoughts. We set out to create a publishing house where historic truths meet contemporary aesthetic design. Today, we serve thousands of readers around the globe with books that feed the mind and delight the eyes."
 };
 

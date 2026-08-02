@@ -30,6 +30,7 @@ import {
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { CheckoutModal } from '@/components/checkout-modal'
 
 interface Review {
   id: string
@@ -53,6 +54,8 @@ export default function BookDetailPage({ params }: { params: Promise<{ id: strin
   const [copiedShare, setCopiedShare] = useState(false)
   const [toastMessage, setToastMessage] = useState<string | null>(null)
   const [showPreviewModal, setShowPreviewModal] = useState(false)
+  const [showCheckoutModal, setShowCheckoutModal] = useState(false)
+  const [checkoutFormat, setCheckoutFormat] = useState<'paperback' | 'ebook'>('paperback')
 
   // Reviews State
   const [reviews, setReviews] = useState<Review[]>([
@@ -121,8 +124,8 @@ export default function BookDetailPage({ params }: { params: Promise<{ id: strin
   }
 
   const handleBuyNow = (format: 'paperback' | 'ebook') => {
-    const formatLabel = format === 'paperback' ? 'Paperback' : 'E-book'
-    showToast(`Proceeding to checkout for ${book.title} (${formatLabel})...`)
+    setCheckoutFormat(format)
+    setShowCheckoutModal(true)
   }
 
   const handleReviewSubmit = (e: React.FormEvent) => {
@@ -712,6 +715,16 @@ export default function BookDetailPage({ params }: { params: Promise<{ id: strin
           </div>
         )}
       </AnimatePresence>
+
+      {/* Checkout Modal */}
+      <CheckoutModal
+        isOpen={showCheckoutModal}
+        onClose={() => setShowCheckoutModal(false)}
+        book={book}
+        format={checkoutFormat}
+        quantity={checkoutFormat === 'paperback' ? paperQuantity : 1}
+        price={checkoutFormat === 'paperback' ? paperbackPrice : ebookPrice}
+      />
 
       <Footer />
     </main>
