@@ -116,7 +116,7 @@ export function CheckoutModal({
       }
     } else {
       if (!depositorName) {
-        alert('Please enter the Depositor Name (입금자명) for bank transfer verification.')
+        alert('Please enter the Depositor Name for bank transfer verification.')
         return
       }
     }
@@ -183,7 +183,7 @@ export function CheckoutModal({
 
             <div>
               <span className="text-xs font-bold uppercase tracking-widest text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
-                {paymentMethod === 'card' ? 'Payment Approved (결제 완료)' : 'Bank Transfer Registered (입금 확인 대기)'}
+                {paymentMethod === 'card' ? 'Payment Approved' : 'Bank Transfer Registered'}
               </span>
               <h3 className="font-serif text-2xl md:text-3xl font-bold text-foreground mt-3">
                 Thank You for Your Order!
@@ -223,7 +223,7 @@ export function CheckoutModal({
                 <span className="font-bold text-foreground">Customer: </span>{buyerName} ({buyerEmail})
                 {paymentMethod === 'qr' && (
                   <p className="mt-1 text-amber-800 bg-amber-50 p-2 rounded border border-amber-200">
-                    💡 <strong>입금 안내:</strong> 국민은행 123456-04-987654 (예금주: (주)리폼드북스하우스) 계좌로 <strong>${totalAmount.toFixed(2)} (약 {(totalAmount * 1350).toLocaleString()}원)</strong>을 입금자명 <strong>[{depositorName}]</strong>으로 입금해 주시면 입금확인 후 즉시 배송/다운로드 처리됩니다.
+                    💡 <strong>Payment Instructions:</strong> Please transfer <strong>${totalAmount.toFixed(2)} (approx. {(totalAmount * 135).toLocaleString()} NRs)</strong> to KB / Himalayan Bank Account 123456-04-987654 (Account Name: Reformed Books House Ltd.) with Depositor Name <strong>[{depositorName}]</strong>. Your order will be fulfilled immediately upon verification.
                   </p>
                 )}
                 {format === 'ebook' && (
@@ -279,12 +279,12 @@ export function CheckoutModal({
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="block text-[11px] font-serif text-muted-foreground mb-1">
-                    Full Name (성함) *
+                    Full Name *
                   </label>
                   <input
                     type="text"
                     required
-                    placeholder="John Doe / 홍길동"
+                    placeholder="John Doe"
                     value={buyerName}
                     onChange={(e) => setBuyerName(e.target.value)}
                     className="w-full px-3.5 py-2.5 bg-white border border-border rounded-xl text-xs font-serif text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
@@ -293,7 +293,7 @@ export function CheckoutModal({
 
                 <div>
                   <label className="block text-[11px] font-serif text-muted-foreground mb-1">
-                    Email Address (이메일 - E-Book / 영수증 수신) *
+                    Email Address (For E-Book / Receipt Delivery) *
                   </label>
                   <input
                     type="email"
@@ -309,7 +309,7 @@ export function CheckoutModal({
               {format === 'paperback' && (
                 <div>
                   <label className="block text-[11px] font-serif text-muted-foreground mb-1">
-                    Shipping Address (배송지 주소) *
+                    Shipping Address *
                   </label>
                   <input
                     type="text"
@@ -326,7 +326,7 @@ export function CheckoutModal({
             {/* PAYMENT METHOD SELECTION TABS */}
             <div className="space-y-4 pt-2 border-t border-border/50">
               <h3 className="text-xs font-extrabold uppercase tracking-wider text-foreground flex items-center gap-1.5">
-                <span>2.</span> Select Payment Method (결제 수단 선택)
+                <span>2.</span> Select Payment Method
               </h3>
 
               <div className="grid grid-cols-3 gap-2 sm:gap-3">
@@ -371,7 +371,7 @@ export function CheckoutModal({
                     </span>
                   </div>
                   <span className="font-serif text-xs font-bold text-foreground block">
-                    Bank QR / 계좌
+                    Bank QR / Wire
                   </span>
                   <span className="text-[10px] text-muted-foreground font-serif">
                     Fonepay / KB / Nabil
@@ -413,7 +413,7 @@ export function CheckoutModal({
                 >
                   <div>
                     <label className="block text-[11px] font-serif text-muted-foreground mb-1">
-                      Card Number (카드 번호 16자리)
+                      Card Number (16 Digits)
                     </label>
                     <div className="relative">
                       <input
@@ -430,7 +430,7 @@ export function CheckoutModal({
                   <div className="grid grid-cols-2 gap-3">
                     <div>
                       <label className="block text-[11px] font-serif text-muted-foreground mb-1">
-                        Expiry Date (만료일 MM/YY)
+                        Expiry Date (MM/YY)
                       </label>
                       <input
                         type="text"
@@ -481,23 +481,23 @@ export function CheckoutModal({
 
                     <div className="grid grid-cols-2 gap-2 text-xs font-mono">
                       <div className="p-2.5 bg-emerald-50/80 rounded-lg border border-emerald-200">
-                        <span className="text-[10px] text-emerald-700 block font-sans font-bold">eSewa ID (지갑 번호)</span>
+                        <span className="text-[10px] text-emerald-700 block font-sans font-bold">eSewa Wallet ID</span>
                         <span className="font-bold text-foreground">9801234567</span>
                       </div>
                       <div className="p-2.5 bg-purple-50/80 rounded-lg border border-purple-200">
-                        <span className="text-[10px] text-purple-700 block font-sans font-bold">Khalti ID (지갑 번호)</span>
+                        <span className="text-[10px] text-purple-700 block font-sans font-bold">Khalti Wallet ID</span>
                         <span className="font-bold text-foreground">9801234567</span>
                       </div>
                     </div>
 
                     <p className="text-[11px] font-serif text-muted-foreground">
-                      위 eSewa 또는 Khalti 번호로 총 결제액(약 <strong>{(totalAmount * 135).toLocaleString()} NRs</strong>)을 이체하신 후 아래에 지갑 계정명을 입력해 주세요.
+                      Please transfer the total amount (approx. <strong>{(totalAmount * 135).toLocaleString()} NRs</strong>) to either eSewa or Khalti ID above and enter your sender name below.
                     </p>
                   </div>
 
                   <div>
                     <label className="block text-[11px] font-serif font-bold text-foreground mb-1">
-                      Wallet ID / Sender Name (지갑 이체자 성함 및 전화번호) *
+                      Wallet ID / Sender Name *
                     </label>
                     <input
                       type="text"
@@ -547,7 +547,7 @@ export function CheckoutModal({
 
                       <div className="bg-slate-900 text-white p-2.5 rounded-lg font-mono text-xs flex items-center justify-between">
                         <div>
-                          <span className="text-[10px] text-amber-300 block font-sans">국민은행 (KB Bank)</span>
+                          <span className="text-[10px] text-amber-300 block font-sans">KB / Himalayan Bank (Fonepay)</span>
                           <span className="font-bold tracking-wider">123456-04-987654</span>
                         </div>
                         <button
@@ -561,19 +561,19 @@ export function CheckoutModal({
                       </div>
 
                       <p className="text-[11px] text-muted-foreground leading-normal">
-                        예금주: <strong>(주)리폼드북스하우스</strong> • 모바일 은행 앱(카카오뱅크, 토스, KB 등)으로 QR을 스캔하시거나 계좌로 송금해 주세요.
+                        Account Holder: <strong>Reformed Books House Ltd.</strong> • Scan the QR code using your mobile banking or wallet app, or transfer directly via bank wire.
                       </p>
                     </div>
                   </div>
 
                   <div>
                     <label className="block text-[11px] font-serif font-bold text-foreground mb-1">
-                      Depositor Name (입금자 성함 - 대조 확인용) *
+                      Depositor / Sender Name *
                     </label>
                     <input
                       type="text"
                       required
-                      placeholder="e.g. 홍길동 (입금시 통장에 표시되는 이름)"
+                      placeholder="e.g. John Doe / Account Holder Name"
                       value={depositorName}
                       onChange={(e) => setDepositorName(e.target.value)}
                       className="w-full px-3.5 py-2.5 bg-white border border-border rounded-xl text-xs font-serif text-foreground focus:outline-none focus:ring-2 focus:ring-amber-500"
@@ -601,7 +601,7 @@ export function CheckoutModal({
                     <span>
                       {paymentMethod === 'card'
                         ? `Pay $${totalAmount.toFixed(2)} with Credit Card`
-                        : `Submit Order $${totalAmount.toFixed(2)} (QR/계좌이체)`}
+                        : `Submit Order $${totalAmount.toFixed(2)} (Bank Transfer)`}
                     </span>
                   </>
                 )}

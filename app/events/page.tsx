@@ -16,10 +16,10 @@ export default function EventsPage() {
   const [rsvpEmail, setRsvpEmail] = useState<string>('')
 
   const categories = [
-    { key: 'all', label: 'All Events (전체 행사)' },
-    { key: 'special-sale', label: 'Special Sales & Bundles (특판 행사)' },
-    { key: 'book-release', label: 'Release Ceremonies (출간 기념회)' },
-    { key: 'symposium', label: 'Exhibitions & Fairs (전시 & 심포지엄)' }
+    { key: 'all', label: 'All Events' },
+    { key: 'special-sale', label: 'Special Sales & Bundles' },
+    { key: 'book-release', label: 'Release Ceremonies' },
+    { key: 'symposium', label: 'Exhibitions & Fairs' }
   ]
 
   const filteredEvents = eventsData.filter(event => {
@@ -117,7 +117,7 @@ export default function EventsPage() {
                       <span className={`text-[10px] font-extrabold uppercase tracking-wider px-3 py-1 rounded-full shadow-md text-white ${
                         event.status === 'ONGOING' ? 'bg-emerald-600' : 'bg-primary'
                       }`}>
-                        {event.status === 'ONGOING' ? '🔥 NOW ONGOING (진행중)' : '🗓️ UPCOMING (예정)'}
+                        {event.status === 'ONGOING' ? '🔥 NOW ONGOING' : '🗓️ UPCOMING'}
                       </span>
                       {event.discountRate && (
                         <span className="text-xs font-black bg-amber-500 text-slate-950 px-3 py-1 rounded-full shadow-md font-mono">

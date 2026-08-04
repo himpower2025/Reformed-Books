@@ -215,13 +215,13 @@ export function Header() {
                       <div className="w-64 p-4 space-y-2 bg-background border border-border rounded-xl shadow-xl mt-2">
                         <Link href="/events" className="block p-2 rounded-lg hover:bg-secondary/40 text-sm text-foreground hover:text-primary transition-colors font-semibold font-serif">
                           <div className="flex items-center justify-between">
-                            <span>All Events (전체 행사)</span>
+                            <span>All Events</span>
                             <span className="text-[9px] bg-emerald-600 text-white font-extrabold px-1.5 py-0.5 rounded">HOT</span>
                           </div>
                           <span className="text-[10px] text-muted-foreground block font-normal mt-0.5">Special Publisher Sales & Launch Events</span>
                         </Link>
                         <Link href="/events" className="block p-2 rounded-lg hover:bg-secondary/40 text-sm text-foreground hover:text-primary transition-colors font-semibold font-serif">
-                          <span>Special Sales & Bundles (특판)</span>
+                          <span>Special Sales & Bundles</span>
                         </Link>
                         <Link href="/events" className="block p-2 rounded-lg hover:bg-secondary/40 text-sm text-foreground hover:text-primary transition-colors font-semibold font-serif">
                           <span>Book Launch & Exhibitions</span>
@@ -365,10 +365,10 @@ export function Header() {
                     </h3>
                     <div className="space-y-2 pl-4">
                       <Link href="/events" onClick={() => setIsOpen(false)} className="block text-sm text-foreground hover:text-accent font-bold transition-colors">
-                        All Special Events (전체 행사)
+                        All Special Events
                       </Link>
                       <Link href="/events" onClick={() => setIsOpen(false)} className="block text-sm text-foreground hover:text-accent transition-colors">
-                        Special Sales & Bundles (특판)
+                        Special Sales & Bundles
                       </Link>
                       <Link href="/events" onClick={() => setIsOpen(false)} className="block text-sm text-foreground hover:text-accent transition-colors">
                         Book Launch & Exhibitions
