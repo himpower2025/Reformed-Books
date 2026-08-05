@@ -40,8 +40,8 @@ export function CheckoutModal({
   quantity,
   price
 }: CheckoutModalProps) {
-  // Payment Method Tab: 'card' | 'qr' | 'esewa'
-  const [paymentMethod, setPaymentMethod] = useState<'card' | 'qr' | 'esewa'>('card')
+  // Payment Method Tab: 'qr' | 'esewa'
+  const [paymentMethod, setPaymentMethod] = useState<'qr' | 'esewa'>('qr')
 
   // Buyer Form State
   const [buyerName, setBuyerName] = useState('')
@@ -329,140 +329,58 @@ export function CheckoutModal({
                 <span>2.</span> Select Payment Method
               </h3>
 
-              <div className="grid grid-cols-3 gap-2 sm:gap-3">
-                {/* TAB 1: CREDIT CARD */}
-                <button
-                  type="button"
-                  onClick={() => setPaymentMethod('card')}
-                  className={`p-3.5 rounded-2xl border-2 transition-all text-left flex flex-col justify-between ${
-                    paymentMethod === 'card'
-                      ? 'border-primary bg-primary/5 shadow-sm'
-                      : 'border-border/60 hover:border-primary/40 bg-white'
-                  }`}
-                >
-                  <div className="flex items-center justify-between mb-1.5">
-                    <CreditCard className={`w-4 h-4 ${paymentMethod === 'card' ? 'text-primary' : 'text-muted-foreground'}`} />
-                    <span className="text-[9px] font-mono bg-primary/10 text-primary font-bold px-1.5 py-0.5 rounded">
-                      Global
-                    </span>
-                  </div>
-                  <span className="font-serif text-xs font-bold text-foreground block">
-                    Credit Card
-                  </span>
-                  <span className="text-[10px] text-muted-foreground font-serif">
-                    Visa/Master/Himalayan PG
-                  </span>
-                </button>
-
-                {/* TAB 2: BANK QR / TRANSFER */}
+              <div className="grid grid-cols-2 gap-3">
+                {/* TAB 1: BANK QR / SANIMA TRANSFER */}
                 <button
                   type="button"
                   onClick={() => setPaymentMethod('qr')}
-                  className={`p-3.5 rounded-2xl border-2 transition-all text-left flex flex-col justify-between ${
+                  className={`p-4 rounded-2xl border-2 transition-all text-left flex flex-col justify-between ${
                     paymentMethod === 'qr'
                       ? 'border-primary bg-primary/5 shadow-sm'
                       : 'border-border/60 hover:border-primary/40 bg-white'
                   }`}
                 >
-                  <div className="flex items-center justify-between mb-1.5">
-                    <QrCode className={`w-4 h-4 ${paymentMethod === 'qr' ? 'text-primary' : 'text-muted-foreground'}`} />
-                    <span className="text-[9px] font-mono bg-amber-500/20 text-amber-800 font-bold px-1.5 py-0.5 rounded">
-                      Account
+                  <div className="flex items-center justify-between mb-2">
+                    <QrCode className={`w-5 h-5 ${paymentMethod === 'qr' ? 'text-primary' : 'text-muted-foreground'}`} />
+                    <span className="text-[9px] font-mono bg-amber-500/20 text-amber-800 font-bold px-2 py-0.5 rounded">
+                      Fonepay / Sanima Bank
                     </span>
                   </div>
                   <span className="font-serif text-xs font-bold text-foreground block">
-                    Bank QR / Wire
+                    Bank QR & Wire Transfer
                   </span>
                   <span className="text-[10px] text-muted-foreground font-serif">
-                    Fonepay / KB / Nabil
+                    Sanima Bank & Fonepay QR
                   </span>
                 </button>
 
-                {/* TAB 3: NEPAL DIGITAL WALLET */}
+                {/* TAB 2: NEPAL DIGITAL WALLET */}
                 <button
                   type="button"
                   onClick={() => setPaymentMethod('esewa')}
-                  className={`p-3.5 rounded-2xl border-2 transition-all text-left flex flex-col justify-between ${
+                  className={`p-4 rounded-2xl border-2 transition-all text-left flex flex-col justify-between ${
                     paymentMethod === 'esewa'
                       ? 'border-emerald-600 bg-emerald-50 shadow-sm'
                       : 'border-border/60 hover:border-emerald-500/40 bg-white'
                   }`}
                 >
-                  <div className="flex items-center justify-between mb-1.5">
-                    <Smartphone className={`w-4 h-4 ${paymentMethod === 'esewa' ? 'text-emerald-600' : 'text-muted-foreground'}`} />
-                    <span className="text-[9px] font-mono bg-emerald-500/20 text-emerald-800 font-bold px-1.5 py-0.5 rounded">
-                      Nepal Local
+                  <div className="flex items-center justify-between mb-2">
+                    <Smartphone className={`w-5 h-5 ${paymentMethod === 'esewa' ? 'text-emerald-600' : 'text-muted-foreground'}`} />
+                    <span className="text-[9px] font-mono bg-emerald-500/20 text-emerald-800 font-bold px-2 py-0.5 rounded">
+                      eSewa / Khalti
                     </span>
                   </div>
                   <span className="font-serif text-xs font-bold text-foreground block">
-                    eSewa / Khalti
+                    Digital Wallet Direct
                   </span>
                   <span className="text-[10px] text-muted-foreground font-serif">
-                    Nepal Direct Wallet
+                    Nepal Wallet Transfer
                   </span>
                 </button>
               </div>
 
               {/* PAYMENT OPTION DETAILS */}
-              {paymentMethod === 'card' ? (
-                /* CREDIT CARD FORM */
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="p-5 rounded-2xl bg-secondary/15 border border-border/70 space-y-3"
-                >
-                  <div>
-                    <label className="block text-[11px] font-serif text-muted-foreground mb-1">
-                      Card Number (16 Digits)
-                    </label>
-                    <div className="relative">
-                      <input
-                        type="text"
-                        placeholder="4532 •••• •••• 8892"
-                        value={cardNumber}
-                        onChange={handleCardNumberChange}
-                        className="w-full px-3.5 py-2.5 bg-white border border-border rounded-xl text-xs font-mono text-foreground focus:outline-none focus:ring-2 focus:ring-primary pl-10"
-                      />
-                      <CreditCard className="w-4 h-4 text-muted-foreground absolute left-3.5 top-3" />
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-3">
-                    <div>
-                      <label className="block text-[11px] font-serif text-muted-foreground mb-1">
-                        Expiry Date (MM/YY)
-                      </label>
-                      <input
-                        type="text"
-                        placeholder="MM/YY"
-                        value={cardExpiry}
-                        onChange={handleExpiryChange}
-                        className="w-full px-3.5 py-2.5 bg-white border border-border rounded-xl text-xs font-mono text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-[11px] font-serif text-muted-foreground mb-1">
-                        CVC / CVV
-                      </label>
-                      <input
-                        type="password"
-                        maxLength={4}
-                        placeholder="•••"
-                        value={cardCvc}
-                        onChange={(e) => setCardCvc(e.target.value.replace(/\D/g, ''))}
-                        className="w-full px-3.5 py-2.5 bg-white border border-border rounded-xl text-xs font-mono text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="p-3 bg-indigo-50/70 border border-indigo-200/60 rounded-xl text-[11px] font-serif text-indigo-950 flex items-start gap-2 mt-2">
-                    <Sparkles className="w-4 h-4 text-indigo-600 shrink-0 mt-0.5" />
-                    <div>
-                      <strong>Nepal & International Card Processing:</strong> Powered by Himalayan Bank Payment Gateway & 2Checkout / Stripe. Supports Visa, MasterCard, SCT, and American Express cards worldwide.
-                    </div>
-                  </div>
-                </motion.div>
-              ) : paymentMethod === 'esewa' ? (
+              {paymentMethod === 'esewa' ? (
                 /* NEPAL WALLET (ESEWA / KHALTI) */
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
@@ -510,7 +428,7 @@ export function CheckoutModal({
                   </div>
                 </motion.div>
               ) : (
-                /* PUBLISHER QR & BANK TRANSFER INFO */
+                /* SANIMA BANK & FONEPAY QR INFO */
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -518,7 +436,7 @@ export function CheckoutModal({
                 >
                   {/* Fonepay Official Merchant QR Card */}
                   <div className="bg-white border border-slate-200 rounded-2xl p-5 shadow-md flex flex-col sm:flex-row items-center gap-6">
-                    {/* Fonepay QR Poster Simulation */}
+                    {/* Fonepay QR Poster */}
                     <div className="bg-white p-3 rounded-2xl border-2 border-red-500/20 shadow-sm flex flex-col items-center text-center shrink-0 w-44">
                       <div className="flex items-center justify-center gap-1 mb-1">
                         <span className="text-[9px] text-slate-500 font-sans">We Accept</span>
@@ -526,12 +444,16 @@ export function CheckoutModal({
                       </div>
                       <span className="text-[8px] text-slate-400 font-sans block mb-2">Nepal Rastra Bank Approved</span>
 
-                      {/* QR Code Graphic */}
-                      <div className="w-32 h-32 bg-slate-950 p-1.5 rounded-xl border border-slate-800 text-white flex items-center justify-center relative shadow-inner">
+                      {/* QR Code Graphic with local fallback */}
+                      <div className="w-32 h-32 bg-slate-950 p-1.5 rounded-xl border border-slate-800 text-white flex items-center justify-center relative shadow-inner overflow-hidden">
                         <img 
-                          src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=2222110015078798" 
-                          alt="Fonepay QR Code"
-                          className="w-full h-full object-contain rounded-lg"
+                          src="/fonepay-qr.jpg" 
+                          alt="Fonepay Sanima Bank QR Code"
+                          onError={(e) => {
+                            // Fallback to dynamic server QR if local file is missing
+                            e.currentTarget.src = "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=2222110015078798"
+                          }}
+                          className="w-full h-full object-contain rounded-lg bg-white"
                         />
                       </div>
 
@@ -539,7 +461,7 @@ export function CheckoutModal({
                         REFORMED BOOKS HOUSE
                       </span>
                       <span className="font-mono text-[9px] text-slate-500">
-                        Term: 2222110015078798
+                        Terminal: 2222110015078798
                       </span>
                     </div>
 
@@ -554,7 +476,7 @@ export function CheckoutModal({
                       </div>
 
                       <div className="space-y-1 bg-slate-900 text-white p-3 rounded-xl font-mono text-xs">
-                        <span className="text-[10px] text-amber-300 block font-sans uppercase font-bold">Account Holder (예금주)</span>
+                        <span className="text-[10px] text-amber-300 block font-sans uppercase font-bold">Account Holder</span>
                         <div className="font-bold text-amber-100 text-xs tracking-wide">REFORMED BOOKS HOUSE PVT.LTD.</div>
                         <div className="flex items-center justify-between pt-1 border-t border-slate-800 mt-1">
                           <span className="text-white font-extrabold tracking-wider text-sm">028010010001171</span>
@@ -570,7 +492,7 @@ export function CheckoutModal({
                       </div>
 
                       <div className="text-[11px] text-muted-foreground leading-relaxed pt-1">
-                        <strong>Scan & Pay:</strong> Open any Nepal Mobile Banking App (Sanima, Nabil, Global IME, etc.) or Digital Wallet (eSewa, Khalti, Fonepay) and scan the QR code to pay instantly.
+                        <strong>Scan & Pay:</strong> Open any Mobile Banking App (Sanima, Nabil, Global IME, etc.) or Digital Wallet and scan the Fonepay QR code to complete the transfer.
                       </div>
                     </div>
                   </div>
@@ -608,9 +530,9 @@ export function CheckoutModal({
                   <>
                     <Lock className="w-4 h-4 text-amber-300" />
                     <span>
-                      {paymentMethod === 'card'
-                        ? `Pay $${totalAmount.toFixed(2)} with Credit Card`
-                        : `Submit Order $${totalAmount.toFixed(2)} (Bank Transfer)`}
+                      {paymentMethod === 'esewa'
+                        ? `Submit Order $${totalAmount.toFixed(2)} (eSewa / Khalti)`
+                        : `Submit Order $${totalAmount.toFixed(2)} (Sanima Bank QR)`}
                     </span>
                   </>
                 )}
