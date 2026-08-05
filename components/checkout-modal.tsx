@@ -72,7 +72,7 @@ export function CheckoutModal({
 
   // Copy Account Number
   const handleCopyAccount = () => {
-    navigator.clipboard.writeText('123456-04-987654')
+    navigator.clipboard.writeText('028010010001171')
     setCopiedAccount(true)
     setTimeout(() => setCopiedAccount(false), 2000)
   }
@@ -223,7 +223,7 @@ export function CheckoutModal({
                 <span className="font-bold text-foreground">Customer: </span>{buyerName} ({buyerEmail})
                 {paymentMethod === 'qr' && (
                   <p className="mt-1 text-amber-800 bg-amber-50 p-2 rounded border border-amber-200">
-                    💡 <strong>Payment Instructions:</strong> Please transfer <strong>${totalAmount.toFixed(2)} (approx. {(totalAmount * 135).toLocaleString()} NRs)</strong> to KB / Himalayan Bank Account 123456-04-987654 (Account Name: Reformed Books House Ltd.) with Depositor Name <strong>[{depositorName}]</strong>. Your order will be fulfilled immediately upon verification.
+                    💡 <strong>Payment Instructions:</strong> Please transfer <strong>${totalAmount.toFixed(2)} (approx. {(totalAmount * 135).toLocaleString()} NRs)</strong> to Sanima Bank Account <strong>028010010001171</strong> (A/C Name: REFORMED BOOKS HOUSE PVT.LTD. - Ekantakuna Branch) via Fonepay / Mobile Banking with Depositor Name <strong>[{depositorName}]</strong>. Your order will be fulfilled immediately upon verification.
                   </p>
                 )}
                 {format === 'ebook' && (
@@ -516,53 +516,62 @@ export function CheckoutModal({
                   animate={{ opacity: 1, y: 0 }}
                   className="p-5 rounded-2xl bg-amber-500/5 border border-amber-500/30 space-y-4"
                 >
-                  <div className="flex flex-col sm:flex-row items-center gap-5 p-4 rounded-xl bg-white border border-amber-200 shadow-sm">
-                    {/* Simulated QR Code Canvas */}
-                    <div className="w-28 h-28 bg-slate-900 p-2 rounded-xl flex flex-col items-center justify-center shrink-0 border border-slate-800 text-white relative group">
-                      {/* Generative QR visual pattern */}
-                      <div className="w-full h-full bg-white p-1 rounded flex flex-col justify-between">
-                        <div className="grid grid-cols-5 gap-0.5 w-full h-full">
-                          {[...Array(25)].map((_, idx) => (
-                            <div
-                              key={idx}
-                              className={`${
-                                (idx % 2 === 0 || idx % 7 === 0 || idx < 5 || idx > 19)
-                                  ? 'bg-slate-900'
-                                  : 'bg-amber-500/40'
-                              } rounded-[1px]`}
-                            />
-                          ))}
-                        </div>
+                  {/* Fonepay Official Merchant QR Card */}
+                  <div className="bg-white border border-slate-200 rounded-2xl p-5 shadow-md flex flex-col sm:flex-row items-center gap-6">
+                    {/* Fonepay QR Poster Simulation */}
+                    <div className="bg-white p-3 rounded-2xl border-2 border-red-500/20 shadow-sm flex flex-col items-center text-center shrink-0 w-44">
+                      <div className="flex items-center justify-center gap-1 mb-1">
+                        <span className="text-[9px] text-slate-500 font-sans">We Accept</span>
+                        <span className="font-extrabold text-red-600 text-xs tracking-tighter font-sans">fone<span className="text-slate-900">pay</span></span>
                       </div>
-                      <span className="text-[8px] font-mono font-bold uppercase tracking-widest mt-1 text-amber-300">
-                        SCAN TO PAY
+                      <span className="text-[8px] text-slate-400 font-sans block mb-2">Nepal Rastra Bank Approved</span>
+
+                      {/* QR Code Graphic */}
+                      <div className="w-32 h-32 bg-slate-950 p-1.5 rounded-xl border border-slate-800 text-white flex items-center justify-center relative shadow-inner">
+                        <img 
+                          src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=2222110015078798" 
+                          alt="Fonepay QR Code"
+                          className="w-full h-full object-contain rounded-lg"
+                        />
+                      </div>
+
+                      <span className="font-serif text-[10px] font-bold text-slate-900 mt-2 line-clamp-1">
+                        REFORMED BOOKS HOUSE
+                      </span>
+                      <span className="font-mono text-[9px] text-slate-500">
+                        Term: 2222110015078798
                       </span>
                     </div>
 
-                    <div className="flex-1 text-xs space-y-1.5 font-serif text-foreground">
-                      <div className="flex items-center gap-2">
-                        <Building2 className="w-4 h-4 text-amber-700" />
-                        <span className="font-extrabold text-amber-900">Reformed Books House Official Account</span>
-                      </div>
-
-                      <div className="bg-slate-900 text-white p-2.5 rounded-lg font-mono text-xs flex items-center justify-between">
+                    {/* Sanima Bank Account Details */}
+                    <div className="flex-1 text-xs space-y-2.5 font-serif text-foreground w-full">
+                      <div className="flex items-center gap-2 pb-2 border-b border-border">
+                        <Building2 className="w-4 h-4 text-primary" />
                         <div>
-                          <span className="text-[10px] text-amber-300 block font-sans">KB / Himalayan Bank (Fonepay)</span>
-                          <span className="font-bold tracking-wider">123456-04-987654</span>
+                          <span className="font-extrabold text-slate-900 text-sm block">Sanima Bank Limited</span>
+                          <span className="text-[10px] text-muted-foreground font-mono">Ekantakuna Branch, Nepal</span>
                         </div>
-                        <button
-                          type="button"
-                          onClick={handleCopyAccount}
-                          className="px-2 py-1 bg-amber-500 hover:bg-amber-400 text-slate-950 rounded text-[10px] font-bold flex items-center gap-1 font-sans transition-colors"
-                        >
-                          {copiedAccount ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
-                          <span>{copiedAccount ? 'Copied' : 'Copy'}</span>
-                        </button>
                       </div>
 
-                      <p className="text-[11px] text-muted-foreground leading-normal">
-                        Account Holder: <strong>Reformed Books House Ltd.</strong> • Scan the QR code using your mobile banking or wallet app, or transfer directly via bank wire.
-                      </p>
+                      <div className="space-y-1 bg-slate-900 text-white p-3 rounded-xl font-mono text-xs">
+                        <span className="text-[10px] text-amber-300 block font-sans uppercase font-bold">Account Holder (예금주)</span>
+                        <div className="font-bold text-amber-100 text-xs tracking-wide">REFORMED BOOKS HOUSE PVT.LTD.</div>
+                        <div className="flex items-center justify-between pt-1 border-t border-slate-800 mt-1">
+                          <span className="text-white font-extrabold tracking-wider text-sm">028010010001171</span>
+                          <button
+                            type="button"
+                            onClick={handleCopyAccount}
+                            className="px-2.5 py-1 bg-amber-500 hover:bg-amber-400 text-slate-950 rounded text-[10px] font-bold flex items-center gap-1 font-sans transition-colors"
+                          >
+                            {copiedAccount ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+                            <span>{copiedAccount ? 'Copied' : 'Copy A/C'}</span>
+                          </button>
+                        </div>
+                      </div>
+
+                      <div className="text-[11px] text-muted-foreground leading-relaxed pt-1">
+                        <strong>Scan & Pay:</strong> Open any Nepal Mobile Banking App (Sanima, Nabil, Global IME, etc.) or Digital Wallet (eSewa, Khalti, Fonepay) and scan the QR code to pay instantly.
+                      </div>
                     </div>
                   </div>
 
