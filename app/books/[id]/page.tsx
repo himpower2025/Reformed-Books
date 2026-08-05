@@ -667,21 +667,23 @@ export default function BookDetailPage({ params }: { params: Promise<{ id: strin
       {/* SAMPLE E-BOOK PREVIEW MODAL */}
       <AnimatePresence>
         {showPreviewModal && (
-          <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="fixed inset-0 z-50 bg-black/65 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 overflow-hidden">
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="bg-background border border-border rounded-xl shadow-2xl max-w-2xl w-full max-h-[85vh] flex flex-col overflow-hidden"
+              className="bg-background border border-border rounded-2xl shadow-2xl max-w-2xl w-full max-h-[88vh] flex flex-col overflow-hidden my-auto"
             >
-              <div className="p-5 border-b border-border/60 flex items-center justify-between bg-secondary/20">
+              <div className="p-4 sm:p-5 border-b border-border/60 flex items-center justify-between bg-secondary/20 shrink-0">
                 <div>
                   <span className="text-[10px] uppercase tracking-widest font-extrabold text-accent">Sample Excerpt</span>
-                  <h3 className="font-serif text-lg font-bold text-foreground">{book.title}</h3>
+                  <h3 className="font-serif text-base sm:text-lg font-bold text-foreground line-clamp-1">{book.title}</h3>
                 </div>
                 <button
+                  type="button"
                   onClick={() => setShowPreviewModal(false)}
-                  className="text-muted-foreground hover:text-foreground p-1 text-sm font-bold"
+                  aria-label="Close modal"
+                  className="w-8 h-8 rounded-full bg-secondary hover:bg-secondary/80 text-foreground flex items-center justify-center text-sm font-bold transition-all border border-border"
                 >
                   ✕
                 </button>

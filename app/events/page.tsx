@@ -216,16 +216,18 @@ export default function EventsPage() {
       {/* Interactive RSVP Modal */}
       <AnimatePresence>
         {activeModalEvent && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/65 backdrop-blur-sm overflow-hidden">
             <motion.div
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              className="bg-white rounded-3xl max-w-lg w-full p-8 border border-border shadow-2xl relative overflow-hidden"
+              className="bg-white rounded-3xl max-w-lg w-full max-h-[88vh] p-6 sm:p-8 border border-border shadow-2xl relative overflow-y-auto flex flex-col my-auto"
             >
               <button
+                type="button"
                 onClick={() => setActiveModalEvent(null)}
-                className="absolute top-5 right-5 text-gray-400 hover:text-foreground font-bold text-lg"
+                aria-label="Close modal"
+                className="absolute top-4 right-4 w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-slate-900 font-bold transition-all flex items-center justify-center border border-slate-200"
               >
                 ✕
               </button>

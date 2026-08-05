@@ -171,24 +171,27 @@ export function EventPopup() {
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm transition-opacity duration-300 animate-in fade-in">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/65 backdrop-blur-sm transition-opacity duration-300 animate-in fade-in overflow-hidden">
       {/* Popup card container */}
       <div 
         id="event-popup-container"
-        className="relative w-full max-w-[420px] bg-[#faf8f5] rounded-xl overflow-hidden border border-[#e8e2d5] shadow-2xl animate-in fade-in zoom-in-95 duration-200 flex flex-col"
+        className="relative w-full max-w-[440px] max-h-[88vh] bg-[#faf8f5] rounded-2xl overflow-hidden border border-[#e8e2d5] shadow-2xl animate-in fade-in zoom-in-95 duration-200 flex flex-col my-auto"
         style={config.mode === 'custom' ? { backgroundColor: config.custom.backgroundColor } : {}}
       >
         {/* Top Accent Bar */}
-        <div className="h-1.5 shrink-0" style={{ backgroundColor: config.mode === 'custom' ? config.custom.accentColor : '#0f4c81' }} />
+        <div className="h-1.5 shrink-0 z-20" style={{ backgroundColor: config.mode === 'custom' ? config.custom.accentColor : '#0f4c81' }} />
 
         {/* Top-Right Close Button (X) */}
         <button
           onClick={handleClose}
-          className="absolute top-4 right-4 p-1.5 rounded-full bg-black/5 hover:bg-black/10 text-neutral-600 hover:text-neutral-900 transition-colors z-20"
+          className="absolute top-3 right-3 w-8 h-8 rounded-full bg-black/10 hover:bg-black/20 text-neutral-700 hover:text-neutral-900 transition-all z-30 flex items-center justify-center border border-black/10 shadow-sm"
           aria-label="Close popup"
         >
           <X className="w-4 h-4" />
         </button>
+
+        {/* Scrollable Popup Content Body */}
+        <div className="overflow-y-auto flex-1 flex flex-col">
 
         {/* RENDER MODE 1: STANDARD EVENT LAYOUT */}
         {config.mode === 'standard' && (
@@ -336,6 +339,7 @@ export function EventPopup() {
             dangerouslySetInnerHTML={{ __html: config.custom.html }}
           />
         )}
+        </div>
 
         {/* Footer with "Do not show today" & "Close" options */}
         <div className="px-6 py-4 bg-[#f3ede2]/60 border-t border-[#e8e2d5] flex items-center justify-between shrink-0">

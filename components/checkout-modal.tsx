@@ -138,47 +138,49 @@ export function CheckoutModal({
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-md overflow-y-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 md:p-6 bg-slate-950/75 backdrop-blur-md overflow-hidden">
       <motion.div
         initial={{ scale: 0.95, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.95, opacity: 0 }}
-        className="bg-white rounded-3xl max-w-2xl w-full border border-border shadow-2xl relative overflow-hidden my-8"
+        className="bg-white rounded-2xl sm:rounded-3xl max-w-2xl w-full max-h-[92vh] sm:max-h-[88vh] border border-border shadow-2xl relative overflow-hidden flex flex-col my-auto"
       >
-        {/* Header Bar */}
-        <div className="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 p-6 text-white relative flex items-center justify-between border-b border-amber-500/20">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-amber-400/10 border border-amber-400/20 flex items-center justify-center text-amber-300">
+        {/* Header Bar - Always Visible Sticky Header */}
+        <div className="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 p-4 sm:p-5 text-white relative flex items-center justify-between border-b border-amber-500/20 shrink-0 z-20 shadow-sm">
+          <div className="flex items-center gap-2.5 sm:gap-3">
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-amber-400/10 border border-amber-400/20 flex items-center justify-center text-amber-300 shrink-0">
               <ShieldCheck className="w-5 h-5" />
             </div>
             <div>
-              <span className="text-[10px] uppercase tracking-widest text-amber-300 font-extrabold block">
+              <span className="text-[9px] sm:text-[10px] uppercase tracking-widest text-amber-300 font-extrabold block">
                 Secure Checkout Gateway
               </span>
-              <h2 className="font-serif text-xl font-bold text-white">
+              <h2 className="font-serif text-base sm:text-lg md:text-xl font-bold text-white line-clamp-1">
                 Reformed Books House Order
               </h2>
             </div>
           </div>
 
           <button
+            type="button"
             onClick={onClose}
-            className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors"
+            aria-label="Close modal"
+            className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white/10 hover:bg-white/25 active:scale-95 text-white flex items-center justify-center transition-all shrink-0 border border-white/10 ml-2"
           >
-            <X className="w-4 h-4" />
+            <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* ORDER COMPLETED RECEIPT SCREEN */}
         {orderCompleted ? (
-          <div className="p-8 md:p-10 text-center space-y-6">
+          <div className="p-5 sm:p-8 md:p-10 text-center space-y-5 sm:space-y-6 overflow-y-auto flex-1">
             <motion.div
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ type: "spring", stiffness: 300, damping: 20 }}
-              className="w-16 h-16 rounded-full bg-emerald-100 border-2 border-emerald-500 text-emerald-600 flex items-center justify-center mx-auto"
+              className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-emerald-100 border-2 border-emerald-500 text-emerald-600 flex items-center justify-center mx-auto"
             >
-              <CheckCircle2 className="w-10 h-10" />
+              <CheckCircle2 className="w-8 h-8 sm:w-10 sm:h-10" />
             </motion.div>
 
             <div>
@@ -244,7 +246,7 @@ export function CheckoutModal({
           </div>
         ) : (
           /* CHECKOUT FORM */
-          <form onSubmit={handleSubmitOrder} className="p-6 md:p-8 space-y-6">
+          <form onSubmit={handleSubmitOrder} className="p-4 sm:p-6 md:p-8 space-y-5 sm:space-y-6 overflow-y-auto flex-1">
             
             {/* Item Preview */}
             <div className="flex items-center gap-4 p-4 rounded-2xl bg-secondary/30 border border-border/60">
