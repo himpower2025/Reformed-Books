@@ -72,6 +72,11 @@ export function Footer() {
                   Careers
                 </Link>
               </li>
+              <li className="pt-1 border-t border-border/40">
+                <Link href="/admin" className="text-xs text-amber-800 hover:text-amber-950 font-bold transition-colors flex items-center gap-1">
+                  <span>🔐</span> Publisher Admin Portal
+                </Link>
+              </li>
             </ul>
           </div>
 

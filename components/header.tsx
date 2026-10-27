@@ -261,15 +261,16 @@ export function Header() {
             )}
 
             {isAdmin && (
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setIsAdminOpen(true)}
-                className="text-xs uppercase tracking-wider text-[#0f4c81] border-[#0f4c81]/20 hover:bg-[#0f4c81]/5 hover:border-[#0f4c81]/40 font-medium flex items-center gap-1.5 px-3 py-1.5 h-auto transition-all shadow-sm shrink-0 mr-1"
-              >
-                <Settings className="h-3.5 w-3.5 text-[#0f4c81]" />
-                <span>Manage Popup</span>
-              </Button>
+              <Link href="/admin">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="text-xs uppercase tracking-wider text-amber-900 bg-amber-50/80 border-amber-300 hover:bg-amber-100 font-bold flex items-center gap-1.5 px-3 py-1.5 h-auto transition-all shadow-sm shrink-0 mr-1"
+                >
+                  <ShieldCheck className="h-3.5 w-3.5 text-amber-600" />
+                  <span>Admin Panel</span>
+                </Button>
+              </Link>
             )}
 
             {isLoggedIn ? (
@@ -333,18 +334,28 @@ export function Header() {
                     </div>
                   )}
 
-                  {isAdmin && (
+                  {isAdmin ? (
                     <div className="pb-4 border-b border-border/60">
-                      <Button
-                        onClick={() => {
-                          setIsOpen(false)
-                          setIsAdminOpen(true)
-                        }}
-                        className="w-full text-xs font-serif bg-[#0f4c81] hover:bg-[#073256] text-white flex items-center justify-center gap-2 py-2"
-                      >
-                        <Settings className="w-4 h-4" />
-                        Manage Popup
-                      </Button>
+                      <Link href="/admin" onClick={() => setIsOpen(false)}>
+                        <Button
+                          className="w-full text-xs font-serif bg-slate-900 hover:bg-slate-800 text-white flex items-center justify-center gap-2 py-2"
+                        >
+                          <ShieldCheck className="w-4 h-4 text-amber-400" />
+                          <span>Publisher Admin Panel</span>
+                        </Button>
+                      </Link>
+                    </div>
+                  ) : (
+                    <div className="pb-4 border-b border-border/60">
+                      <Link href="/admin" onClick={() => setIsOpen(false)}>
+                        <Button
+                          variant="outline"
+                          className="w-full text-xs font-serif text-slate-700 hover:text-slate-900 border-slate-300 flex items-center justify-center gap-2 py-2"
+                        >
+                          <ShieldCheck className="w-4 h-4 text-slate-500" />
+                          <span>Admin Portal Login</span>
+                        </Button>
+                      </Link>
                     </div>
                   )}
 

@@ -22,6 +22,7 @@ import {
   Smartphone
 } from 'lucide-react'
 import { Book } from '@/lib/db-data'
+import { addOrder } from '@/lib/admin-data'
 
 export interface CheckoutModalProps {
   isOpen: boolean
@@ -125,9 +126,31 @@ export function CheckoutModal({
 
     // Simulate real PG API transaction response delay (1.5 seconds)
     setTimeout(() => {
+      const generatedId = `RBH-${Date.now().toString().slice(-7)}`
       setIsProcessing(false)
-      setOrderId(`RBH-${Date.now().toString().slice(-7)}`)
+      setOrderId(generatedId)
       setOrderCompleted(true)
+
+      // Save order to persistent store so admin can view and process it
+      addOrder({
+        id: generatedId,
+        bookId: book.id,
+        bookTitle: book.title,
+        bookAuthor: book.author,
+        format,
+        quantity,
+        price,
+        totalAmount,
+        paymentMethod: paymentMethod === 'esewa' ? 'esewa' : 'qr',
+        depositorName: depositorName || buyerName,
+        buyerName,
+        buyerEmail,
+        buyerPhone,
+        shippingAddress: format === 'paperback' ? shippingAddress : undefined,
+        status: 'PENDING_VERIFICATION',
+        createdAt: new Date().toISOString(),
+        adminNotes: `Online order submitted. Buyer: ${buyerName}. Payment via ${paymentMethod === 'esewa' ? 'eSewa/Khalti' : 'Sanima Bank QR'}.`
+      })
     }, 1600)
   }
 
