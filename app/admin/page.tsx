@@ -83,7 +83,7 @@ export default function AdminPage() {
   const [bankSavedMessage, setBankSavedMessage] = useState(false)
 
   // Popup Config State
-  const [popupActive, setPopupActive] = useState(true)
+  const [popupActive, setPopupActive] = useState(false)
   const [popupTitle, setPopupTitle] = useState("Writer's Workshop")
   const [popupSubtitle, setPopupSubtitle] = useState("Presented by Reformed Books House")
   const [popupDate, setPopupDate] = useState("Aug 2 (Sun) – Aug 4 (Tue), 2026")
@@ -121,7 +121,7 @@ export default function AdminPage() {
       const storedPopup = localStorage.getItem('reformed_books_popup_config')
       if (storedPopup) {
         const parsed = JSON.parse(storedPopup)
-        setPopupActive(parsed.isActive ?? true)
+        setPopupActive(parsed.isActive ?? false)
         if (parsed.standard) {
           setPopupTitle(parsed.standard.title || "Writer's Workshop")
           setPopupSubtitle(parsed.standard.subtitle || "Presented by Reformed Books House")

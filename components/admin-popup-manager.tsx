@@ -38,7 +38,7 @@ interface PopupConfig {
 }
 
 const DEFAULT_CONFIG: PopupConfig = {
-  isActive: true,
+  isActive: false,
   mode: 'standard',
   standard: {
     title: "Writer's Workshop",

@@ -32,7 +32,7 @@ interface PopupConfig {
 }
 
 const DEFAULT_CONFIG: PopupConfig = {
-  isActive: true,
+  isActive: false,
   mode: 'standard',
   standard: {
     title: "Writer's Workshop",
@@ -86,12 +86,12 @@ export function EventPopup() {
           banner: { ...DEFAULT_CONFIG.banner, ...parsed.banner },
           custom: { ...DEFAULT_CONFIG.custom, ...parsed.custom },
         })
-        return parsed.isActive !== undefined ? parsed.isActive : true
+        return parsed.isActive !== undefined ? parsed.isActive : false
       } catch (e) {
         console.error(e)
       }
     }
-    return true
+    return false
   }
 
   useEffect(() => {
