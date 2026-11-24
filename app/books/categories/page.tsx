@@ -1,9 +1,8 @@
 'use client'
 
-import { useState } from 'react'
 import { Header } from '@/components/header'
 import { Footer } from '@/components/footer'
-import { booksData, Book } from '@/lib/db-data'
+import { useSiteContent } from '@/hooks/use-site-content'
 import { motion } from 'framer-motion'
 import { BookOpen, HelpCircle, GraduationCap, Users, Bookmark, FileText, ArrowRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -17,7 +16,10 @@ interface CategoryMeta {
 }
 
 export default function BookCategoriesPage() {
-  const categoryMetas: CategoryMeta[] = [
+  const { content } = useSiteContent()
+  const booksList = content.books
+
+  const baseMetas: CategoryMeta[] = [
     {
       name: 'Sovereign Grace',
       icon: GraduationCap,
@@ -56,6 +58,19 @@ export default function BookCategoriesPage() {
     }
   ];
 
+  // Include any custom categories added via Admin Panel
+  const allCategoryNames = Array.from(new Set(booksList.map((b) => b.category)))
+  const categoryMetas: CategoryMeta[] = allCategoryNames.map((catName) => {
+    const found = baseMetas.find((m) => m.name.toLowerCase() === catName.toLowerCase())
+    if (found) return found
+    return {
+      name: catName,
+      icon: BookOpen,
+      desc: `Curated publications in ${catName} from Reformed Books House.`,
+      theme: 'from-slate-50 to-slate-100/30 text-slate-800 border-slate-200/40'
+    }
+  })
+
   return (
     <main className="min-h-screen bg-background text-foreground flex flex-col">
       <Header />
@@ -79,7 +94,7 @@ export default function BookCategoriesPage() {
           <div className="space-y-16">
             {categoryMetas.map((cat, idx) => {
               const IconComponent = cat.icon;
-              const associatedBooks = booksData.filter(b => b.category === cat.name);
+              const associatedBooks = booksList.filter(b => b.category.toLowerCase() === cat.name.toLowerCase());
               
               if (associatedBooks.length === 0) return null;
 

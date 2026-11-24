@@ -5,11 +5,13 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Header } from '@/components/header'
 import { Footer } from '@/components/footer'
-import { eventsData, EventItem } from '@/lib/db-data'
+import { EventItem } from '@/lib/db-data'
+import { useSiteContent } from '@/hooks/use-site-content'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Calendar, Clock, MapPin, Sparkles, Tag, Check, ArrowRight, Bell, Gift, BookOpen, Share2 } from 'lucide-react'
+import { Calendar, Clock, MapPin, Sparkles, Check, Bell, Gift } from 'lucide-react'
 
 export default function EventsPage() {
+  const { content } = useSiteContent()
   const [selectedCategory, setSelectedCategory] = useState<string>('all')
   const [activeModalEvent, setActiveModalEvent] = useState<EventItem | null>(null)
   const [rsvpSuccess, setRsvpSuccess] = useState<boolean>(false)
@@ -22,7 +24,7 @@ export default function EventsPage() {
     { key: 'symposium', label: 'Exhibitions & Fairs' }
   ]
 
-  const filteredEvents = eventsData.filter(event => {
+  const filteredEvents = content.events.filter(event => {
     if (selectedCategory === 'all') return true
     return event.category === selectedCategory
   })

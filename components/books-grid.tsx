@@ -4,18 +4,28 @@ import { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
-import { booksData } from '@/lib/db-data'
-import { Search, Sparkles, Filter, Star, BookOpen, Download, ArrowRight } from 'lucide-react'
+import { Search, Sparkles, Filter, Star, BookOpen, ArrowRight } from 'lucide-react'
+import { useSiteContent } from '@/hooks/use-site-content'
 
 export function BooksGrid() {
+  const { content } = useSiteContent()
   const [selectedCategory, setSelectedCategory] = useState<string>('All')
   const [searchQuery, setSearchQuery] = useState<string>('')
 
-  const categories = ['All', 'Theology', 'Culture', 'Worldview', 'History']
+  const booksList = content.books
+  const { libraryEyebrow, libraryHeading, libraryDescription } = content.homeSections
 
-  const filteredBooks = booksData.filter(book => {
-    const matchesCategory = selectedCategory === 'All' || book.category.toLowerCase().includes(selectedCategory.toLowerCase())
-    const matchesSearch = book.title.toLowerCase().includes(searchQuery.toLowerCase()) || book.author.toLowerCase().includes(searchQuery.toLowerCase())
+  const dynamicCategories = Array.from(new Set(booksList.map((b) => b.category)))
+  const categories = ['All', ...dynamicCategories]
+
+  const filteredBooks = booksList.filter(book => {
+    const matchesCategory =
+      selectedCategory === 'All' ||
+      book.category.toLowerCase() === selectedCategory.toLowerCase() ||
+      book.category.toLowerCase().includes(selectedCategory.toLowerCase())
+    const matchesSearch =
+      book.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      book.author.toLowerCase().includes(searchQuery.toLowerCase())
     return matchesCategory && matchesSearch
   })
 
@@ -32,14 +42,14 @@ export function BooksGrid() {
             <div className="flex items-center gap-2 mb-3">
               <span className="text-xs uppercase tracking-widest font-extrabold text-accent bg-accent/10 px-3 py-1 rounded-full flex items-center gap-1.5">
                 <Sparkles className="w-3.5 h-3.5 text-accent animate-spin" />
-                Featured Publications
+                {libraryEyebrow}
               </span>
             </div>
             <h2 className="font-serif text-4xl md:text-5xl font-black text-foreground tracking-tight">
-              Explore Our Library
+              {libraryHeading}
             </h2>
             <p className="text-muted-foreground max-w-2xl text-base leading-relaxed mt-2 font-serif">
-              Carefully preserved works, contemporary commentary, and theological confession designed with high elegance
+              {libraryDescription}
             </p>
           </div>
 
@@ -120,14 +130,14 @@ export function BooksGrid() {
                       {/* Book Cover */}
                       <div className="aspect-[3/4.2] w-full bg-gradient-to-br from-primary/10 via-accent/5 to-secondary rounded-xl mb-5 overflow-hidden relative shadow-lg border border-border/20">
                         <Image
-                          src={book.image}
+                          src={book.image || 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=400&h=600&fit=crop'}
                           alt={book.title}
                           fill
                           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                           className="object-cover group-hover:scale-105 transition-transform duration-750 ease-out"
                           referrerPolicy="no-referrer"
                         />
-                        
+
                         {/* Spine depth effect */}
                         <div className="absolute top-0 bottom-0 left-2 w-1.5 bg-black/15 shadow-inner pointer-events-none" />
                         <div className="absolute top-0 bottom-0 left-3 w-[1px] bg-white/5 pointer-events-none" />
@@ -163,11 +173,11 @@ export function BooksGrid() {
                             by <strong className="text-foreground/80">{book.author}</strong>
                           </p>
                         </div>
-                        
+
                         <div className="flex items-center justify-between pt-5 mt-5 border-t border-border/50">
                           <div>
                             <span className="text-xs text-muted-foreground block font-sans uppercase">Price</span>
-                            <span className="text-lg font-serif font-black text-primary">${book.price}</span>
+                            <span className="text-lg font-serif font-black text-primary">${book.price.toFixed(2)}</span>
                           </div>
                           <span className="text-xs font-sans font-bold text-accent uppercase tracking-wider group-hover:translate-x-1.5 transition-transform duration-300 flex items-center gap-1 bg-accent/10 px-3 py-1.5 rounded-full border border-accent/20">
                             Details <ArrowRight className="w-3.5 h-3.5" />
@@ -185,13 +195,13 @@ export function BooksGrid() {
         {/* View All Button */}
         <div className="flex justify-center pt-8 border-t border-border/40">
           <Link href="/books/all">
-            <motion.div 
+            <motion.div
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               transition={{ type: "spring", stiffness: 400, damping: 15 }}
               className="inline-flex items-center gap-3 text-white font-serif text-base font-bold transition-all group px-8 py-4 bg-primary hover:bg-primary/90 rounded-full shadow-md hover:shadow-xl border border-primary/30 cursor-pointer"
             >
-              <span>Explore Complete Catalog (6 Volumes)</span>
+              <span>Explore Complete Catalog ({booksList.length} Volumes)</span>
               <ArrowRight className="w-4 h-4" />
             </motion.div>
           </Link>

@@ -2,11 +2,13 @@
 
 import { Header } from '@/components/header'
 import { Footer } from '@/components/footer'
-import { aboutData } from '@/lib/db-data'
+import { useSiteContent } from '@/hooks/use-site-content'
 import { motion } from 'framer-motion'
 import { Compass, BookOpen, Feather, ShieldCheck } from 'lucide-react'
 
 export default function AboutPage() {
+  const { content } = useSiteContent()
+  const aboutData = content.about
   const iconMap = [Compass, BookOpen, Feather];
 
   return (
@@ -25,16 +27,16 @@ export default function AboutPage() {
           >
             <div className="flex items-center justify-center gap-3 mb-4">
               <div className="w-8 h-px bg-accent/40" />
-              <span className="text-xs uppercase tracking-widest font-semibold text-accent">Our Calling</span>
+              <span className="text-xs uppercase tracking-widest font-semibold text-accent">{aboutData.heroEyebrow}</span>
               <div className="w-8 h-px bg-accent/40" />
             </div>
             
             <h1 className="font-serif text-4xl md:text-6xl font-extrabold tracking-tight mb-8 text-foreground max-w-4xl mx-auto leading-tight">
-              Bridging Elegant Aesthetics with Orthodox Truth
+              {aboutData.heroTitle}
             </h1>
             
             <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto font-serif leading-relaxed italic">
-              "We believe that true, historic theology should be both intellectually satisfying and visually beautiful, inspiring minds and hearts."
+              {aboutData.heroQuote}
             </p>
           </motion.div>
         </div>
@@ -140,7 +142,7 @@ export default function AboutPage() {
           >
             <p>{aboutData.story}</p>
             <p className="border-l-2 border-accent/60 pl-4 italic text-foreground bg-secondary/20 p-4 rounded-r-lg">
-              "We serve pastors preparing theological expositions, parents seeking beautiful covenants storybooks for their children, and minds hungry for timeless, sovereign truths."
+              {aboutData.storyHighlight}
             </p>
           </motion.div>
         </div>

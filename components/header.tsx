@@ -5,6 +5,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { Menu, X, User, LogOut, Mail, Lock, ShieldCheck, Settings } from 'lucide-react'
 import { AdminPopupManager } from './admin-popup-manager'
+import { useSiteContent } from '@/hooks/use-site-content'
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -41,6 +42,7 @@ function AdaptiveLogo() {
 }
 
 export function Header() {
+  const { content } = useSiteContent()
   const [isOpen, setIsOpen] = useState(false)
   const [isAuthOpen, setIsAuthOpen] = useState(false)
   const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -155,12 +157,12 @@ export function Header() {
       {/* Radiant Top Announcement Bar */}
       <div className="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-amber-100/90 py-2 px-4 text-xs text-center font-serif font-medium flex items-center justify-center gap-2 shadow-sm relative z-50 border-b border-amber-500/20">
         <span className="inline-block px-2.5 py-0.5 rounded-full bg-amber-400/20 text-amber-200 text-[10px] font-extrabold uppercase tracking-widest">
-          ✨ Special Announcement
+          ✨ {content.homeSections.announcementBadge}
         </span>
-        <span className="hidden sm:inline">Preserving Classic Truths for Modern Readers —</span>
-        <span>Worldwide Shipping & Instant Digital E-Books</span>
-        <Link href="/books/all" className="underline font-bold text-amber-200 hover:text-white transition-colors ml-2">
-          Explore Catalog →
+        <span className="hidden sm:inline">{content.homeSections.announcementText}</span>
+        <span>{content.homeSections.announcementSubtext}</span>
+        <Link href={content.homeSections.announcementLinkHref || '/books/all'} className="underline font-bold text-amber-200 hover:text-white transition-colors ml-2">
+          {content.homeSections.announcementLinkText}
         </Link>
       </div>
 
@@ -196,7 +198,7 @@ export function Header() {
                       <div className="w-52 p-4 space-y-3 bg-background border border-border rounded-xl shadow-xl mt-2">
                         <Link href="/books/all" className="flex items-center justify-between p-2 rounded-lg hover:bg-secondary/40 text-sm font-semibold text-foreground hover:text-primary transition-colors font-serif">
                           <span>All Catalog</span>
-                          <span className="text-[10px] bg-accent/10 text-accent font-extrabold px-2 py-0.5 rounded">6 Volumes</span>
+                          <span className="text-[10px] bg-accent/10 text-accent font-extrabold px-2 py-0.5 rounded">{content.books.length} Volumes</span>
                         </Link>
                         <Link href="/books/categories" className="flex items-center justify-between p-2 rounded-lg hover:bg-secondary/40 text-sm font-semibold text-foreground hover:text-primary transition-colors font-serif">
                           <span>Categories</span>

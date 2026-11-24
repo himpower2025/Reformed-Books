@@ -2,9 +2,11 @@
 
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Star, Mail, CheckCircle2, Sparkles, Quote, BookOpen, Heart } from 'lucide-react'
+import { Star, Mail, CheckCircle2, Sparkles, Quote, Heart } from 'lucide-react'
+import { useSiteContent } from '@/hooks/use-site-content'
 
 export function ReaderSpotlight() {
+  const { content } = useSiteContent()
   const [email, setEmail] = useState('')
   const [subscribed, setSubscribed] = useState(false)
 
@@ -17,32 +19,7 @@ export function ReaderSpotlight() {
     }, 3000)
   }
 
-  const testimonials = [
-    {
-      name: "Dr. Arthur Pendelton",
-      role: "Professor of Systematic Theology",
-      avatar: "👨‍🏫",
-      quote: "Reformed Books House produces volumes that combine historical rigor with breathtaking typography and binding quality. Unmatched in modern Christian publishing.",
-      rating: 5,
-      book: "The Doctrine of God"
-    },
-    {
-      name: "Rev. Rebecca Sterling",
-      role: "Pastoral Counselor & Author",
-      avatar: "👩‍💼",
-      quote: "Finding high-quality reformed literature that speaks directly to modern cultural challenges used to be difficult. Reformed Books House does it with grace.",
-      rating: 5,
-      book: "Christ and Culture"
-    },
-    {
-      name: "Marcus Vance",
-      role: "Seminary Scholar & Reader",
-      avatar: "🎓",
-      quote: "The physical feel of the paper, the clear serif fonts, and the instant availability of digital EPUBs make reading an absolute delight.",
-      rating: 5,
-      book: "A Reformed Worldview"
-    }
-  ]
+  const testimonials = content.testimonials
 
   return (
     <section className="py-24 bg-gradient-to-b from-background via-secondary/30 to-background relative overflow-hidden border-t border-border/40">
@@ -66,7 +43,7 @@ export function ReaderSpotlight() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
           {testimonials.map((t, i) => (
             <motion.div
-              key={i}
+              key={t.id || i}
               whileHover={{ y: -10, scale: 1.02 }}
               transition={{ type: "spring", stiffness: 400, damping: 15 }}
               className="bg-white rounded-2xl p-8 border border-border/60 shadow-lg hover:shadow-2xl transition-all relative flex flex-col justify-between"

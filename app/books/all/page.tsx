@@ -3,24 +3,28 @@
 import { useState } from 'react'
 import { Header } from '@/components/header'
 import { Footer } from '@/components/footer'
-import { booksData, Book } from '@/lib/db-data'
-import { motion, AnimatePresence } from 'framer-motion'
-import { Search, SlidersHorizontal, ArrowUpDown, BookOpen, DollarSign, X } from 'lucide-react'
+import { Book } from '@/lib/db-data'
+import { useSiteContent } from '@/hooks/use-site-content'
+import { motion } from 'framer-motion'
+import { Search, SlidersHorizontal, BookOpen } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
+import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog'
+import Link from 'next/link'
 
 export default function AllBooksPage() {
+  const { content } = useSiteContent()
+  const booksList = content.books
   const [search, setSearch] = useState('')
   const [selectedCategory, setSelectedCategory] = useState<string>('All')
   const [sortBy, setSortBy] = useState<'title' | 'price-asc' | 'price-desc'>('title')
   const [selectedBook, setSelectedBook] = useState<Book | null>(null)
 
   // Get unique categories
-  const categories = ['All', ...Array.from(new Set(booksData.map((b) => b.category)))]
+  const categories = ['All', ...Array.from(new Set(booksList.map((b) => b.category)))]
 
   // Filter & Sort books
-  const filteredBooks = booksData
+  const filteredBooks = booksList
     .filter((book) => {
       const matchesSearch = book.title.toLowerCase().includes(search.toLowerCase()) || 
                             book.author.toLowerCase().includes(search.toLowerCase()) ||

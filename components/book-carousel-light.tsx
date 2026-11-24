@@ -5,76 +5,14 @@ import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ChevronLeft, ChevronRight, Pause, Play } from 'lucide-react'
 
-// ─────────────────────────────────────────────────────────────
-// Book catalog dataset for featured carousel
-// ─────────────────────────────────────────────────────────────
-const BOOKS_DATA = [
-  {
-    id: 1,
-    title: "Reformed Theology",
-    subtitle: "A Comprehensive Exploration of Sovereign Grace",
-    description: "Reformed theology is not merely a set of historical theories, but a living, breathing perspective that captures the absolute majesty of God and His redemptive plan for humanity. In this foundational work, Dr. James Mitchell unpacks the majestic doctrines of grace, the covenants of Scripture, and the profound implications of God's sovereignty in a broken world. This volume serves as an essential companion for those who seek to anchor their faith in the immovable truths of historic reformed confessions.",
-    author: "Dr. James Mitchell",
-    genre: "Sovereign Grace",
-    coverColor: "bg-emerald-950 border-emerald-500/20",
-    accentColor: "text-amber-500/90",
-    emblemType: "shield",
-    textColor: "text-slate-100",
-    paperPageNum: 14
-  },
-  {
-    id: 2,
-    title: "Faith & Culture",
-    subtitle: "Engaging the Modern World with Truth",
-    description: "How does the Christian faith engage with a shifting, liquid modern culture without compromising its core convictions? Rev. Sarah Williams presents a compelling, nuanced roadmap for believers. Moving beyond passive withdrawal or aggressive culture wars, this work advocates for a redemptive presence—faithfully cultivating grace, truth, and beauty in the public square, arts, and daily vocations while remaining deeply rooted in the eternal Word.",
-    author: "Rev. Sarah Williams",
-    genre: "Christian Culture",
-    coverColor: "bg-[#142d25] border-teal-500/20",
-    accentColor: "text-teal-400",
-    emblemType: "leaves",
-    textColor: "text-teal-50",
-    paperPageNum: 48
-  },
-  {
-    id: 3,
-    title: "Biblical Worldview",
-    subtitle: "Developing a Unified Foundation for Life",
-    description: "No area of human thought or endeavor is neutral. Every decision, relationship, and value flows from a fundamental set of assumptions about reality. Dr. Michael Chen provides a systematic framework for developing a robust, cohesive biblical worldview. By exploring the narrative arch of creation, fall, redemption, and restoration, readers are equipped to think biblically about economics, science, arts, and the modern ethical dilemmas of our age.",
-    author: "Dr. Michael Chen",
-    genre: "Applied Apologetics",
-    coverColor: "bg-rose-950 border-rose-500/20",
-    accentColor: "text-amber-400",
-    emblemType: "sunburst",
-    textColor: "text-rose-50",
-    paperPageNum: 104
-  },
-  {
-    id: 4,
-    title: "Little Hearts, Big Grace",
-    subtitle: "A Lyrical Storybook of Covenants & Creation",
-    description: "Designed specifically to introduce toddlers and young children to the beautiful covenants of Scripture. Through lyrical storytelling and beautiful interactive visuals, little hearts will discover how much God loves them, from the starry skies of creation to the comforting promises of redemption. This modern classic serves as a treasured keepsake for family devotionals and cozy bedtime reading, making ultimate questions accessible and heartwarming to little ones.",
-    author: "Sarah Mitchell & David Chen",
-    genre: "Children & Family",
-    coverColor: "bg-indigo-900 border-indigo-400/20",
-    accentColor: "text-amber-300",
-    emblemType: "star",
-    textColor: "text-indigo-50",
-    paperPageNum: 20
-  },
-  {
-    id: 5,
-    title: "Doctrine & Practice",
-    subtitle: "Bridging Theological Truth with Daily Life",
-    description: "Theology was never meant to be confined to the dusty shelves of academic library alcoves. It of right belongs in the prayer closet, the marketplace, and the family table. Rev. Elizabeth Turner offers a beautifully practical and encouraging guide that translates orthodox Christian doctrines into active orthopraxy. Learn how the profound reality of justification, sanctification, and union with Christ transforms daily anxiety into perfect peace and fills life with purpose.",
-    author: "Rev. Elizabeth Turner",
-    genre: "Practical Theology",
-    coverColor: "bg-violet-950 border-violet-500/20",
-    accentColor: "text-cyan-400",
-    emblemType: "lamp",
-    textColor: "text-violet-50",
-    paperPageNum: 182
-  }
-]
+import { useSiteContent } from '@/hooks/use-site-content'
+import { CAROUSEL_THEMES, FeaturedCarouselBook } from '@/lib/site-content'
+
+interface ResolvedCarouselBook extends FeaturedCarouselBook {
+  coverColor: string
+  accentColor: string
+  textColor: string
+}
 
 // ─── 3D Page Flip core styling ───
 const flipStyles = `
@@ -196,7 +134,7 @@ function BookCoverPage({
   book,
   side
 }: {
-  book: (typeof BOOKS_DATA)[0]
+  book: ResolvedCarouselBook
   side: 'left' | 'right'
 }) {
   const isLeft = side === 'left';
@@ -277,7 +215,7 @@ function BookTextPage({
   side,
   pageNum
 }: {
-  book: (typeof BOOKS_DATA)[0]
+  book: ResolvedCarouselBook
   side: 'left' | 'right'
   pageNum: number
 }) {
@@ -372,11 +310,13 @@ function BookTextPage({
 }
 
 function OpenBook({
+  books,
   currentIndex,
   flippingDir,
   isFlipping,
   onFlipEnd,
 }: {
+  books: ResolvedCarouselBook[]
   currentIndex: number
   flippingDir: 'forward' | 'backward' | null
   isFlipping: boolean
@@ -384,17 +324,18 @@ function OpenBook({
 }) {
   const flipRef = useRef<HTMLDivElement>(null)
 
-  const currentBook = BOOKS_DATA[currentIndex]
-  const totalBooks = BOOKS_DATA.length
+  const totalBooks = books.length
+  const safeIndex = totalBooks > 0 ? currentIndex % totalBooks : 0
+  const currentBook = books[safeIndex]
 
-  const nextIndex = (currentIndex + 1) % totalBooks
-  const prevIndex = (currentIndex - 1 + totalBooks) % totalBooks
+  const nextIndex = totalBooks > 0 ? (safeIndex + 1) % totalBooks : 0
+  const prevIndex = totalBooks > 0 ? (safeIndex - 1 + totalBooks) % totalBooks : 0
 
-  const nextBook = BOOKS_DATA[nextIndex]
-  const prevBook = BOOKS_DATA[prevIndex]
+  const nextBook = books[nextIndex]
+  const prevBook = books[prevIndex]
 
-  const currentPageNumLeft = currentIndex * 2 + 12
-  const currentPageNumRight = currentIndex * 2 + 13
+  const currentPageNumLeft = safeIndex * 2 + 12
+  const currentPageNumRight = safeIndex * 2 + 13
   const nextPageNumLeft = nextIndex * 2 + 12
   const nextPageNumRight = nextIndex * 2 + 13
   const prevPageNumLeft = prevIndex * 2 + 12
@@ -573,48 +514,70 @@ function OpenBook({
 
 // ─── Main Carousel Component ───
 export function BookCarouselLight() {
+  const { content } = useSiteContent()
   const [currentIndex, setCurrentIndex] = useState(0)
   const [flippingDir, setFlippingDir] = useState<'forward' | 'backward' | null>(null)
   const [isFlipping, setIsFlipping] = useState(false)
   const [isAutoPlay, setIsAutoPlay] = useState(true)
   const pendingIndex = useRef<number | null>(null)
 
-  // Currently active book index
-  const displayIndex = currentIndex
-  const nextDisplayIndex = (currentIndex + 1) % BOOKS_DATA.length
-  const currentBook = BOOKS_DATA[displayIndex]
-  const nextBook = BOOKS_DATA[nextDisplayIndex]
+  const booksList: ResolvedCarouselBook[] = (content.featuredBooks.length > 0 ? content.featuredBooks : []).map((b) => {
+    const theme = CAROUSEL_THEMES[b.themeId] || CAROUSEL_THEMES.emerald
+    return {
+      ...b,
+      coverColor: theme.coverColor,
+      accentColor: theme.accentColor,
+      textColor: theme.textColor
+    }
+  })
+
+  const totalCount = booksList.length
+  const safeIndex = totalCount > 0 ? currentIndex % totalCount : 0
+  const currentBook = booksList[safeIndex]
 
   useEffect(() => {
-    if (!isAutoPlay) return
+    if (totalCount > 0 && currentIndex >= totalCount) {
+      setCurrentIndex(0)
+    }
+  }, [totalCount, currentIndex])
+
+  useEffect(() => {
+    if (!isAutoPlay || totalCount <= 1) return
     const timer = setInterval(() => {
       if (!isFlipping) triggerFlip('forward')
     }, 5000)
     return () => clearInterval(timer)
-  }, [isAutoPlay, isFlipping])
+  }, [isAutoPlay, isFlipping, totalCount])
 
   const triggerFlip = (dir: 'forward' | 'backward') => {
-    if (isFlipping) return
+    if (isFlipping || totalCount <= 1) return
     setFlippingDir(dir)
     setIsFlipping(true)
   }
 
   const handleFlipEnd = () => {
     setIsFlipping(false)
-    if (flippingDir === 'forward') {
-      setCurrentIndex((prev) => (prev + 1) % BOOKS_DATA.length)
-    } else {
-      setCurrentIndex((prev) => (prev - 1 + BOOKS_DATA.length) % BOOKS_DATA.length)
+    if (totalCount > 0) {
+      if (pendingIndex.current !== null) {
+        setCurrentIndex(pendingIndex.current % totalCount)
+        pendingIndex.current = null
+      } else if (flippingDir === 'forward') {
+        setCurrentIndex((prev) => (prev + 1) % totalCount)
+      } else {
+        setCurrentIndex((prev) => (prev - 1 + totalCount) % totalCount)
+      }
     }
     setFlippingDir(null)
   }
 
   const handleDotClick = (index: number) => {
-    if (isFlipping || index === currentIndex) return
-    const dir = index > currentIndex ? 'forward' : 'backward'
+    if (isFlipping || index === safeIndex) return
+    const dir = index > safeIndex ? 'forward' : 'backward'
     pendingIndex.current = index
     triggerFlip(dir)
   }
+
+  if (!currentBook) return null
 
   return (
     <>
@@ -701,7 +664,7 @@ export function BookCarouselLight() {
                   ✦
                 </motion.div>
                 <span className="text-xs uppercase tracking-widest font-extrabold text-accent">
-                  Discover Our Works
+                  {content.homeSections.featuredBooksEyebrow}
                 </span>
                 <motion.div 
                   animate={{ rotate: -360 }}
@@ -712,7 +675,7 @@ export function BookCarouselLight() {
                 </motion.div>
               </div>
               <h2 className="font-serif text-4xl md:text-5xl font-black text-foreground tracking-tight drop-shadow-sm flex items-center justify-center gap-2">
-                Featured Books
+                {content.homeSections.featuredBooksHeading}
                 <motion.span 
                   animate={{ y: [0, -6, 0] }}
                   transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
@@ -725,7 +688,8 @@ export function BookCarouselLight() {
 
             {/* ── 3D Book Display Area ── */}
             <OpenBook
-              currentIndex={currentIndex}
+              books={booksList}
+              currentIndex={safeIndex}
               flippingDir={flippingDir}
               isFlipping={isFlipping}
               onFlipEnd={handleFlipEnd}
@@ -734,7 +698,7 @@ export function BookCarouselLight() {
             {/* Book Info Panel */}
             <AnimatePresence mode="wait">
               <motion.div
-                key={currentIndex}
+                key={currentBook.id || safeIndex}
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -12 }}
@@ -744,10 +708,10 @@ export function BookCarouselLight() {
                 {/* Page number counter */}
                 <div className="flex items-baseline gap-3 shrink-0">
                   <span className="font-serif text-6xl font-bold text-accent/25 leading-none">
-                    {String(currentIndex + 1).padStart(2, '0')}
+                    {String(safeIndex + 1).padStart(2, '0')}
                   </span>
                   <span className="text-xs uppercase tracking-widest text-muted-foreground">
-                    of {BOOKS_DATA.length}
+                    of {booksList.length}
                   </span>
                 </div>
 
@@ -772,7 +736,7 @@ export function BookCarouselLight() {
                       Author: <span className="text-foreground">{currentBook.author}</span>
                     </p>
                     <Link
-                      href="/books/all"
+                      href={currentBook.linkUrl || "/books/all"}
                       className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-primary hover:text-accent transition-colors bg-white px-4 py-2 rounded-full border border-primary/20 shadow-sm hover:shadow"
                     >
                       <span>Order Paperback or E-Book</span>
@@ -801,14 +765,14 @@ export function BookCarouselLight() {
 
                 {/* Dot Indicators */}
                 <div className="flex gap-3">
-                  {BOOKS_DATA.map((_, index) => (
+                  {booksList.map((_, index) => (
                     <motion.button
                       key={index}
                       onClick={() => handleDotClick(index)}
                       whileHover={{ scale: 1.2 }}
                       whileTap={{ scale: 0.95 }}
                       className={`rounded-full transition-all ${
-                        index === currentIndex
+                        index === safeIndex
                           ? 'bg-accent w-8 h-2'
                           : 'bg-border w-2 h-2 hover:bg-muted-foreground'
                       }`}

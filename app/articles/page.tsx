@@ -3,14 +3,17 @@
 import { useState } from 'react'
 import { Header } from '@/components/header'
 import { Footer } from '@/components/footer'
-import { articlesData, Article } from '@/lib/db-data'
+import { Article } from '@/lib/db-data'
+import { useSiteContent } from '@/hooks/use-site-content'
 import { motion } from 'framer-motion'
-import { Calendar, User, Clock, ArrowRight, X, BookOpen } from 'lucide-react'
+import { Calendar, Clock, ArrowRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 
 export default function ArticlesPage() {
+  const { content } = useSiteContent()
   const [activeArticle, setActiveArticle] = useState<Article | null>(null)
+  const articlesList = content.articles
 
   return (
     <main className="min-h-screen bg-background text-foreground flex flex-col">
@@ -35,7 +38,7 @@ export default function ArticlesPage() {
       <section className="py-16 flex-grow">
         <div className="mx-auto max-w-[1200px] px-6">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {articlesData.map((article, index) => (
+            {articlesList.map((article, index) => (
               <motion.article
                 key={article.id}
                 initial={{ opacity: 0, y: 15 }}

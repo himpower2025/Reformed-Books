@@ -5,7 +5,8 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { Header } from '@/components/header'
 import { Footer } from '@/components/footer'
-import { booksData, Book } from '@/lib/db-data'
+import { useSiteContent } from '@/hooks/use-site-content'
+import { ManagedBook } from '@/lib/site-content'
 import { motion, AnimatePresence } from 'framer-motion'
 import { 
   Star, 
@@ -44,9 +45,11 @@ interface Review {
 export default function BookDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = use(params)
   const bookId = resolvedParams.id
+  const { content } = useSiteContent()
+  const booksList = content.books
 
   // Find target book or fallback to first book
-  const book: Book = booksData.find((b) => b.id === bookId) || booksData[0]
+  const book: ManagedBook = booksList.find((b) => b.id === bookId) || booksList[0]
 
   // Formats state: default select Paperback
   const [selectedFormat, setSelectedFormat] = useState<'paperback' | 'ebook'>('paperback')
@@ -92,7 +95,7 @@ export default function BookDetailPage({ params }: { params: Promise<{ id: strin
   const [submittedReview, setSubmittedReview] = useState(false)
 
   // Related books (filtering out the current book)
-  const relatedBooks = booksData
+  const relatedBooks = booksList
     .filter((b) => b.id !== book.id)
     .sort((a, b) => (a.category === book.category ? -1 : 1))
     .slice(0, 4)
@@ -461,7 +464,7 @@ export default function BookDetailPage({ params }: { params: Promise<{ id: strin
                     </div>
                     <div>
                       <span className="text-muted-foreground block text-[10px] uppercase font-sans">ISBN</span>
-                      <span className="font-semibold text-foreground">978-1-68359-00{book.id}</span>
+                      <span className="font-semibold text-foreground">{book.isbn || `978-1-68359-00${book.id}`}</span>
                     </div>
                   </div>
                 </div>
@@ -697,7 +700,7 @@ export default function BookDetailPage({ params }: { params: Promise<{ id: strin
                   CHAPTER 1: THE MAJESTY OF SOVEREIGN FAITH
                 </p>
                 <p className="text-muted-foreground text-xs italic">
-                  "To know God in truth is to rest in His eternal decree. When the heart recognizes that salvation is completely of grace, anxiety dissipates into pure worship..."
+                  {book.sampleExcerpt || '"To know God in truth is to rest in His eternal decree. When the heart recognizes that salvation is completely of grace, anxiety dissipates into pure worship..."'}
                 </p>
               </div>
 

@@ -129,10 +129,17 @@ export function getStoredOrders(): OrderRecord[] {
   }
 }
 
+export const ADMIN_BANK_EVENT = 'reformed_bank_config_updated'
+
 export function saveOrders(orders: OrderRecord[]): void {
   if (typeof window === 'undefined') return
   try {
     localStorage.setItem(ORDERS_STORAGE_KEY, JSON.stringify(orders))
+    fetch('/api/admin-store', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'saveOrders', orders })
+    }).catch(() => {})
   } catch (e) {
     console.error("Failed to save orders:", e)
   }
@@ -141,7 +148,18 @@ export function saveOrders(orders: OrderRecord[]): void {
 export function addOrder(newOrder: OrderRecord): void {
   const current = getStoredOrders()
   const updated = [newOrder, ...current]
-  saveOrders(updated)
+  if (typeof window !== 'undefined') {
+    try {
+      localStorage.setItem(ORDERS_STORAGE_KEY, JSON.stringify(updated))
+      fetch('/api/admin-store', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'addOrder', order: newOrder })
+      }).catch(() => {})
+    } catch (e) {
+      console.error("Failed to add order:", e)
+    }
+  }
 }
 
 export function updateOrderStatus(
@@ -191,7 +209,35 @@ export function saveBankConfig(config: BankConfig): void {
   if (typeof window === 'undefined') return
   try {
     localStorage.setItem(BANK_STORAGE_KEY, JSON.stringify(config))
+    window.dispatchEvent(new CustomEvent(ADMIN_BANK_EVENT, { detail: config }))
+    fetch('/api/admin-store', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'saveBankConfig', bankConfig: config })
+    }).catch(() => {})
   } catch (e) {
     console.error("Failed to save bank config:", e)
   }
+}
+
+export async function fetchAdminStore(): Promise<{ orders: OrderRecord[]; bankConfig: BankConfig }> {
+  const localOrders = getStoredOrders()
+  const localBank = getStoredBankConfig()
+  if (typeof window === 'undefined') {
+    return { orders: localOrders, bankConfig: localBank }
+  }
+  try {
+    const res = await fetch('/api/admin-store', { cache: 'no-store' })
+    if (res.ok) {
+      const data = await res.json()
+      const orders = Array.isArray(data.orders) ? data.orders : localOrders
+      const bankConfig = data.bankConfig ? { ...DEFAULT_BANK_CONFIG, ...data.bankConfig } : localBank
+      localStorage.setItem(ORDERS_STORAGE_KEY, JSON.stringify(orders))
+      localStorage.setItem(BANK_STORAGE_KEY, JSON.stringify(bankConfig))
+      return { orders, bankConfig }
+    }
+  } catch {
+    // Fallback to localStorage
+  }
+  return { orders: localOrders, bankConfig: localBank }
 }

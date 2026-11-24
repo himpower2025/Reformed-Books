@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 import { 
@@ -22,7 +22,7 @@ import {
   Smartphone
 } from 'lucide-react'
 import { Book } from '@/lib/db-data'
-import { addOrder } from '@/lib/admin-data'
+import { addOrder, BankConfig, DEFAULT_BANK_CONFIG, getStoredBankConfig, fetchAdminStore, ADMIN_BANK_EVENT } from '@/lib/admin-data'
 
 export interface CheckoutModalProps {
   isOpen: boolean
@@ -59,11 +59,26 @@ export function CheckoutModal({
   // Bank / QR State
   const [depositorName, setDepositorName] = useState('')
   const [copiedAccount, setCopiedAccount] = useState(false)
+  const [bankConfig, setBankConfig] = useState<BankConfig>(DEFAULT_BANK_CONFIG)
 
   // Status & Receipt State
   const [isProcessing, setIsProcessing] = useState(false)
   const [orderCompleted, setOrderCompleted] = useState(false)
   const [orderId, setOrderId] = useState('')
+
+  useEffect(() => {
+    setBankConfig(getStoredBankConfig())
+    fetchAdminStore().then((store) => {
+      if (store.bankConfig) setBankConfig(store.bankConfig)
+    })
+    const handleBankUpdate = (e: Event) => {
+      const custom = e as CustomEvent<BankConfig>
+      if (custom.detail) setBankConfig(custom.detail)
+      else setBankConfig(getStoredBankConfig())
+    }
+    window.addEventListener(ADMIN_BANK_EVENT, handleBankUpdate)
+    return () => window.removeEventListener(ADMIN_BANK_EVENT, handleBankUpdate)
+  }, [])
 
   if (!isOpen) return null
 
@@ -73,7 +88,7 @@ export function CheckoutModal({
 
   // Copy Account Number
   const handleCopyAccount = () => {
-    navigator.clipboard.writeText('028010010001171')
+    navigator.clipboard.writeText(bankConfig.accountNumber)
     setCopiedAccount(true)
     setTimeout(() => setCopiedAccount(false), 2000)
   }
@@ -110,16 +125,9 @@ export function CheckoutModal({
       return
     }
 
-    if (paymentMethod === 'card') {
-      if (!cardNumber || !cardExpiry || !cardCvc) {
-        alert('Please fill in complete credit card details.')
-        return
-      }
-    } else {
-      if (!depositorName) {
-        alert('Please enter the Depositor Name for bank transfer verification.')
-        return
-      }
+    if (!depositorName) {
+      alert('Please enter the Depositor Name for bank transfer verification.')
+      return
     }
 
     setIsProcessing(true)
@@ -208,7 +216,7 @@ export function CheckoutModal({
 
             <div>
               <span className="text-xs font-bold uppercase tracking-widest text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
-                {paymentMethod === 'card' ? 'Payment Approved' : 'Bank Transfer Registered'}
+                {paymentMethod === 'qr' ? 'Bank QR Transfer Registered' : 'eSewa / Khalti Transfer Registered'}
               </span>
               <h3 className="font-serif text-2xl md:text-3xl font-bold text-foreground mt-3">
                 Thank You for Your Order!
@@ -425,11 +433,11 @@ export function CheckoutModal({
                     <div className="grid grid-cols-2 gap-2 text-xs font-mono">
                       <div className="p-2.5 bg-emerald-50/80 rounded-lg border border-emerald-200">
                         <span className="text-[10px] text-emerald-700 block font-sans font-bold">eSewa Wallet ID</span>
-                        <span className="font-bold text-foreground">9801234567</span>
+                        <span className="font-bold text-foreground">{bankConfig.esewaNumber}</span>
                       </div>
                       <div className="p-2.5 bg-purple-50/80 rounded-lg border border-purple-200">
                         <span className="text-[10px] text-purple-700 block font-sans font-bold">Khalti Wallet ID</span>
-                        <span className="font-bold text-foreground">9801234567</span>
+                        <span className="font-bold text-foreground">{bankConfig.khaltiNumber}</span>
                       </div>
                     </div>
 
@@ -472,21 +480,21 @@ export function CheckoutModal({
                       {/* QR Code Graphic with local fallback */}
                       <div className="w-32 h-32 bg-slate-950 p-1.5 rounded-xl border border-slate-800 text-white flex items-center justify-center relative shadow-inner overflow-hidden">
                         <img 
-                          src="/fonepay-qr.jpg" 
+                          src={bankConfig.qrImageUrl || "/fonepay-qr.jpg"} 
                           alt="Fonepay Sanima Bank QR Code"
                           onError={(e) => {
                             // Fallback to dynamic server QR if local file is missing
-                            e.currentTarget.src = "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=2222110015078798"
+                            e.currentTarget.src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(bankConfig.fonepayTerminalId || '2222110015078798')}`
                           }}
                           className="w-full h-full object-contain rounded-lg bg-white"
                         />
                       </div>
 
                       <span className="font-serif text-[10px] font-bold text-slate-900 mt-2 line-clamp-1">
-                        REFORMED BOOKS HOUSE
+                        {bankConfig.accountName}
                       </span>
                       <span className="font-mono text-[9px] text-slate-500">
-                        Terminal: 2222110015078798
+                        Terminal: {bankConfig.fonepayTerminalId}
                       </span>
                     </div>
 
@@ -495,16 +503,16 @@ export function CheckoutModal({
                       <div className="flex items-center gap-2 pb-2 border-b border-border">
                         <Building2 className="w-4 h-4 text-primary" />
                         <div>
-                          <span className="font-extrabold text-slate-900 text-sm block">Sanima Bank Limited</span>
-                          <span className="text-[10px] text-muted-foreground font-mono">Ekantakuna Branch, Nepal</span>
+                          <span className="font-extrabold text-slate-900 text-sm block">{bankConfig.bankName}</span>
+                          <span className="text-[10px] text-muted-foreground font-mono">{bankConfig.branchName}</span>
                         </div>
                       </div>
 
                       <div className="space-y-1 bg-slate-900 text-white p-3 rounded-xl font-mono text-xs">
                         <span className="text-[10px] text-amber-300 block font-sans uppercase font-bold">Account Holder</span>
-                        <div className="font-bold text-amber-100 text-xs tracking-wide">REFORMED BOOKS HOUSE PVT.LTD.</div>
+                        <div className="font-bold text-amber-100 text-xs tracking-wide">{bankConfig.accountName}</div>
                         <div className="flex items-center justify-between pt-1 border-t border-slate-800 mt-1">
-                          <span className="text-white font-extrabold tracking-wider text-sm">028010010001171</span>
+                          <span className="text-white font-extrabold tracking-wider text-sm">{bankConfig.accountNumber}</span>
                           <button
                             type="button"
                             onClick={handleCopyAccount}
