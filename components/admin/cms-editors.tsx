@@ -36,7 +36,8 @@ import {
   MonthlyThemeId,
   EmblemType,
   DEFAULT_SITE_CONTENT,
-  compressImageFile
+  compressImageFile,
+  formatNPR
 } from '@/lib/site-content'
 import { Article, EventItem } from '@/lib/db-data'
 
@@ -953,7 +954,7 @@ export function LibraryCatalogEditor({ content, onSave, isSaving }: EditorProps)
       subtitle: '',
       author: '',
       category: 'Sovereign Grace',
-      price: 19.99,
+      price: 1200,
       image: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=400&h=600&fit=crop',
       description: '',
       paperPageNum: 220,
@@ -1093,7 +1094,7 @@ export function LibraryCatalogEditor({ content, onSave, isSaving }: EditorProps)
                   <h4 className="font-serif text-sm font-bold text-slate-900 line-clamp-2">{book.title}</h4>
                   <p className="text-xs text-slate-500 font-serif truncate">by {book.author}</p>
                   <div className="text-xs font-mono font-bold text-slate-900 pt-1">
-                    ${book.price.toFixed(2)} • {book.paperPageNum || 240} pages
+                    {formatNPR(book.price)} • {book.paperPageNum || 240} pages
                   </div>
                 </div>
               </div>
@@ -1203,11 +1204,12 @@ export function LibraryCatalogEditor({ content, onSave, isSaving }: EditorProps)
 
               <div className="grid grid-cols-3 gap-3">
                 <div>
-                  <label className="block font-serif font-bold text-slate-700 mb-1">Paperback Price ($) *</label>
+                  <label className="block font-serif font-bold text-slate-700 mb-1">Paperback Price (NPR) *</label>
                   <input
                     required
                     type="number"
-                    step="0.01"
+                    step="1"
+                    min="0"
                     value={editingBook.price}
                     onChange={(e) => setEditingBook({ ...editingBook, price: parseFloat(e.target.value) || 0 })}
                     className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl font-mono"

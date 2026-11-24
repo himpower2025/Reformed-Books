@@ -48,10 +48,11 @@ export function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [userEmail, setUserEmail] = useState('')
   const [userName, setUserName] = useState('')
+  const [userRole, setUserRole] = useState('')
   const [isAdminOpen, setIsAdminOpen] = useState(false)
 
   const isAdmin = isLoggedIn && (
-    userEmail === 'himpower2025@gmail.com' ||
+    userRole === 'admin' ||
     userEmail.toLowerCase().endsWith('@reformedbooks.com') ||
     userEmail.toLowerCase().includes('admin')
   )
@@ -94,7 +95,8 @@ export function Header() {
         if (parsed && typeof parsed === 'object') {
           setIsLoggedIn(true)
           setUserEmail(parsed.email || '')
-          setUserName(parsed.name || '')
+          setUserName(parsed.name || parsed.username || '')
+          setUserRole(parsed.role || '')
         }
       } catch (e) {
         localStorage.removeItem('reformed_user')
@@ -150,6 +152,7 @@ export function Header() {
     setIsLoggedIn(false)
     setUserEmail('')
     setUserName('')
+    setUserRole('')
   }
 
   return (
@@ -544,28 +547,6 @@ export function Header() {
                 <Button type="submit" className="w-full h-10 mt-6 font-semibold uppercase text-xs tracking-wider">
                   Log in
                 </Button>
-
-                <div className="pt-4 border-t border-dashed border-border/60 mt-5 flex flex-col items-center gap-1.5">
-                  <span className="text-[9px] text-muted-foreground uppercase tracking-widest font-bold">Admin Testing Bypass</span>
-                  <Button
-                    type="button"
-                    variant="outline"
-                    onClick={() => {
-                      const adminUser = {
-                        email: 'himpower2025@gmail.com',
-                        name: 'Administrator'
-                      }
-                      localStorage.setItem('reformed_user', JSON.stringify(adminUser))
-                      setIsLoggedIn(true)
-                      setUserEmail(adminUser.email)
-                      setUserName(adminUser.name)
-                      setIsAuthOpen(false)
-                    }}
-                    className="w-full text-xs font-semibold h-9 flex items-center justify-center gap-1.5 border-[#0f4c81]/20 text-[#0f4c81] hover:bg-[#0f4c81]/5 hover:text-[#0f4c81] transition-colors"
-                  >
-                    🔐 Sign in as himpower2025@gmail.com
-                  </Button>
-                </div>
               </form>
             ) : (
               <form onSubmit={handleSignUp} className="space-y-4">

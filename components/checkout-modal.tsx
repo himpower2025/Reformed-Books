@@ -22,6 +22,7 @@ import {
   Smartphone
 } from 'lucide-react'
 import { Book } from '@/lib/db-data'
+import { formatNPR } from '@/lib/site-content'
 import { addOrder, BankConfig, DEFAULT_BANK_CONFIG, getStoredBankConfig, fetchAdminStore, ADMIN_BANK_EVENT } from '@/lib/admin-data'
 
 export interface CheckoutModalProps {
@@ -83,7 +84,7 @@ export function CheckoutModal({
   if (!isOpen) return null
 
   const subtotal = price * quantity
-  const shippingFee = format === 'ebook' ? 0 : (subtotal > 30 ? 0 : 3.50)
+  const shippingFee = format === 'ebook' ? 0 : (subtotal >= 2500 ? 0 : 150)
   const totalAmount = subtotal + shippingFee
 
   // Copy Account Number
@@ -237,26 +238,26 @@ export function CheckoutModal({
 
               <div className="flex justify-between items-center text-sm">
                 <span className="font-bold text-foreground">{book.title} ({format === 'paperback' ? 'Paperback' : 'E-book'})</span>
-                <span className="font-mono font-bold">${subtotal.toFixed(2)}</span>
+                <span className="font-mono font-bold">{formatNPR(subtotal)}</span>
               </div>
 
               {format === 'paperback' && (
                 <div className="flex justify-between items-center text-muted-foreground">
                   <span>Shipping Fee</span>
-                  <span className="font-mono">{shippingFee === 0 ? 'FREE' : `$${shippingFee.toFixed(2)}`}</span>
+                  <span className="font-mono">{shippingFee === 0 ? 'FREE' : formatNPR(shippingFee)}</span>
                 </div>
               )}
 
               <div className="flex justify-between items-center text-base font-extrabold text-primary border-t border-border/50 pt-3">
                 <span>Total Amount Paid</span>
-                <span className="font-mono">${totalAmount.toFixed(2)}</span>
+                <span className="font-mono">{formatNPR(totalAmount)}</span>
               </div>
 
               <div className="pt-2 text-[11px] text-muted-foreground border-t border-dashed border-border">
                 <span className="font-bold text-foreground">Customer: </span>{buyerName} ({buyerEmail})
                 {paymentMethod === 'qr' && (
                   <p className="mt-1 text-amber-800 bg-amber-50 p-2 rounded border border-amber-200">
-                    💡 <strong>Payment Instructions:</strong> Please transfer <strong>${totalAmount.toFixed(2)} (approx. {(totalAmount * 135).toLocaleString()} NRs)</strong> to Sanima Bank Account <strong>028010010001171</strong> (A/C Name: REFORMED BOOKS HOUSE PVT.LTD. - Ekantakuna Branch) via Fonepay / Mobile Banking with Depositor Name <strong>[{depositorName}]</strong>. Your order will be fulfilled immediately upon verification.
+                    <strong>Payment Instructions:</strong> Please transfer <strong>{formatNPR(totalAmount)}</strong> to {bankConfig.bankName} Account <strong>{bankConfig.accountNumber}</strong> (A/C Name: {bankConfig.accountName} - {bankConfig.branchName}) via Fonepay / Mobile Banking with Depositor Name <strong>[{depositorName}]</strong>. Your order will be fulfilled upon verification.
                   </p>
                 )}
                 {format === 'ebook' && (
@@ -299,7 +300,7 @@ export function CheckoutModal({
               </div>
               <div className="text-right font-mono">
                 <span className="text-xs text-muted-foreground block">Total</span>
-                <span className="text-lg font-black text-primary">${totalAmount.toFixed(2)}</span>
+                <span className="text-lg font-black text-primary">{formatNPR(totalAmount)}</span>
               </div>
             </div>
 
@@ -426,7 +427,7 @@ export function CheckoutModal({
                         <Smartphone className="w-4 h-4 text-emerald-600" /> Nepal Digital Wallet (eSewa / Khalti ID)
                       </span>
                       <span className="text-[10px] font-mono font-bold bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded">
-                        NPR ~ {(totalAmount * 135).toLocaleString()} NRs
+                        {formatNPR(totalAmount)}
                       </span>
                     </div>
 
@@ -442,7 +443,7 @@ export function CheckoutModal({
                     </div>
 
                     <p className="text-[11px] font-serif text-muted-foreground">
-                      Please transfer the total amount (approx. <strong>{(totalAmount * 135).toLocaleString()} NRs</strong>) to either eSewa or Khalti ID above and enter your sender name below.
+                      Please transfer the total amount (<strong>{formatNPR(totalAmount)}</strong>) to either eSewa or Khalti ID above and enter your sender name below.
                     </p>
                   </div>
 
@@ -564,8 +565,8 @@ export function CheckoutModal({
                     <Lock className="w-4 h-4 text-amber-300" />
                     <span>
                       {paymentMethod === 'esewa'
-                        ? `Submit Order $${totalAmount.toFixed(2)} (eSewa / Khalti)`
-                        : `Submit Order $${totalAmount.toFixed(2)} (Sanima Bank QR)`}
+                        ? `Submit Order ${formatNPR(totalAmount)} (eSewa / Khalti)`
+                        : `Submit Order ${formatNPR(totalAmount)} (Bank QR)`}
                     </span>
                   </>
                 )}

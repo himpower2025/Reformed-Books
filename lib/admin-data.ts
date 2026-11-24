@@ -49,66 +49,13 @@ export const DEFAULT_BANK_CONFIG: BankConfig = {
   contactEmail: "info@reformedbooks.com"
 }
 
-export const INITIAL_SAMPLE_ORDERS: OrderRecord[] = [
-  {
-    id: "RBH-7821049",
-    bookId: "1",
-    bookTitle: "Sovereignty of Grace",
-    bookAuthor: "Dr. James Mitchell",
-    format: "paperback",
-    quantity: 1,
-    price: 24.99,
-    totalAmount: 24.99,
-    paymentMethod: "qr",
-    depositorName: "Aarav Sharma",
-    buyerName: "Aarav Sharma",
-    buyerEmail: "aarav.sharma@gmail.com",
-    buyerPhone: "+977-9841234567",
-    shippingAddress: "House 24, Patan Dhoka Road, Lalitpur, Bagmati Province, Nepal",
-    status: "PENDING_VERIFICATION",
-    createdAt: "2026-10-26T14:30:00Z",
-    adminNotes: "Customer deposited via Sanima Bank Fonepay QR. Awaiting bank statement check."
-  },
-  {
-    id: "RBH-7820912",
-    bookId: "3",
-    bookTitle: "Solitude & Prayer",
-    bookAuthor: "Alethea Sterling",
-    format: "ebook",
-    quantity: 1,
-    price: 15.99,
-    totalAmount: 15.99,
-    paymentMethod: "esewa",
-    depositorName: "Pooja Gurung",
-    buyerName: "Pooja Gurung",
-    buyerEmail: "pooja.gurung@outlook.com",
-    buyerPhone: "+977-9801987654",
-    status: "PAYMENT_CONFIRMED",
-    createdAt: "2026-10-25T11:15:00Z",
-    adminNotes: "eSewa transfer verified. Digital PDF download link ready to email."
-  },
-  {
-    id: "RBH-7819830",
-    bookId: "2",
-    bookTitle: "The Covenant Path",
-    bookAuthor: "Rev. Thomas Vance",
-    format: "paperback",
-    quantity: 2,
-    price: 19.99,
-    totalAmount: 39.98,
-    paymentMethod: "qr",
-    depositorName: "Sunil Thapa",
-    buyerName: "Sunil Thapa",
-    buyerEmail: "sunil.thapa@gmail.com",
-    buyerPhone: "+977-9851029384",
-    shippingAddress: "Shanti Marga, New Baneshwor, Kathmandu, Nepal",
-    status: "FULFILLED",
-    createdAt: "2026-10-24T09:00:00Z",
-    fulfilledAt: "2026-10-24T16:20:00Z",
-    trackingNumber: "NP-EXP-44021",
-    adminNotes: "Dispatched via Kathmandu Courier express. Tracking link emailed."
-  }
-]
+export const INITIAL_SAMPLE_ORDERS: OrderRecord[] = []
+
+const LEGACY_FAKE_ORDER_IDS = new Set(['RBH-7821049', 'RBH-7820912', 'RBH-7819830'])
+
+export function stripFakeSampleOrders(list: OrderRecord[]): OrderRecord[] {
+  return list.filter((o) => !LEGACY_FAKE_ORDER_IDS.has(o.id))
+}
 
 const ORDERS_STORAGE_KEY = 'reformed_books_orders'
 const BANK_STORAGE_KEY = 'reformed_books_bank_config'
@@ -122,7 +69,12 @@ export function getStoredOrders(): OrderRecord[] {
       return INITIAL_SAMPLE_ORDERS
     }
     const parsed = JSON.parse(raw)
-    return Array.isArray(parsed) ? parsed : INITIAL_SAMPLE_ORDERS
+    if (!Array.isArray(parsed)) return INITIAL_SAMPLE_ORDERS
+    const cleaned = stripFakeSampleOrders(parsed)
+    if (cleaned.length !== parsed.length) {
+      localStorage.setItem(ORDERS_STORAGE_KEY, JSON.stringify(cleaned))
+    }
+    return cleaned
   } catch (e) {
     console.error("Failed to parse stored orders:", e)
     return INITIAL_SAMPLE_ORDERS
@@ -230,7 +182,8 @@ export async function fetchAdminStore(): Promise<{ orders: OrderRecord[]; bankCo
     const res = await fetch('/api/admin-store', { cache: 'no-store' })
     if (res.ok) {
       const data = await res.json()
-      const orders = Array.isArray(data.orders) ? data.orders : localOrders
+      const rawOrders = Array.isArray(data.orders) ? data.orders : localOrders
+      const orders = stripFakeSampleOrders(rawOrders)
       const bankConfig = data.bankConfig ? { ...DEFAULT_BANK_CONFIG, ...data.bankConfig } : localBank
       localStorage.setItem(ORDERS_STORAGE_KEY, JSON.stringify(orders))
       localStorage.setItem(BANK_STORAGE_KEY, JSON.stringify(bankConfig))

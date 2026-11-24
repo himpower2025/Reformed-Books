@@ -5,6 +5,7 @@ import { Header } from '@/components/header'
 import { Footer } from '@/components/footer'
 import { Book } from '@/lib/db-data'
 import { useSiteContent } from '@/hooks/use-site-content'
+import { formatNPR } from '@/lib/site-content'
 import { motion } from 'framer-motion'
 import { Search, SlidersHorizontal, BookOpen } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -150,7 +151,7 @@ export default function AllBooksPage() {
 
                   <div className="mt-2.5 pt-1.5 border-t border-border/20 flex items-center justify-between">
                     <span className="text-xs font-semibold text-foreground">
-                      ${book.price.toFixed(2)}
+                      {formatNPR(book.price)}
                     </span>
                     <span className="text-[9px] text-muted-foreground uppercase tracking-widest">
                       {book.paperPageNum ? `${book.paperPageNum}p` : ''}
@@ -212,7 +213,7 @@ export default function AllBooksPage() {
                 <div className="mt-6 pt-4 border-t border-border/40">
                   <div className="flex items-center justify-between mb-4">
                     <span className="text-xs text-muted-foreground font-medium">Retail Price</span>
-                    <span className="text-lg font-extrabold text-foreground">${selectedBook.price.toFixed(2)}</span>
+                    <span className="text-lg font-extrabold text-foreground">{formatNPR(selectedBook.price)}</span>
                   </div>
                   
                   <div className="flex gap-2">

@@ -67,7 +67,7 @@ export const booksData: Book[] = [
     coverColor: "bg-emerald-950 border-emerald-500/20",
     accentColor: "text-amber-500/90",
     emblemType: "shield",
-    price: 24.99,
+    price: 1800,
     image: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=400&h=600&fit=crop",
     paperPageNum: 312
   },
@@ -81,7 +81,7 @@ export const booksData: Book[] = [
     coverColor: "bg-amber-950 border-amber-500/20",
     accentColor: "text-amber-400/90",
     emblemType: "anchor",
-    price: 19.99,
+    price: 1450,
     image: "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=400&h=600&fit=crop",
     paperPageNum: 245
   },
@@ -95,7 +95,7 @@ export const booksData: Book[] = [
     coverColor: "bg-slate-900 border-slate-500/20",
     accentColor: "text-slate-300",
     emblemType: "leaf",
-    price: 15.99,
+    price: 1150,
     image: "https://images.unsplash.com/photo-1543002588-d83ceddc8055?w=400&h=600&fit=crop",
     paperPageNum: 180
   },
@@ -109,7 +109,7 @@ export const booksData: Book[] = [
     coverColor: "bg-indigo-900 border-indigo-400/20",
     accentColor: "text-amber-300",
     emblemType: "star",
-    price: 18.99,
+    price: 1350,
     image: "https://images.unsplash.com/photo-1476275466078-4007374efbbe?w=400&h=600&fit=crop",
     paperPageNum: 20
   },
@@ -123,7 +123,7 @@ export const booksData: Book[] = [
     coverColor: "bg-violet-950 border-violet-500/20",
     accentColor: "text-cyan-400",
     emblemType: "lamp",
-    price: 21.99,
+    price: 1600,
     image: "https://images.unsplash.com/photo-1507842217343-583f20270319?w=400&h=600&fit=crop",
     paperPageNum: 182
   },
@@ -137,7 +137,7 @@ export const booksData: Book[] = [
     coverColor: "bg-rose-950 border-rose-500/20",
     accentColor: "text-rose-300",
     emblemType: "scroll",
-    price: 24.99,
+    price: 1800,
     image: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=400&h=600&fit=crop",
     paperPageNum: 280
   }
@@ -195,7 +195,7 @@ export const eventsData: EventItem[] = [
     description: "Reformed Books House is excited to announce our flagship Autumn Special Sale Event! Celebrate the release of our landmark 6-Volume Theology Collection with exclusive limited edition clothbound hardcovers, companion study guides, and instant EPUB bundle packs.",
     highlights: [
       "Special 35% discount on complete 6-volume hardcover box sets",
-      "Free custom embossed leather bookmarks with every order over $50",
+      "Free custom embossed leather bookmarks with every order over NPR 3,500",
       "Instant digital PDF/EPUB download link emailed immediately upon purchase",
       "Live author Q&A session broadcasted on August 20th"
     ],

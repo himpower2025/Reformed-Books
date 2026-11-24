@@ -6,7 +6,7 @@ import Image from 'next/image'
 import { Header } from '@/components/header'
 import { Footer } from '@/components/footer'
 import { useSiteContent } from '@/hooks/use-site-content'
-import { ManagedBook } from '@/lib/site-content'
+import { ManagedBook, formatNPR } from '@/lib/site-content'
 import { motion, AnimatePresence } from 'framer-motion'
 import { 
   Star, 
@@ -102,7 +102,7 @@ export default function BookDetailPage({ params }: { params: Promise<{ id: strin
 
   // Calculated Prices
   const paperbackPrice = book.price
-  const ebookPrice = Math.round((book.price * 0.65) * 100) / 100
+  const ebookPrice = Math.round(book.price * 0.65)
 
   // Quick Notification Handler
   const showToast = (msg: string) => {
@@ -315,7 +315,7 @@ export default function BookDetailPage({ params }: { params: Promise<{ id: strin
                           </span>
                         </div>
                         <div className="text-2xl font-extrabold font-sans text-primary mb-1">
-                          ${ebookPrice.toFixed(2)}
+                          {formatNPR(ebookPrice)}
                         </div>
                         <p className="text-xs text-muted-foreground leading-normal font-serif">
                           Instant digital download. Compatible with Kindle, iPad, Android & e-readers.
@@ -368,7 +368,7 @@ export default function BookDetailPage({ params }: { params: Promise<{ id: strin
                           </span>
                         </div>
                         <div className="text-2xl font-extrabold font-sans text-primary mb-1">
-                          ${paperbackPrice.toFixed(2)}
+                          {formatNPR(paperbackPrice)}
                         </div>
                         <p className="text-xs text-muted-foreground leading-normal flex items-center gap-1 font-serif">
                           <Truck className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
@@ -656,7 +656,7 @@ export default function BookDetailPage({ params }: { params: Promise<{ id: strin
                 </div>
 
                 <div className="mt-4 pt-3 border-t border-border/30 flex items-center justify-between">
-                  <span className="text-xs font-bold text-primary">${relBook.price.toFixed(2)}</span>
+                  <span className="text-xs font-bold text-primary">{formatNPR(relBook.price)}</span>
                   <span className="text-[10px] uppercase font-bold text-accent group-hover:translate-x-1 transition-transform">
                     View →
                   </span>
@@ -713,7 +713,7 @@ export default function BookDetailPage({ params }: { params: Promise<{ id: strin
                   }}
                   className="text-xs font-bold uppercase tracking-wider bg-accent text-accent-foreground hover:bg-accent/90"
                 >
-                  Buy Full E-book (${ebookPrice.toFixed(2)})
+                  Buy Full E-book ({formatNPR(ebookPrice)})
                 </Button>
               </div>
             </motion.div>

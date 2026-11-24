@@ -1,7 +1,7 @@
 import { promises as fs } from 'fs'
 import path from 'path'
 import { NextRequest, NextResponse } from 'next/server'
-import { DEFAULT_BANK_CONFIG, INITIAL_SAMPLE_ORDERS, OrderRecord, BankConfig } from '@/lib/admin-data'
+import { DEFAULT_BANK_CONFIG, INITIAL_SAMPLE_ORDERS, OrderRecord, BankConfig, stripFakeSampleOrders } from '@/lib/admin-data'
 
 const DATA_DIR = path.join(process.cwd(), 'data')
 const ADMIN_FILE = path.join(DATA_DIR, 'admin-store.json')
@@ -16,7 +16,7 @@ async function readStore(): Promise<AdminStorePayload> {
     const raw = await fs.readFile(ADMIN_FILE, 'utf-8')
     const parsed = JSON.parse(raw)
     return {
-      orders: Array.isArray(parsed.orders) ? parsed.orders : INITIAL_SAMPLE_ORDERS,
+      orders: Array.isArray(parsed.orders) ? stripFakeSampleOrders(parsed.orders) : INITIAL_SAMPLE_ORDERS,
       bankConfig: { ...DEFAULT_BANK_CONFIG, ...(parsed.bankConfig || {}) }
     }
   } catch {

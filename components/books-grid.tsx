@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Search, Sparkles, Filter, Star, BookOpen, ArrowRight } from 'lucide-react'
 import { useSiteContent } from '@/hooks/use-site-content'
+import { formatNPR } from '@/lib/site-content'
 
 export function BooksGrid() {
   const { content } = useSiteContent()
@@ -177,7 +178,7 @@ export function BooksGrid() {
                         <div className="flex items-center justify-between pt-5 mt-5 border-t border-border/50">
                           <div>
                             <span className="text-xs text-muted-foreground block font-sans uppercase">Price</span>
-                            <span className="text-lg font-serif font-black text-primary">${book.price.toFixed(2)}</span>
+                            <span className="text-lg font-serif font-black text-primary">{formatNPR(book.price)}</span>
                           </div>
                           <span className="text-xs font-sans font-bold text-accent uppercase tracking-wider group-hover:translate-x-1.5 transition-transform duration-300 flex items-center gap-1 bg-accent/10 px-3 py-1.5 rounded-full border border-accent/20">
                             Details <ArrowRight className="w-3.5 h-3.5" />

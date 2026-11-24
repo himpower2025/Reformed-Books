@@ -4,6 +4,15 @@ export type CarouselThemeId = 'emerald' | 'teal' | 'rose' | 'indigo' | 'violet' 
 export type MonthlyThemeId = 'sapphire' | 'emerald' | 'sunset' | 'violet' | 'navy' | 'amber'
 export type EmblemType = 'shield' | 'leaves' | 'sunburst' | 'star' | 'lamp'
 
+export function formatNPR(amount: number): string {
+  const value = Number.isFinite(amount) ? amount : 0
+  const rounded = Math.round(value * 100) / 100
+  const formatted = Number.isInteger(rounded)
+    ? rounded.toLocaleString('en-US')
+    : rounded.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+  return `NPR ${formatted}`
+}
+
 export interface CarouselThemePreset {
   id: CarouselThemeId
   label: string
@@ -381,12 +390,30 @@ export const DEFAULT_SITE_CONTENT: SiteContent = {
 const STORAGE_KEY = 'reformed_books_site_content_v1'
 export const SITE_CONTENT_EVENT = 'reformed_site_content_updated'
 
+const LEGACY_USD_PRICES: Record<string, { oldUsd: number; npr: number }> = {
+  '1': { oldUsd: 24.99, npr: 1800 },
+  '2': { oldUsd: 19.99, npr: 1450 },
+  '3': { oldUsd: 15.99, npr: 1150 },
+  '4': { oldUsd: 18.99, npr: 1350 },
+  '5': { oldUsd: 21.99, npr: 1600 },
+  '6': { oldUsd: 24.99, npr: 1800 }
+}
+
 export function mergeWithDefaults(partial: Partial<SiteContent> | null | undefined): SiteContent {
   if (!partial || typeof partial !== 'object') return DEFAULT_SITE_CONTENT
+  const rawBooks = Array.isArray(partial.books) ? partial.books : DEFAULT_SITE_CONTENT.books
+  const migratedBooks = rawBooks.map((book) => {
+    const legacy = LEGACY_USD_PRICES[book.id]
+    if (legacy && Math.abs(book.price - legacy.oldUsd) < 0.01) {
+      return { ...book, price: legacy.npr }
+    }
+    return book
+  })
+
   return {
     featuredBooks: Array.isArray(partial.featuredBooks) ? partial.featuredBooks : DEFAULT_SITE_CONTENT.featuredBooks,
     featuredThisMonth: Array.isArray(partial.featuredThisMonth) ? partial.featuredThisMonth : DEFAULT_SITE_CONTENT.featuredThisMonth,
-    books: Array.isArray(partial.books) ? partial.books : DEFAULT_SITE_CONTENT.books,
+    books: migratedBooks,
     articles: Array.isArray(partial.articles) ? partial.articles : DEFAULT_SITE_CONTENT.articles,
     events: Array.isArray(partial.events) ? partial.events : DEFAULT_SITE_CONTENT.events,
     testimonials: Array.isArray(partial.testimonials) ? partial.testimonials : DEFAULT_SITE_CONTENT.testimonials,

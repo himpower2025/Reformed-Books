@@ -45,7 +45,7 @@ import {
   fetchAdminStore,
   DEFAULT_BANK_CONFIG
 } from '@/lib/admin-data'
-import { SiteContent, compressImageFile } from '@/lib/site-content'
+import { SiteContent, compressImageFile, formatNPR } from '@/lib/site-content'
 import { useSiteContent } from '@/hooks/use-site-content'
 import {
   FeaturedBooksEditor,
@@ -72,8 +72,8 @@ type AdminTab =
 export default function AdminPage() {
   // Authentication State
   const [isAuthenticated, setIsAuthenticated] = useState(false)
-  const [adminEmail, setAdminEmail] = useState('')
-  const [loginInputEmail, setLoginInputEmail] = useState('')
+  const [adminId, setAdminId] = useState('')
+  const [loginInputId, setLoginInputId] = useState('')
   const [loginInputPassword, setLoginInputPassword] = useState('')
   const [loginError, setLoginError] = useState('')
 
@@ -115,13 +115,9 @@ export default function AdminPage() {
     if (storedUser) {
       try {
         const user = JSON.parse(storedUser)
-        if (
-          user.email === 'himpower2025@gmail.com' ||
-          user.email?.toLowerCase().endsWith('@reformedbooks.com') ||
-          user.email?.toLowerCase().includes('admin')
-        ) {
+        if (user.role === 'admin') {
           setIsAuthenticated(true)
-          setAdminEmail(user.email)
+          setAdminId(user.username || user.name || 'Publisher Admin')
         }
       } catch (e) {
         console.error(e)
@@ -156,34 +152,35 @@ export default function AdminPage() {
     }
   }, [])
 
-  // Handle Quick Admin Login
-  const handleQuickLogin = (emailToUse: string = 'himpower2025@gmail.com') => {
+  // Handle Staff Login
+  const handleManualLogin = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!loginInputId.trim()) {
+      setLoginError('Please enter your administrator ID.')
+      return
+    }
+    if (!loginInputPassword.trim()) {
+      setLoginError('Please enter your administrator PIN or password.')
+      return
+    }
     const adminUser = {
-      email: emailToUse,
-      name: 'Publisher Executive',
+      username: loginInputId.trim(),
+      name: loginInputId.trim(),
       role: 'admin'
     }
     localStorage.setItem('reformed_user', JSON.stringify(adminUser))
     setIsAuthenticated(true)
-    setAdminEmail(emailToUse)
+    setAdminId(adminUser.username)
     setLoginError('')
-  }
-
-  // Handle Manual Staff Login
-  const handleManualLogin = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!loginInputEmail) {
-      setLoginError('Please enter your administrator email address.')
-      return
-    }
-    handleQuickLogin(loginInputEmail)
   }
 
   // Handle Log Out
   const handleLogout = () => {
     localStorage.removeItem('reformed_user')
     setIsAuthenticated(false)
-    setAdminEmail('')
+    setAdminId('')
+    setLoginInputId('')
+    setLoginInputPassword('')
   }
 
   // Flash a success banner
@@ -214,7 +211,7 @@ export default function AdminPage() {
   // Order Actions
   const handleVerifyPayment = (orderId: string) => {
     const updated = updateOrderStatus(orderId, 'PAYMENT_CONFIRMED', {
-      adminNotes: `Payment verified by ${adminEmail} on ${new Date().toLocaleDateString()}.`
+      adminNotes: `Payment verified by ${adminId || 'Publisher Admin'} on ${new Date().toLocaleDateString()}.`
     })
     setOrders(updated)
     triggerSuccess(`Order ${orderId} payment verified! Ready for fulfillment.`)
@@ -456,40 +453,17 @@ export default function AdminPage() {
               </div>
             )}
 
-            <div className="bg-amber-50/70 border border-amber-200/80 rounded-2xl p-4 text-left">
-              <span className="text-[11px] font-bold text-amber-950 block mb-1 uppercase tracking-wide">
-                Quick 1-Click Administrator Access
-              </span>
-              <p className="text-xs text-amber-900 mb-3 leading-relaxed">
-                Sign in immediately with your publisher administrator account (<strong>himpower2025@gmail.com</strong>).
-              </p>
-              <button
-                type="button"
-                onClick={() => handleQuickLogin('himpower2025@gmail.com')}
-                className="w-full py-2.5 px-4 bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 text-white font-medium text-xs rounded-xl shadow-md transition-all flex items-center justify-center gap-2 font-serif"
-              >
-                <ShieldCheck className="w-4 h-4 text-amber-200" />
-                <span>Sign In as Publisher Admin (himpower2025@gmail.com)</span>
-              </button>
-            </div>
-
-            <div className="relative flex items-center justify-center">
-              <div className="border-t border-slate-200 w-full" />
-              <span className="bg-white px-3 text-[11px] text-slate-400 uppercase tracking-widest">
-                Or Enter Staff Email
-              </span>
-            </div>
-
             <form onSubmit={handleManualLogin} className="space-y-4">
               <div>
                 <label className="block text-xs font-serif font-semibold text-slate-700 mb-1.5">
-                  Administrator Email
+                  Administrator ID
                 </label>
                 <input
-                  type="email"
-                  placeholder="admin@reformedbooks.com"
-                  value={loginInputEmail}
-                  onChange={(e) => setLoginInputEmail(e.target.value)}
+                  type="text"
+                  autoComplete="username"
+                  placeholder="Enter your administrator ID"
+                  value={loginInputId}
+                  onChange={(e) => setLoginInputId(e.target.value)}
                   className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:bg-white transition-all font-mono"
                 />
               </div>
@@ -580,7 +554,7 @@ export default function AdminPage() {
 
             <div className="hidden xl:flex items-center gap-2 border-l border-slate-800 pl-3 text-xs text-slate-300">
               <span className="w-2 h-2 rounded-full bg-emerald-400" />
-              <span className="font-mono text-[11px] text-white">{adminEmail}</span>
+              <span className="font-mono text-[11px] text-white">{adminId}</span>
             </div>
 
             <button
@@ -887,22 +861,26 @@ export default function AdminPage() {
                   <div className="bg-white rounded-3xl p-12 text-center border border-slate-200 shadow-sm space-y-3">
                     <Package className="w-12 h-12 text-slate-300 mx-auto" />
                     <h3 className="font-serif text-lg font-bold text-slate-800">
-                      No orders match your filter criteria
+                      {orders.length === 0 ? 'No customer orders yet' : 'No orders match your filter criteria'}
                     </h3>
                     <p className="text-xs text-slate-500 max-w-sm mx-auto font-serif">
-                      Try clearing your search query or switching filters to view all orders.
+                      {orders.length === 0
+                        ? 'Real customer orders placed through the bookstore checkout will appear here automatically.'
+                        : 'Try clearing your search query or switching filters to view all orders.'}
                     </p>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setOrderSearch('')
-                        setStatusFilter('ALL')
-                        setFormatFilter('ALL')
-                      }}
-                      className="px-4 py-2 bg-slate-900 text-white text-xs rounded-xl font-serif hover:bg-slate-800"
-                    >
-                      Reset Filters
-                    </button>
+                    {orders.length > 0 && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setOrderSearch('')
+                          setStatusFilter('ALL')
+                          setFormatFilter('ALL')
+                        }}
+                        className="px-4 py-2 bg-slate-900 text-white text-xs rounded-xl font-serif hover:bg-slate-800"
+                      >
+                        Reset Filters
+                      </button>
+                    )}
                   </div>
                 ) : (
                   <div className="space-y-4">
@@ -967,7 +945,7 @@ export default function AdminPage() {
                               </h4>
                               <div className="text-xs text-slate-600 mt-0.5">
                                 Quantity: <strong>{order.quantity}</strong> • Total Price:{' '}
-                                <strong className="text-slate-900 font-mono">${order.totalAmount.toFixed(2)}</strong>
+                                <strong className="text-slate-900 font-mono">{formatNPR(order.totalAmount)}</strong>
                               </div>
                             </div>
 
@@ -1432,8 +1410,8 @@ export default function AdminPage() {
                 <div className="p-4 bg-amber-50 rounded-2xl border border-amber-200 text-xs text-amber-900 flex items-center gap-3">
                   <ShieldCheck className="w-6 h-6 text-amber-700 shrink-0" />
                   <div>
-                    <strong>Need Technical Support?</strong> Contact your website administrator anytime at{' '}
-                    <strong>himpower2025@gmail.com</strong>.
+                    <strong>Need Technical Support?</strong> Contact your publisher technical support team anytime at{' '}
+                    <strong>{bankConfig.contactEmail}</strong>.
                   </div>
                 </div>
               </div>
@@ -1533,7 +1511,7 @@ export default function AdminPage() {
                         </td>
                         <td className="p-2.5 text-center text-slate-600">{selectedReceiptOrder.quantity}</td>
                         <td className="p-2.5 text-right font-bold text-slate-900">
-                          ${selectedReceiptOrder.totalAmount.toFixed(2)}
+                          {formatNPR(selectedReceiptOrder.totalAmount)}
                         </td>
                       </tr>
                     </tbody>
@@ -1543,7 +1521,7 @@ export default function AdminPage() {
                           Total Paid:
                         </td>
                         <td className="p-2.5 text-right text-sm text-emerald-700">
-                          ${selectedReceiptOrder.totalAmount.toFixed(2)}
+                          {formatNPR(selectedReceiptOrder.totalAmount)}
                         </td>
                       </tr>
                     </tfoot>
